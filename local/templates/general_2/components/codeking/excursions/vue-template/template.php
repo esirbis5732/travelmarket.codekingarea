@@ -13,10 +13,12 @@
 <script src="/lib/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="/lib/jquery-ui.css">
 <script src="https://cdn.jsdelivr.net/npm/lvovich/dist/lvovich.min.js"></script>
+<script src='/local/templates/general_2/js/jquery.dotdotdot.min.js'></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <?//php see($arResult["CITIES"]);?>
 <main id="main_app">
-<div id="app-wrap">
+
+<div id="app-wrap" class="excursion">
 	<div id="main_banner_wrap" class="container">
 		<img src="/local/templates/general_2/img/excursions_background_big.png" alt="banner">
 	</div>
@@ -33,7 +35,7 @@
 		</select>
 	</div>
 	<div class="container title-block">	
-		<h1>Самые интересные экскурсии по <span <?php if(isset($_GET['citysearch']) && $_GET['citysearch'] != ''):?>class="link-city"<?php endif;?>>всему миру</span><br> от ведущих операторов</h1>
+		<h1>Самые интересные экскурсии по <span <?php if(isset($_GET['citysearch']) && $_GET['citysearch'] != ''):?>class="link-city"<?php endif;?>>всему миру</span><br> от ведущих маркетплейсов</h1>
 					<div class="search_system_wrapper">		
 						<div class="container">	
 							<ul class="search_system_list">
@@ -69,6 +71,7 @@
 						</div>
 					</div>			
 				</div>
+	<div class="container_2">
 	<div id="api-app">
 		<div id="main_block"><button id="search" @click="search()">Поиск</button></div>
 		<div v-if="preloader" id="pre-loader">
@@ -84,81 +87,97 @@
 			<div id="fix_menu">
 				<button id="show_f"><span v-show="show_pokazat">Показать {{alladverts.length}} {{sklonenie(alladverts.length, ['предложение', 'предложения', 'предложений'])}}</span><span class="f" v-show="!show_pokazat">Фильтр</span></button><button id="mobile_comp">Сравнение({{comparison.length}})</button>
 			</div>
-			<div id="desctop_f">
+			<div id="desctop_f" class='layout-scrollbar'>
+			<fieldset id="sort-fieldset">
+				<legend>Сортировка</legend>
+				<div id="sort-1">
+					<label :class="{active:sort == 'price'}">Цена <i v-if="sort_type_price == 'desc'" class="material-icons">arrow_drop_down</i><i v-else class="material-icons">arrow_drop_up</i><input @click="toggle_sort_price" v-model="sort" type="radio" value="price"></label> <label :class="{active:sort == 'rating'}">Рейтинг <i v-if="sort_type_rate == 'desc'" class="material-icons">arrow_drop_down</i><i v-else class="material-icons">arrow_drop_up</i><input @click="toggle_sort_rate" v-model="sort" type="radio" value="rating"></label>
+				</div>
+			</fieldset>
+			<fieldset><legend class="slide_toggle">Маркетплейсы</legend>
+			<div>
+				<label><input :disabled="count_sputnikfilter == 0 || tripsterfilter || weatlasfilter || surprisemefilter || is_new || tagsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" type="checkbox" v-model="sputnikfilter"><span>Спутник8<br> <span class="count-and-min-price">{{count_sputnikfilter}} {{sklonenie(count_sputnikfilter, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_sputnikfilter}} руб</span></span></label>
+				<label><input :disabled="count_tripsterfilter == 0 || sputnikfilter || weatlasfilter || surprisemefilter || catsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" type="checkbox" v-model="tripsterfilter"><span>Tripster<br> <span class="count-and-min-price">{{count_tripsterfilter}} {{sklonenie(count_tripsterfilter, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_tripsterfilter}} руб</span></span></label>
+				<label><input :disabled="count_surprisemefilter == 0 || weatlasfilter || tripsterfilter || sputnikfilter || tagsvarchecked.length > 0 || catsvarchecked.length > 0" type="checkbox" v-model="surprisemefilter"><span>Surprise Me<br> <span class="count-and-min-price">{{count_surprisemefilter}} {{sklonenie(count_surprisemefilter, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_surprisemefilter}} руб</span></span></label>
+				<label><input :disabled="count_weatlasfilter == 0 || surprisemefilter || tripsterfilter || sputnikfilter || tagsvarchecked.length > 0 || catsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" type="checkbox" v-model="weatlasfilter"><span>Weatlas<br> <span class="count-and-min-price">{{count_weatlasfilter}} {{sklonenie(count_weatlasfilter, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_weatlasfilter}} руб</span></span></label>
+			</div>
+			</fieldset>
 			<fieldset><legend>Стоимость</legend>
 				<div id="polz-price"></div><span id="price_field">от 0 до 0 руб</span>
 			</fieldset>
-			<fieldset>
+			<fieldset> 
 				<legend>Рейтинг</legend>
 				<div id="polz-reit"></div><span id="rating_field"></span>
 			</fieldset>
 			<fieldset>
-				<legend>Формат проведения</legend>
-				<label><input v-model="group" :disabled="private" type="checkbox" name="group" value="Y"><span>Групповая</span></label>
-				<label><input v-model="private" :disabled="group" type="checkbox" name="private" value="Y"><span>Индивидуальная</span></label>
-				<label><input v-model="mobile_adv" :disabled="weatlasfilter || tripsterfilter || sputnikfilter || is_new || tagsvarchecked.length > 0 || catsvarchecked.length > 0" type="checkbox" name="mobile_adv" value="Y"><span>Мобильный гид</span></label>
+				<legend class="slide_toggle">Формат</legend>
+				<div>
+				<label><input v-model="group" :disabled="private || count_group == 0" type="checkbox" name="group" value="Y"><span>Групповая<br> <span class="count-and-min-price">{{count_group}} {{sklonenie(count_group, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_group}} руб</span></span></label>	
+				<label><input v-model="private" :disabled="group || count_private == 0" type="checkbox" name="private" value="Y"><span>Индивидуальная<br> <span class="count-and-min-price">{{count_private}} {{sklonenie(count_private, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_private}} руб</span></span></label>
+				<label><input v-model="mobile_adv" :disabled="count_mobile_adv == 0" type="checkbox" name="mobile_adv" value="Y"><span>Мобильный гид<br> <span class="count-and-min-price">{{count_mobile_adv}} {{sklonenie(count_mobile_adv, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_mobile_adv}} руб</span></span></label>
+				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Длительность программы</legend>
-				<label><input :disabled="durationtype == 'day' || durationtype == 'several'" v-model="durationtype" type="checkbox" name="durationtype" value="hours"><span>Несколько часов</span></label>
-				<label><input :disabled="durationtype == 'hours' || durationtype == 'several'" type="checkbox" v-model="durationtype" name="durationtype" value="day"><span>Весь день</span></label>
-				<label><input :disabled="durationtype == 'day' || durationtype == 'hours'" type="checkbox" v-model="durationtype" name="durationtype" value="several"><span>Несколько дней</span></label>
+				<legend class="slide_toggle">Длительность</legend>
+				<div>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_durationtype_hours != 0"<?php endif;?>><input :disabled="count_durationtype_hours == 0 || durationtype == 'day' || durationtype == 'several'" v-model="durationtype" type="checkbox" name="durationtype" value="hours"><span>Несколько часов<br> <span class="count-and-min-price">{{count_durationtype_hours}} {{sklonenie(count_durationtype_hours, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_durationtype_hours}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_durationtype_day != 0"<?php endif;?>><input :disabled="count_durationtype_day == 0 || durationtype == 'hours' || durationtype == 'several'" type="checkbox" v-model="durationtype" name="durationtype" value="day"><span>Весь день<br> <span class="count-and-min-price">{{count_durationtype_day}} {{sklonenie(count_durationtype_day, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_durationtype_day}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_durationtype_several != 0"<?php endif;?>><input :disabled="count_durationtype_several == 0 || durationtype == 'day' || durationtype == 'hours'" type="checkbox" v-model="durationtype" name="durationtype" value="several"><span>Несколько дней<br> <span class="count-and-min-price">{{count_durationtype_several}} {{sklonenie(count_durationtype_several, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_durationtype_several}} руб</span></span></label>
+				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Как проходит</legend>
-				<label><input v-model="online" type="checkbox" name="online" value="Y">Онлайн</label>
-				<label><input v-model="on_foot" :disabled="on_raft || on_kvadro || on_parag || online || on_heli || auto || on_bus || on_bicycle || on_moto || on_ship" type="checkbox" name="on_foot" value="Y"><span>Пешком</span></label>
-				<label><input v-model="auto" :disabled="on_raft || on_kvadro || on_parag ||online || on_heli || on_foot || on_bus || on_bicycle || on_moto || on_ship" type="checkbox" name="auto" value="Y"><span>На автомобиле</span></label>
-				<label><input v-model="on_bus" :disabled="on_raft || on_kvadro || on_parag || online || on_heli || on_foot || auto || on_bicycle || on_moto || on_ship" type="checkbox" name="on_bus" value="Y"><span>На автобусе</span></label>
-				<label><input v-model="on_bicycle" :disabled="on_raft || on_kvadro || on_parag || online || on_heli || on_foot || auto || on_bus || on_moto || on_ship" type="checkbox" name="on_bicycle" value="Y"><span>На велосипеде</span></label>
-				<label><input v-model="on_moto" :disabled="on_raft || on_kvadro || on_parag || online || on_heli || on_foot || auto || on_bus || on_bicycle || on_ship" type="checkbox" name="on_bicycle" value="Y"><span>На мотоцикле</span></label>
-				<label><input v-model="on_ship" :disabled="on_raft || on_kvadro || on_parag || online || on_heli || on_moto || on_foot || auto || on_bus || on_bicycle" type="checkbox" name="on_bicycle" value="Y"><span>На кораблике</span></label>
-				<label><input v-model="on_heli" :disabled="on_raft || on_kvadro || on_parag || online || on_ship ||on_moto || on_foot || auto || on_bus || on_bicycle" type="checkbox" name="on_bicycle" value="Y"><span>На вертолете</span></label>
-				<label><input v-model="on_scooter" :disabled="on_raft || on_kvadro || on_parag || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bus || on_bicycle" type="checkbox" name="on_scooter" value="Y"><span>На самокате</span></label>
-				<label><input v-model="on_parag" :disabled="on_raft || on_kvadro || on_scooter || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bus || on_bicycle" type="checkbox" name="on_parag" value="Y"><span>Параглайдинг</span></label>
-				<label><input v-model="on_kvadro" :disabled="on_raft || on_parag || on_scooter || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bus || on_bicycle" type="checkbox" name="on_kvadro" value="Y"><span>На квадроциклах</span></label>
-				<label><input v-model="on_raft" :disabled="on_kvadro || on_parag || on_scooter || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bus || on_bicycle" type="checkbox" name="on_raft" value="Y"><span>Рафтинг</span></label>
+				<legend class="slide_toggle">Как проходит</legend>
+				<div>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_online != 0"<?php endif;?>><input v-model="online" :disabled="count_online == 0" type="checkbox" name="online" value="Y"><span>Онлайн<br> <span class="count-and-min-price">{{count_online}} {{sklonenie(count_online, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_online}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_foot != 0"<?php endif;?>><input v-model="on_foot" :disabled="count_on_foot == 0 || on_raft || on_kvadro || on_parag || online || on_heli || auto || on_bicycle || on_moto || on_ship" type="checkbox" name="on_foot" value="Y"><span>Пешком<br> <span class="count-and-min-price">{{count_on_foot}} {{sklonenie(count_on_foot, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_foot}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_auto != 0"<?php endif;?>><input v-model="auto" :disabled="count_auto == 0 || on_raft || on_kvadro || on_parag ||online || on_heli || on_foot || on_bicycle || on_moto || on_ship" type="checkbox" name="auto" value="Y"><span>На автомобиле<br> <span class="count-and-min-price">{{count_auto}} {{sklonenie(count_auto, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_auto}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_bicycle != 0"<?php endif;?>><input v-model="on_bicycle" :disabled="count_on_bicycle == 0 || on_raft || on_kvadro || on_parag || online || on_heli || on_foot || auto || on_moto || on_ship" type="checkbox" name="on_bicycle" value="Y"><span>На велосипеде<br> <span class="count-and-min-price">{{count_on_bicycle}} {{sklonenie(count_on_bicycle, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_bicycle}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_moto != 0"<?php endif;?>><input v-model="on_moto" :disabled="count_on_moto == 0 || on_raft || on_kvadro || on_parag || online || on_heli || on_foot || auto || on_bicycle || on_ship" type="checkbox" name="on_moto" value="Y"><span>На мотоцикле<br> <span class="count-and-min-price">{{count_on_moto}} {{sklonenie(count_on_moto, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_moto}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_ship != 0"<?php endif;?>><input v-model="on_ship" :disabled="count_on_ship == 0 || on_raft || on_kvadro || on_parag || online || on_heli || on_moto || on_foot || auto || on_bicycle" type="checkbox" name="on_ship" value="Y"><span>На кораблике<br> <span class="count-and-min-price">{{count_on_ship}} {{sklonenie(count_on_ship, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_ship}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_heli != 0"<?php endif;?>><input v-model="on_heli" :disabled="count_on_heli == 0 || on_raft || on_kvadro || on_parag || online || on_ship ||on_moto || on_foot || auto || on_bicycle" type="checkbox" name="on_heli" value="Y"><span>На вертолете<br> <span class="count-and-min-price">{{count_on_heli}} {{sklonenie(count_on_heli, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_heli}}</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_scooter != 0"<?php endif;?>><input v-model="on_scooter" :disabled="count_on_scooter == 0 || on_raft || on_kvadro || on_parag || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bicycle" type="checkbox" name="on_scooter" value="Y"><span>На самокате<br> <span class="count-and-min-price">{{count_on_scooter}} {{sklonenie(count_on_scooter, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_scooter}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_parag != 0"<?php endif;?>><input v-model="on_parag" :disabled="count_on_parag == 0 || on_raft || on_kvadro || on_scooter || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bicycle" type="checkbox" name="on_parag" value="Y"><span>Параглайдинг<br> <span class="count-and-min-price">{{count_on_parag}} {{sklonenie(count_on_parag, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_parag}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_kvadro != 0"<?php endif;?>><input v-model="on_kvadro" :disabled="count_on_kvadro == 0 || on_raft || on_parag || on_scooter || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bicycle" type="checkbox" name="on_kvadro" value="Y"><span>На квадроциклах<br> <span class="count-and-min-price">{{count_on_kvadro}} {{sklonenie(count_on_kvadro, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_kvadro}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_on_raft != 0"<?php endif;?>><input v-model="on_raft" :disabled="count_on_raft == 0 || on_kvadro || on_parag || on_scooter || on_heli || online || on_ship ||on_moto || on_foot || auto || on_bicycle" type="checkbox" name="on_raft" value="Y"><span>Рафтинг<br> <span class="count-and-min-price">{{count_on_raft}} {{sklonenie(count_on_raft, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_on_raft}} руб</span></span></label>
+				</div>
 			</fieldset>
 			<fieldset style="display:none;">
 				<label><input v-model="is_new" type="checkbox" name="is_new" value="Y" :disabled="weatlasfilter || sputnikfilter || surprisemefilter || mobile_adv || catsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview"><span>Новые</span></label>
 			</fieldset>
 			<fieldset>
-				<legend>Цель экскурсии</legend>
-				<label><input v-model="child_friendly" type="checkbox" name="child_friendly" value="Y" :disabled="weatlasfilter || surprisemefilter || mobile_adv || type_image || type_video || type_audio || type_streetview"><span>С детьми</span></label>
-				<label><input v-model="museum" type="checkbox" name="muz"><span>Музеи</span></label>
-				<label><input v-model="shoping" type="checkbox" name="shop"><span>Шоппинг</span></label>
-				<label><input v-model="gastro" type="checkbox" name="shop"><span>Гастрономические</span></label>
-				<label><input v-model="photoses" type="checkbox" name="shop"><span>Фотосессии</span></label>
-				<label><input v-model="trans" type="checkbox" name="trans"><span>Трансферы</span></label>
-			</fieldset>
-			<fieldset><legend>Агентство</legend>
-				<label><input :disabled="tripsterfilter || weatlasfilter || surprisemefilter || mobile_adv || is_new || tagsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" type="checkbox" v-model="sputnikfilter"><span>Спутник8</span></label>
-				<label><input :disabled="sputnikfilter || weatlasfilter || surprisemefilter || mobile_adv || catsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" type="checkbox" v-model="tripsterfilter"><span>Tripster</span></label>
-				<label><input type="checkbox" :disabled="weatlasfilter || tripsterfilter || sputnikfilter || tagsvarchecked.length > 0 || catsvarchecked.length > 0" v-model="surprisemefilter"><span>Surprise Me</span></label>
-				<label><input type="checkbox" :disabled="mobile_adv || surprisemefilter || tripsterfilter || sputnikfilter || tagsvarchecked.length > 0 || catsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" v-model="weatlasfilter"><span>Weatlas</span></label>
+				<legend class="slide_toggle">Цель</legend>
+				<div>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_child_friendly != 0"<?php endif;?>><input v-model="child_friendly" type="checkbox" name="child_friendly" value="Y" :disabled="count_child_friendly == 0"><span>С детьми<br> <span class="count-and-min-price">{{count_child_friendly}} {{sklonenie(count_child_friendly, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_child_friendly}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_museum != 0"<?php endif;?>><input v-model="museum" type="checkbox" name="museum" :disabled="count_museum == 0"><span>Музеи<br> <span class="count-and-min-price">{{count_museum}} {{sklonenie(count_museum, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_museum}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_shoping != 0"<?php endif;?>><input v-model="shoping" type="checkbox" name="shoping" :disabled="count_shoping == 0"><span>Шоппинг<br> <span class="count-and-min-price">{{count_shoping}} {{sklonenie(count_shoping, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_shoping}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_gastro != 0"<?php endif;?>><input v-model="gastro" type="checkbox" name="gastro" :disabled="count_gastro == 0"><span>Гастрономические<br> <span class="count-and-min-price">{{count_gastro}} {{sklonenie(count_gastro, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_gastro}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_photoses != 0"<?php endif;?>><input v-model="photoses" type="checkbox" name="photoses" :disabled="count_photoses == 0"><span>Фотосессии<br> <span class="count-and-min-price">{{count_photoses}} {{sklonenie(count_photoses, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_photoses}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_trans != 0"<?php endif;?>><input v-model="trans" type="checkbox" name="trans" :disabled="count_trans == 0"><span>Трансферы<br> <span class="count-and-min-price">{{count_trans}} {{sklonenie(count_trans, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_trans}} руб</span></span></label>
+				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Детализация материала</legend>
-				<label><input v-model="overview" type="checkbox" name="obz"><span>Обзорная</span></label>
-				<label><input v-model="educational" type="checkbox" name="poz"><span>Познавательная</span></label>
-				<label><input v-model="unusual" type="checkbox" name="unusual" ><span>Необычные маршруты</span></label>
-				<label><input v-model="master_class" type="checkbox" name="master_class"><span>Мастер-классы</span></label>
+				<legend class="slide_toggle">Детализация</legend>
+				<div>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_overview != 0"<?php endif;?>><input v-model="overview" :disabled="count_overview == 0" type="checkbox" name="overview"><span>Обзорная<br> <span class="count-and-min-price">{{count_overview}} {{sklonenie(count_overview, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_overview}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_educational != 0"<?php endif;?>><input v-model="educational" :disabled="count_educational == 0" type="checkbox" name="educational"><span>Познавательная<br> <span class="count-and-min-price">{{count_educational}} {{sklonenie(count_educational, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_educational}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_unusual != 0"<?php endif;?>><input v-model="unusual" :disabled="count_unusual == 0" type="checkbox" name="unusual" ><span>Необычные маршруты<br> <span class="count-and-min-price">{{count_unusual}} {{sklonenie(count_unusual, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_unusual}} руб</span></span></label>
+				<label <?php if(!$USER->IsAdmin()):?>v-if="count_master_class != 0"<?php endif;?>><input v-model="master_class" :disabled="count_master_class == 0" type="checkbox" name="master_class"><span>Мастер-классы<br> <span class="count-and-min-price">{{count_master_class}} {{sklonenie(count_master_class, ['вариант', 'варианта', 'вариантов'])}} от {{min_price_master_class}} руб</span></span></label>
+				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Теги</legend>
-				<label v-for="tagcheck in tagscheck"><input :disabled="weatlasfilter || sputnikfilter || surprisemefilter || mobile_adv || catsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" v-model="tagsvarchecked" type="checkbox" name="tags" :value="tagcheck"><span>{{tagcheck}}</span></label>
+				<legend class="slide_toggle">Теги</legend>
+				<div>
+				<label v-for="tagcheck in tagscheck"><input :disabled="weatlasfilter || sputnikfilter || surprisemefilter || mobile_adv || catsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" v-model="tagsvarchecked" type="checkbox" name="tags" class="tagcheck" :value="tagcheck" :data-count="tagcheck | count_tags"><span>{{tagcheck}}<br> <span class="count-and-min-price">{{tagcheck | count_tags}} от {{tagcheck | price_tag}} руб</span></span></label>
+				<label v-for="category in categoriescheck"><input :disabled="weatlasfilter || tripsterfilter || surprisemefilter || mobile_adv || is_new || child_friendly || tagsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" v-model="catsvarchecked" type="checkbox" name="cats" class="category" :value="category" :data-count="category | count_cats"><span>{{category}}<br> <span class="count-and-min-price">{{category | count_cats}} от {{category | price_cat}} руб</span></span></label>
+				</div>
 			</fieldset>
-			<fieldset>
-				<legend>Категории</legend>
-				<label v-for="category in categoriescheck"><input :disabled="weatlasfilter || tripsterfilter || surprisemefilter || mobile_adv || is_new || child_friendly || tagsvarchecked.length > 0 || type_image || type_video || type_audio || type_streetview" v-model="catsvarchecked" type="checkbox" name="cats" :value="category"><span>{{category}}</span></label>
-			</fieldset>
-			<fieldset style="display:none;">
+			<!--<fieldset style="display:none;">
 				<legend>Тип контента</legend>
 				<label><input :disabled="private || group || tripsterfilter || sputnikfilter || is_new || child_friendly || tagsvarchecked.length > 0 || catsvarchecked.length > 0" v-model="type_image" type="checkbox" name="type_image" value="Y"><span>image</span></label>
 				<label><input :disabled="private || group || tripsterfilter || sputnikfilter || is_new || child_friendly || tagsvarchecked.length > 0 || catsvarchecked.length > 0" v-model="type_video" type="checkbox" name="type_video" value="Y"><span>video</span></label>
 				<label><input :disabled="private || group || tripsterfilter || sputnikfilter || is_new || child_friendly || tagsvarchecked.length > 0 || catsvarchecked.length > 0" v-model="type_audio" type="checkbox" name="type_audio" value="Y"><span>adio</span></label>
 				<label><input :disabled="private || group || tripsterfilter || sputnikfilter || is_new || child_friendly || tagsvarchecked.length > 0 || catsvarchecked.length > 0" v-model="type_streetview" type="checkbox" name="type_streetview" value="Y"><span>streetview</span></label>
-			</fieldset>
+			</fieldset>-->
 			</div>
 		</div>
 		<div id="block-2" v-show="show_all">
@@ -199,9 +218,6 @@
 						<label><input v-model="auto" type="checkbox" name="auto"><span>На автомобиле</span></label>
 					</div>
 					<div class="slide">
-						<label><input v-model="on_bus" type="checkbox" name="on_bus"><span>На автобусе</span></label>
-					</div>
-					<div class="slide">
 						<label><input v-model="on_bicycle" type="checkbox" name="on_bicycle"><span>На велосипеде</span></label>
 					</div>
 					<div class="slide">
@@ -237,11 +253,11 @@
 				</div>
 				<div id="s-next">></div>
 			</div>
-			<div id="adv_filter_stats_wrapper">
-				<div id="price_filter_indicator" v-if="pricefilteractive">Стоимость от {{pricefilterstart}} до {{pricefilterend}} руб <span class="cross" @click="closeprice">X</span></div><div id="durationprog_filter_indicator" v-if="durationtype.length != 0">Длительность программы <br><span v-if="durationtype=='hours'">несколько часов</span><span v-if="durationtype=='day'">весь день</span><span v-if="durationtype=='several'">несколько дней</span> <span class="cross" @click="durationtype=[]">X</span></div><div id="duration_filter_indicator" v-if="ratingfilteractive">Рейтинг от {{ratingfilterstart}} до {{ratingfilterend}} <span class="cross" @click="closerating">X</span></div>
-				<div v-if="child_friendly" id="child_filter_indicator">С детьми <span class="cross" @click="child_friendly = !child_friendly">X</span></div><div id="is_new_filter_indicator"  v-if="is_new">Новые <span class="cross" @click="is_new = !is_new">X</span></div><div id="tripster_filter_indicator" v-if="tripsterfilter">Агенство<br> Трипстер <span class="cross" @click="tripsterfilter = !tripsterfilter">X</span></div><div id="sputnik_filter_indicator" v-if="sputnikfilter">Агенство<br> Спутник8 <span class="cross" @click="sputnikfilter = !sputnikfilter">X</span></div><div id="surpriseme_filter_indicator" v-if="surprisemefilter">Агенство<br> Surprise Me <span class="cross" @click="surprisemefilter = !surprisemefilter">X</span></div><div id="weatlas_filter_indicator" v-if="weatlasfilter">Агенство<br> Weatlas <span class="cross" @click="weatlasfilter = !weatlasfilter">X</span></div>
-				<div v-if="group" id="group_filter_indicator">Групповая <span class="cross" @click="group = !group">X</span></div><div v-if="private" id="private_filter_indicator">Индивидуальная <span class="cross" @click="private= !private">X</span></div><div id="online_filter_indicator" v-if="online">Онлайн <span class="cross" @click="online= !online">X</span></div>
-				<div class="cats_filter_indicator" v-for="(catname, index) in catsvarchecked"><p>{{catname}}</p> <span class="cross" @click="catsvarchecked.splice(index,1)">X</span></div><div class="tags_filter_indicator" v-for="(tagname, index) in tagsvarchecked"><p>{{tagname}}</p> <span class="cross" @click="tagsvarchecked.splice(index, 1);">X</span></div><div id="mobile_adv_filter_indicator" v-if="mobile_adv">Мобильный гид <span class="cross" @click="mobile_adv= !mobile_adv">X</span></div>
+			<div class="adv_filter_stats_wrapper">
+				<div class="price_filter_indicator" v-if="pricefilteractive">Стоимость от {{pricefilterstart}} до {{pricefilterend}} руб <span class="cross" @click="closeprice">X</span></div><div class="durationprog_filter_indicator" v-if="durationtype.length != 0"><span v-if="durationtype=='hours'">Несколько часов</span><span v-if="durationtype=='day'">Весь день</span><span v-if="durationtype=='several'">Несколько дней</span> <span class="cross" @click="durationtype=[]">X</span></div><div class="duration_filter_indicator" v-if="ratingfilteractive">Рейтинг от {{ratingfilterstart}} до {{ratingfilterend}} <span class="cross" @click="closerating">X</span></div>
+				<div v-if="child_friendly" class="child_filter_indicator">С детьми <span class="cross" @click="child_friendly = !child_friendly">X</span></div><div class="is_new_filter_indicator"  v-if="is_new">Новые <span class="cross" @click="is_new = !is_new">X</span></div><div class="tripster_filter_indicator" v-if="tripsterfilter"><!--Агенство<br>-->Трипстер <span class="cross" @click="tripsterfilter = !tripsterfilter">X</span></div><div id="sputnik_filter_indicator" v-if="sputnikfilter"><!--Агенство<br>-->Спутник8 <span class="cross" @click="sputnikfilter = !sputnikfilter">X</span></div><div id="surpriseme_filter_indicator" v-if="surprisemefilter"><!--Агенство<br>-->Surprise Me <span class="cross" @click="surprisemefilter = !surprisemefilter">X</span></div><div id="weatlas_filter_indicator" v-if="weatlasfilter"><!--Агенство<br>--> Weatlas <span class="cross" @click="weatlasfilter = !weatlasfilter">X</span></div>
+				<div v-if="group" class="group_filter_indicator">Групповая <span class="cross" @click="group = !group">X</span></div><div v-if="private" class="private_filter_indicator">Индивидуальная <span class="cross" @click="private= !private">X</span></div><div class="online_filter_indicator" v-if="online">Онлайн <span class="cross" @click="online= !online">X</span></div>
+				<div class="cats_filter_indicator" v-for="(catname, index) in catsvarchecked"><p>{{catname}}</p> <span class="cross" @click="catsvarchecked.splice(index,1)">X</span></div><div class="tags_filter_indicator" v-for="(tagname, index) in tagsvarchecked"><p>{{tagname}}</p> <span class="cross" @click="tagsvarchecked.splice(index, 1);">X</span></div><div class="mobile_adv_filter_indicator" v-if="mobile_adv">Мобильный гид <span class="cross" @click="mobile_adv= !mobile_adv">X</span></div>
 				<div class="ind" v-if="type_image">Тип контента:image <span class="cross" @click="type_image = !type_image">X</span></div><div v-if="type_video">Тип контента: video <span class="cross" @click="type_video = !type_video">X</span></div><div v-if="type_audio">Тип контента: audio <span class="cross" @click="type_audio = !type_audio">X</span></div><div v-if="type_streetview">Тип контента: streetview <span class="cross" @click="type_streetview = !type_streetview">X</span></div>
 				<div class="ind" v-if="overview">Обзорная <span class="cross" @click="overview = !overview">X</span></div>
 				<div class="ind" v-if="educational">Познавательная <span class="cross" @click="educational = !educational">X</span></div>
@@ -254,7 +270,6 @@
 				<div class="ind" v-if="trans">Трансферы <span class="cross" @click="trans = !trans">X</span></div>
 				<div class="ind" v-if="auto">На автомобиле <span class="cross" @click="auto = !auto">X</span></div>
 				<div class="ind" v-if="on_foot">Пешком <span class="cross" @click="on_foot = !on_foot">X</span></div>
-				<div class="ind" v-if="on_bus">На автобусе <span class="cross" @click="on_bus = !on_bus">X</span></div>
 				<div class="ind" v-if="on_bicycle">На велосипеде <span class="cross" @click="on_bicycle = !on_bicycle">X</span></div>
 				<div class="ind" v-if="on_moto">На мотоцикле <span class="cross" @click="on_moto = !on_moto">X</span></div>
 				<div class="ind" v-if="on_ship">На кораблике <span class="cross" @click="on_ship = !on_ship">X</span></div>
@@ -264,93 +279,174 @@
 				<div class="ind" v-if="on_kvadro">На квадроциклах <span class="cross" @click="on_kvadro = !on_kvadro">X</span></div>
 				<div class="ind" v-if="on_raft">Рафтинг <span class="cross" @click="on_raft = !on_raft">X</span></div>
 			</div>
-					<div id="count">Мы нашли {{alladverts.length}} {{sklonenie(alladverts.length, ['предложение', 'предложения', 'предложений'])}}</div>
 			<div id="show_types">отображения: <span :class="{checked:visibletype == 'rect'}" @click="checkvisible('rect')">плитка</span> <span :class="{checked:visibletype == 'list'}" @click="checkvisible('list')">список</span></div>
-					<div id="sort"><label :class="{active:sort == 'price'}">Цена <i v-if="sort_type_price == 'desc'" class="material-icons">arrow_drop_down</i><i v-else class="material-icons">arrow_drop_up</i><input @click="toggle_sort_price" v-model="sort" type="radio" value="price"></label> <label :class="{active:sort == 'rating'}">Рейтинг <i v-if="sort_type_rate == 'desc'" class="material-icons">arrow_drop_down</i><i v-else class="material-icons">arrow_drop_up</i><input @click="toggle_sort_rate" v-model="sort" type="radio" value="rating"></label></div>
+			<div id="fixedbar">
+			<div class="fixedbar_wrap">
+				<div class="info_wrap">
+					<div class="count_wrap">
+						<div id="fixedbar_city"> </div><span class="dots">:</span>
+						<div id="count">
+							<span id="we_search">Мы нашли </span> {{alladverts.length}} {{sklonenie(alladverts.length, ['предложение', 'предложения', 'предложений'])}}
+						</div>
+					</div>
+					<div id="sort">
+						<label :class="{active:sort == 'price'}">Цена <i v-if="sort_type_price == 'desc'" class="material-icons">arrow_drop_down</i><i v-else class="material-icons">arrow_drop_up</i><input @click="toggle_sort_price" v-model="sort" type="radio" value="price"></label> <label :class="{active:sort == 'rating'}">Рейтинг <i v-if="sort_type_rate == 'desc'" class="material-icons">arrow_drop_down</i><i v-else class="material-icons">arrow_drop_up</i><input @click="toggle_sort_rate" v-model="sort" type="radio" value="rating"></label>
+					</div>
+				</div>
+				<div class="adv_filter_stats_wrapper">
+					<div class="price_filter_indicator" v-if="pricefilteractive">Стоимость от {{pricefilterstart}} до {{pricefilterend}} руб <span class="cross" @click="closeprice">X</span></div><div class="durationprog_filter_indicator" v-if="durationtype.length != 0"><span v-if="durationtype=='hours'">Несколько часов</span><span v-if="durationtype=='day'">Весь день</span><span v-if="durationtype=='several'">Несколько дней</span> <span class="cross" @click="durationtype=[]">X</span></div><div class="duration_filter_indicator" v-if="ratingfilteractive">Рейтинг от {{ratingfilterstart}} до {{ratingfilterend}} <span class="cross" @click="closerating">X</span></div>
+					<div v-if="child_friendly" class="child_filter_indicator">С детьми <span class="cross" @click="child_friendly = !child_friendly">X</span></div><div class="is_new_filter_indicator"  v-if="is_new">Новые <span class="cross" @click="is_new = !is_new">X</span></div><div class="tripster_filter_indicator" v-if="tripsterfilter"><!--Агенство<br>-->Трипстер <span class="cross" @click="tripsterfilter = !tripsterfilter">X</span></div><div id="sputnik_filter_indicator" v-if="sputnikfilter"><!--Агенство<br>-->Спутник8 <span class="cross" @click="sputnikfilter = !sputnikfilter">X</span></div><div id="surpriseme_filter_indicator" v-if="surprisemefilter"><!--Агенство<br>-->Surprise Me <span class="cross" @click="surprisemefilter = !surprisemefilter">X</span></div><div id="weatlas_filter_indicator" v-if="weatlasfilter"><!--Агенство<br>-->Weatlas <span class="cross" @click="weatlasfilter = !weatlasfilter">X</span></div>
+					<div v-if="group" class="group_filter_indicator">Групповая <span class="cross" @click="group = !group">X</span></div><div v-if="private" class="private_filter_indicator">Индивидуальная <span class="cross" @click="private= !private">X</span></div><div class="online_filter_indicator" v-if="online">Онлайн <span class="cross" @click="online= !online">X</span></div>
+					<div class="cats_filter_indicator" v-for="(catname, index) in catsvarchecked"><p>{{catname}}</p> <span class="cross" @click="catsvarchecked.splice(index,1)">X</span></div><div class="tags_filter_indicator" v-for="(tagname, index) in tagsvarchecked"><p>{{tagname}}</p> <span class="cross" @click="tagsvarchecked.splice(index, 1);">X</span></div><div class="mobile_adv_filter_indicator" v-if="mobile_adv">Мобильный гид <span class="cross" @click="mobile_adv= !mobile_adv">X</span></div>
+					<div class="ind" v-if="type_image">Тип контента:image <span class="cross" @click="type_image = !type_image">X</span></div><div v-if="type_video">Тип контента: video <span class="cross" @click="type_video = !type_video">X</span></div><div v-if="type_audio">Тип контента: audio <span class="cross" @click="type_audio = !type_audio">X</span></div><div v-if="type_streetview">Тип контента: streetview <span class="cross" @click="type_streetview = !type_streetview">X</span></div>
+					<div class="ind" v-if="overview">Обзорная <span class="cross" @click="overview = !overview">X</span></div>
+					<div class="ind" v-if="educational">Познавательная <span class="cross" @click="educational = !educational">X</span></div>
+					<div class="ind" v-if="unusual">Необычные маршруты <span class="cross" @click="unusual = !unusual">X</span></div>
+					<div class="ind" v-if="master_class">Мастер-класс <span class="cross" @click="master_class = !master_class">X</span></div>
+					<div class="ind" v-if="museum">Музей <span class="cross" @click="museum = !museum">X</span></div>
+					<div class="ind" v-if="shoping">Шоппинг <span class="cross" @click="shoping = !shoping">X</span></div>
+					<div class="ind" v-if="gastro">Гастрономическая <span class="cross" @click="gastro = !gastro">X</span></div>
+					<div class="ind" v-if="photoses">Фотосессия <span class="cross" @click="photoses = !photoses">X</span></div>
+					<div class="ind" v-if="trans">Трансферы <span class="cross" @click="trans = !trans">X</span></div>
+					<div class="ind" v-if="auto">На автомобиле <span class="cross" @click="auto = !auto">X</span></div>
+					<div class="ind" v-if="on_foot">Пешком <span class="cross" @click="on_foot = !on_foot">X</span></div>
+					<div class="ind" v-if="on_bicycle">На велосипеде <span class="cross" @click="on_bicycle = !on_bicycle">X</span></div>
+					<div class="ind" v-if="on_moto">На мотоцикле <span class="cross" @click="on_moto = !on_moto">X</span></div>
+					<div class="ind" v-if="on_ship">На кораблике <span class="cross" @click="on_ship = !on_ship">X</span></div>
+					<div class="ind" v-if="on_heli">На вертолете <span class="cross" @click="on_heli = !on_heli">X</span></div>
+					<div class="ind" v-if="on_scooter">На самокате <span class="cross" @click="on_scooter = !on_scooter">X</span></div>
+					<div class="ind" v-if="on_parag">Параглайдинг <span class="cross" @click="on_parag = !on_parag">X</span></div>
+					<div class="ind" v-if="on_kvadro">На квадроциклах <span class="cross" @click="on_kvadro = !on_kvadro">X</span></div>
+					<div class="ind" v-if="on_raft">Рафтинг <span class="cross" @click="on_raft = !on_raft">X</span></div>
+				</div>
+			</div>
+			</div>
 		<transition name="fade">
 		<div v-if="visibletype=='rect'" id="excursion_wrapper">
 
 			<div class="excursion_item" v-for="advert in alladverts">
-				<div class="i_img_wrap" v-if="advert.result_img">
-					<img :src="advert.result_img">
-					<div class="rait_abs">{{advert.result_rating}} <i class="material-icons">star_rate</i> {{advert.result_review_count}} <i class="material-icons">comment</i></div>
-				</div>
-				<?php if($USER->IsAdmin()):?>
-					<div class="i_name" @click="detail(advert, advert.advertiser)"><p class="pointer">{{advert.result_title}}</p></div>
-				<?php else:?>
-					<div class="i_name"><a target="_blank" class="res_url" :href="advert.result_url"><p class="pointer">{{advert.result_title}}</p></a></div>
-				<?php endif;?>
-				<div class="i_desc" v-if="advert.result_description">
-					<p>{{advert.result_description}}</p>
-					<button style="display:none;" @click="showtext" class="show_all" ref="el">Показать все</button>
-				</div>
-				<div id="data_wrap">
-					<div><p v-if="advert.online == 'Да'">Онлайн</p><p v-if="advert.advertiser=='Surprise Me' && advert.types.audioguide">Мобильный гид</p><p v-if="advert.comp_private">Индивидуально</p><p v-if="advert.comp_group">Групповая</p><p>на {{advert.duration}}</p></div>
-					<a target="_blank" class="res_url" :href="advert.result_url"><div>за <span v-if="advert.approximately">~</span> {{advert.result_price}}<br> на {{advert.advertiser}}</div></a>
-				</div>
-				<hr style="display:none;">
-				<div class="i_props" style="display:none;">
-					<p>Цена:{{advert.result_price}}</p>
-					<p>Рейтинг:{{advert.result_rating}}</p>
-					<p>Количество отзывов {{advert.result_review_count}}</p>
-					<p>Продолжительность:{{advert.duration}}</p>
-					<p>Агентство:{{advert.advertiser}}</p>
-				</div>
-				<div style="display:none;" class="button_wrapper">
-					<button class="comp" @click="addtocomparison(advert)">В сравнение</button><button class="comp" @click="detail(advert, advert.advertiser)">Подробнее</button><button class="comp"><a :href="advert.result_url" target="_blank">Оформить</a></button>
-				</div>
-				<div class="tags">
-					<span v-if="advert.comp_child_friendly">Для детей</span><span v-if="advert.comp_overview">Обзорные</span><span v-if="advert.comp_educational">Образовательные</span><span v-if="advert.comp_unusual">Необычные</span><span v-if="advert.comp_master_class">Мастер класс</span><span v-if="advert.comp_museum">Музеи</span><span v-if="advert.comp_shoping">Шоппинг</span><span v-if="advert.comp_gastro">Гастрономическая</span><span v-if="advert.comp_photoses">Фотосессия</span><span v-if="advert.comp_trans">Трансферы</span><span v-if="advert.comp_auto">На автомобиле</span><span v-if="advert.comp_on_foot">Пешком</span><span v-if="advert.comp_on_bus">На автобусе</span><span v-if="advert.comp_on_bicycle">На велосипеде</span><span v-if="advert.comp_on_moto">На мотоцикле</span><span v-if="advert.comp_on_ship">На кораблике</span><span v-if="advert.comp_on_heli">На вертолете</span><span v-if="advert.comp_on_scooter">На самокате</span><span v-if="advert.comp_on_parag">Параглайдинг</span><span v-if="advert.comp_on_kvadro">На квадроциклах</span><span v-if="advert.comp_on_raft">Рафтинг</span>
-					<span v-if="tag.name.indexOf('Групповая') == -1 && tag.name.indexOf('Групповые') == -1 && tag.name.indexOf('детей') == -1 && tag.name.indexOf('Индивидуальные') == -1 && tag.name.indexOf('Индивидуальный') == -1 && tag.name.indexOf('Обзорные') == -1 && tag.name.indexOf('Познавательные') == -1&& tag.name.indexOf('Познавательная') == -1 && tag.name.indexOf('Музеи') == -1 && tag.name.indexOf('Гастрономические') == -1 && tag.name.indexOf('Фотосессии') == -1	&& tag.name.indexOf('Шоппинг') == -1 && tag.name.indexOf('Необычные') == -1	&& tag.name.indexOf('Онлайн') == -1 && tag.name.indexOf('Вебинары') == -1 && tag.name.indexOf('online') == -1 && tag.name.indexOf('Online') == -1 && tag.name.indexOf('Мастер-класс') == -1 && tag.name.indexOf('мастер-класс') == -1 && tag.name.indexOf('shopping') == -1 && tag.name.indexOf('На автомобиле') == -1 && tag.name.indexOf('на автомобиле') == -1 && tag.name.indexOf('Пешком') == -1 && tag.name.indexOf('пешком') == -1 && tag.name.indexOf('На автобусе') == -1 && tag.name.indexOf('на автобусе') == -1 && tag.name.indexOf('Автобусные экскурсии') == -1 && tag.name.indexOf('На велосипеде') == -1 && tag.name.indexOf('на велосипеде') == -1 && tag.name.indexOf('автомобильные') == -1 && tag.name.indexOf('На мотоцикле') == -1 && tag.name.indexOf('на мотоцикле') == -1 && tag.name.indexOf('На кораблике') == -1 && tag.name.indexOf('на кораблике') == -1 && tag.name.indexOf('На катере') == -1 && tag.name.indexOf('на катере') == -1 && tag.name.indexOf('На яхте') == -1 && tag.name.indexOf('на яхте') == -1 && tag.name.indexOf('На вертолете') == -1 && tag.name.indexOf('на вертолете') == -1 && tag.name.indexOf('Пешеходные экскурсии') == -1 && tag.name.indexOf('Круизы и речные прогулки') == -1 && tag.name.indexOf('Экскурсии по музеям') == -1 && tag.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && tag.name.indexOf('музей') == -1 && tag.name.indexOf('автобусный') == -1 && tag.name.indexOf('Кулинарный тур') == -1	&& tag.name.indexOf('кулинарный тур') == -1 && tag.name.indexOf('на самокатах') == -1 && tag.name.indexOf('На самокатах') == -1 && tag.name.indexOf('Параглайдинг') == -1 && tag.name.indexOf('параглайдинг') == -1 && tag.name.indexOf('Все') == -1 && tag.name.indexOf('Трансферы') == -1 && tag.name.indexOf('трансферы') == -1 && tag.name.indexOf('На квадроциклах') == -1 && tag.name.indexOf('Рафтинг') == -1" v-for="tag in advert.tags">{{tag.name}}</span>
-					<span v-if="cat.name.indexOf('Групповая') == -1 && cat.name.indexOf('Групповые') == -1 && cat.name.indexOf('детей') == -1 && cat.name.indexOf('Индивидуальные') == -1 && cat.name.indexOf('Индивидуальный') == -1 && cat.name.indexOf('Обзорные') == -1 && cat.name.indexOf('Познавательные') == -1&& cat.name.indexOf('Познавательная') == -1 && cat.name.indexOf('Музеи') == -1 && cat.name.indexOf('Гастрономические') == -1 && cat.name.indexOf('Фотосессии') == -1	&& cat.name.indexOf('Шоппинг') == -1 && cat.name.indexOf('Необычные') == -1	&& cat.name.indexOf('Онлайн') == -1 && cat.name.indexOf('Вебинары') == -1 && cat.name.indexOf('online') == -1 && cat.name.indexOf('Online') == -1 && cat.name.indexOf('Мастер-класс') == -1 && cat.name.indexOf('мастер-класс') == -1 && cat.name.indexOf('shopping') == -1 && cat.name.indexOf('На автомобиле') == -1 && cat.name.indexOf('на автомобиле') == -1 && cat.name.indexOf('Пешком') == -1 && cat.name.indexOf('пешком') == -1 && cat.name.indexOf('На автобусе') == -1 && cat.name.indexOf('на автобусе') == -1 && cat.name.indexOf('Автобусные экскурсии') == -1 && cat.name.indexOf('На велосипеде') == -1 && cat.name.indexOf('на велосипеде') == -1 && cat.name.indexOf('автомобильные') == -1 && cat.name.indexOf('На мотоцикле') == -1 && cat.name.indexOf('на мотоцикле') == -1 && cat.name.indexOf('На кораблике') == -1 && cat.name.indexOf('на кораблике') == -1 && cat.name.indexOf('На катере') == -1 && cat.name.indexOf('на катере') == -1 && cat.name.indexOf('На яхте') == -1 && cat.name.indexOf('на яхте') == -1 && cat.name.indexOf('На вертолете') == -1 && cat.name.indexOf('на вертолете') == -1 && cat.name.indexOf('Пешеходные экскурсии') == -1 && cat.name.indexOf('Круизы и речные прогулки') == -1 && cat.name.indexOf('Экскурсии по музеям') == -1 && cat.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && cat.name.indexOf('музей') == -1 && cat.name.indexOf('автобусный') == -1 && cat.name.indexOf('Кулинарный тур') == -1	&& cat.name.indexOf('кулинарный тур') == -1 && cat.name.indexOf('на самокатах') == -1 && cat.name.indexOf('На самокатах') == -1 && cat.name.indexOf('Параглайдинг') == -1 && cat.name.indexOf('параглайдинг') == -1 && cat.name.indexOf('Все') == -1 && cat.name.indexOf('Трансферы') == -1 && cat.name.indexOf('трансферы') == -1 && cat.name.indexOf('На квадроциклах') == -1 && cat.name.indexOf('Рафтинг') == -1" v-for="cat in advert.categories">{{cat.name}}</span>
-				</div>
-			</div>
-
-		</div>
-		</transition>
-		<transition name="fade">
-		<div v-if="visibletype=='list'" id="excursion_wrapper-2">
-
-			<div class="excursion_item-2" v-for="advert in alladverts">
-				<div class="i_img_wrap-2" v-if="advert.result_img">
-					<img :src="advert.result_img">
-					<div class="rait_abs">{{advert.result_rating}} <i class="material-icons">star_rate</i> {{advert.result_review_count}} <i class="material-icons">comment</i></div>
-				</div>
-				<div class="i_desc-2">
-					<?php if($USER->IsAdmin()):?>
-						<div class="i_name-2" @click="detail(advert, advert.advertiser)"><p class="pointer">{{advert.result_title}}</p></div>
-					<?php else:?>
-					<div class="i_name-2"><a target="_blank" class="res_url" :href="advert.result_url"><p class="pointer">{{advert.result_title}}</p></a></div>
-					<?php endif;?>
-					<div class="text">
-					<p v-if="advert.result_description">{{advert.result_description}}</p>
-					<button style="display:none;" @click="showtext" class="show_all" ref="el">Показать все</button>
+				<!--<div class="excursion_item-2_back"></div>-->
+				<div class="desc_wrap">
+					<div class="i_img_wrap" v-if="advert.result_img">
+						<img :src="advert.result_img"> 
+						<div class="rait_abs">{{advert.result_rating}} <i class="material-icons">star_rate</i> {{advert.result_review_count}} <i class="material-icons">comment</i></div>
+						<div class="duration"><!--<p v-if="advert.online == 'Да'">Онлайн</p><p v-if="advert.comp_mobile_adv">Мобильный гид</p><p v-if="advert.comp_private">Индивидуальная</p><p v-if="advert.comp_group">Групповая</p>-->
+							<p>{{advert.duration}}</p></div>
 					</div>
-					<div class="tags">
-						<span v-if="advert.comp_child_friendly">Для детей</span><span v-if="advert.comp_overview">Обзорные</span><span v-if="advert.comp_educational">Образовательные</span><span v-if="advert.comp_unusual">Необычные</span><span v-if="advert.comp_master_class">Мастер класс</span><span v-if="advert.comp_museum">Музеи</span><span v-if="advert.comp_shoping">Шоппинг</span><span v-if="advert.comp_gastro">Гастрономическая</span><span v-if="advert.comp_photoses">Фотосессия</span><span v-if="advert.comp_trans">Трансферы</span><span v-if="advert.comp_auto">На автомобиле</span><span v-if="advert.comp_on_foot">Пешком</span><span v-if="advert.comp_on_bus">На автобусе</span><span v-if="advert.comp_on_bicycle">На велосипеде</span><span v-if="advert.comp_on_moto">На мотоцикле</span><span v-if="advert.comp_on_ship">На кораблике</span><span v-if="advert.comp_on_heli">На вертолете</span><span v-if="advert.comp_on_scooter">На самокате</span><span v-if="advert.comp_on_parag">Параглайдинг</span><span v-if="advert.comp_on_kvadro">На квадроциклах</span><span v-if="advert.comp_on_raft">Рафтинг</span>
-						<span v-if="tag.name.indexOf('Групповая') == -1 && tag.name.indexOf('Групповые') == -1 && tag.name.indexOf('детей') == -1 && tag.name.indexOf('Индивидуальные') == -1 && tag.name.indexOf('Индивидуальный') == -1 && tag.name.indexOf('Обзорные') == -1 && tag.name.indexOf('Познавательные') == -1&& tag.name.indexOf('Познавательная') == -1 && tag.name.indexOf('Музеи') == -1 && tag.name.indexOf('Гастрономические') == -1 && tag.name.indexOf('Фотосессии') == -1	&& tag.name.indexOf('Шоппинг') == -1 && tag.name.indexOf('Необычные') == -1	&& tag.name.indexOf('Онлайн') == -1 && tag.name.indexOf('Вебинары') == -1 && tag.name.indexOf('online') == -1 && tag.name.indexOf('Online') == -1 && tag.name.indexOf('Мастер-класс') == -1 && tag.name.indexOf('мастер-класс') == -1 && tag.name.indexOf('shopping') == -1 && tag.name.indexOf('На автомобиле') == -1 && tag.name.indexOf('на автомобиле') == -1 && tag.name.indexOf('Пешком') == -1 && tag.name.indexOf('пешком') == -1 && tag.name.indexOf('На автобусе') == -1 && tag.name.indexOf('на автобусе') == -1 && tag.name.indexOf('Автобусные экскурсии') == -1 && tag.name.indexOf('На велосипеде') == -1 && tag.name.indexOf('на велосипеде') == -1 && tag.name.indexOf('автомобильные') == -1 && tag.name.indexOf('На мотоцикле') == -1 && tag.name.indexOf('на мотоцикле') == -1 && tag.name.indexOf('На кораблике') == -1 && tag.name.indexOf('на кораблике') == -1 && tag.name.indexOf('На катере') == -1 && tag.name.indexOf('на катере') == -1 && tag.name.indexOf('На яхте') == -1 && tag.name.indexOf('на яхте') == -1 && tag.name.indexOf('На вертолете') == -1 && tag.name.indexOf('на вертолете') == -1 && tag.name.indexOf('Пешеходные экскурсии') == -1 && tag.name.indexOf('Круизы и речные прогулки') == -1 && tag.name.indexOf('Экскурсии по музеям') == -1 && tag.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && tag.name.indexOf('музей') == -1 && tag.name.indexOf('автобусный') == -1 && tag.name.indexOf('Кулинарный тур') == -1	&& tag.name.indexOf('кулинарный тур') == -1 && tag.name.indexOf('на самокатах') == -1 && tag.name.indexOf('На самокатах') == -1 && tag.name.indexOf('Параглайдинг') == -1 && tag.name.indexOf('параглайдинг') == -1 && tag.name.indexOf('Все') == -1 && tag.name.indexOf('Трансферы') == -1 && tag.name.indexOf('трансферы') == -1 && tag.name.indexOf('На квадроциклах') == -1 && tag.name.indexOf('Рафтинг') == -1" v-for="tag in advert.tags">{{tag.name}}</span>
-						<span v-if="cat.name.indexOf('Групповая') == -1 && cat.name.indexOf('Групповые') == -1 && cat.name.indexOf('детей') == -1 && cat.name.indexOf('Индивидуальные') == -1 && cat.name.indexOf('Индивидуальный') == -1 && cat.name.indexOf('Обзорные') == -1 && cat.name.indexOf('Познавательные') == -1&& cat.name.indexOf('Познавательная') == -1 && cat.name.indexOf('Музеи') == -1 && cat.name.indexOf('Гастрономические') == -1 && cat.name.indexOf('Фотосессии') == -1	&& cat.name.indexOf('Шоппинг') == -1 && cat.name.indexOf('Необычные') == -1	&& cat.name.indexOf('Онлайн') == -1 && cat.name.indexOf('Вебинары') == -1 && cat.name.indexOf('online') == -1 && cat.name.indexOf('Online') == -1 && cat.name.indexOf('Мастер-класс') == -1 && cat.name.indexOf('мастер-класс') == -1 && cat.name.indexOf('shopping') == -1 && cat.name.indexOf('На автомобиле') == -1 && cat.name.indexOf('на автомобиле') == -1 && cat.name.indexOf('Пешком') == -1 && cat.name.indexOf('пешком') == -1 && cat.name.indexOf('На автобусе') == -1 && cat.name.indexOf('на автобусе') == -1 && cat.name.indexOf('Автобусные экскурсии') == -1 && cat.name.indexOf('На велосипеде') == -1 && cat.name.indexOf('на велосипеде') == -1 && cat.name.indexOf('автомобильные') == -1 && cat.name.indexOf('На мотоцикле') == -1 && cat.name.indexOf('на мотоцикле') == -1 && cat.name.indexOf('На кораблике') == -1 && cat.name.indexOf('на кораблике') == -1 && cat.name.indexOf('На катере') == -1 && cat.name.indexOf('на катере') == -1 && cat.name.indexOf('На яхте') == -1 && cat.name.indexOf('на яхте') == -1 && cat.name.indexOf('На вертолете') == -1 && cat.name.indexOf('на вертолете') == -1 && cat.name.indexOf('Пешеходные экскурсии') == -1 && cat.name.indexOf('Круизы и речные прогулки') == -1 && cat.name.indexOf('Экскурсии по музеям') == -1 && cat.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && cat.name.indexOf('музей') == -1 && cat.name.indexOf('автобусный') == -1 && cat.name.indexOf('Кулинарный тур') == -1	&& cat.name.indexOf('кулинарный тур') == -1 && cat.name.indexOf('на самокатах') == -1 && cat.name.indexOf('На самокатах') == -1 && cat.name.indexOf('Параглайдинг') == -1 && cat.name.indexOf('параглайдинг') == -1 && cat.name.indexOf('Все') == -1 && cat.name.indexOf('Трансферы') == -1 && cat.name.indexOf('трансферы') == -1 && cat.name.indexOf('На квадроциклах') == -1 && cat.name.indexOf('Рафтинг') == -1" v-for="cat in advert.categories">{{cat.name}}</span>
+					
+				</div>
+				
+				<div class="wrap_wrap">
+					<div class="i_img_wrap" v-if="advert.result_img">
+						<img :src="advert.result_img">
+						<div class="gradient"></div>
 					</div>
-					<div class="square_price_wrap">
-						<div class="square_price"><a target="_blank
-" class="res_url" :href="advert.result_url"><div><span v-if="advert.online == 'Да'">Онлайн</span><br v-if="advert.online == 'Да'"><span v-if="advert.advertiser=='Surprise Me' && advert.types.audioguide">Мобильный гид</span><br v-if="advert.advertiser=='Surprise Me' && advert.types.audioguide"><span v-if="advert.comp_private">Индивидуально</span><span v-if="advert.comp_group">Групповая</span><br> на {{advert.duration}}<br>за <span v-if="advert.approximately">~</span> {{advert.result_price}}<br> на {{advert.advertiser}}</div></a></div>
+					<div class="text_wrap">
+						<?php if($USER->IsAdmin()):?>
+							<div class="i_name" @click="detail(advert, advert.advertiser)"><p class="pointer">{{advert.result_title}}</p></div>
+						<?php else:?>
+							<div class="i_name"><a target="_blank" class="res_url" :href="advert.result_url"><p class="pointer">{{advert.result_title}}</p></a></div>
+						<?php endif;?>						
 					</div>
+					<div class="i_desc" v-if="advert.result_description">
+						<p v-if="advert.result_description" v-html="advert.result_description"></p>
+						<button style="display:none;" @click="showtext" class="show_all" ref="el">Показать все</button>
+					</div>
+					<div id="data_wrap">						
+						<a target="_blank" class="res_url" :href="advert.result_url"><div><span v-if="advert.approximately">~</span> за  <span class="the_price">{{advert.result_price}}</span> на {{advert.advertiser}}<span class="transition"> >>></span></div></a>
 					</div>
 					<hr style="display:none;">
-					<div style="display:none;" class="i_props-2">
+					<div class="i_props" style="display:none;">
 						<p>Цена:{{advert.result_price}}</p>
 						<p>Рейтинг:{{advert.result_rating}}</p>
 						<p>Количество отзывов {{advert.result_review_count}}</p>
 						<p>Продолжительность:{{advert.duration}}</p>
-						<p>Агентство:{{advert.advertiser}}</p>
+						<p>Маркетплейс:{{advert.advertiser}}</p>
 					</div>
-					<div class="button_wrapper-2" style="display:none;">
-					<button class="comp" @click="addtocomparison(advert)">В сравнение</button><button class="comp" @click="detail(advert, advert.advertiser)">Подробнее</button><button class="comp"><a :href="advert.result_url" target="_blank">Оформить</a></button>
+					<div style="display:none;" class="button_wrapper">
+						<button class="comp" @click="addtocomparison(advert)">В сравнение</button><button class="comp" @click="detail(advert, advert.advertiser)">Подробнее</button><button class="comp"><a :href="advert.result_url" target="_blank">Оформить</a></button>
 					</div>
+					<div class="tags">
+					
+						<span v-if="advert.comp_mobile_adv">#Мобильный гид</span><span v-if="advert.comp_private">#Индивидуальная</span><span v-if="advert.comp_group">#Групповая</span><span v-if="advert.online == 'Да'">#Онлайн</span><span v-if="advert.comp_durationtype_several">#Несколько дней</span><span v-if="advert.comp_durationtype_day">#Весь день</span><span v-if="advert.comp_durationtype_hours">#Несколько часов</span><span v-if="advert.comp_child_friendly">#Для детей</span><span v-if="advert.comp_overview">#Обзорные</span><span v-if="advert.comp_educational">#Образовательные</span><span v-if="advert.comp_unusual">#Необычные</span><span v-if="advert.comp_master_class">#Мастер класс</span><span v-if="advert.comp_museum">#Музеи</span><span v-if="advert.comp_shoping">#Шоппинг</span><span v-if="advert.comp_gastro">#Гастрономическая</span><span v-if="advert.comp_photoses">#Фотосессия</span><span v-if="advert.comp_trans">#Трансферы</span><span v-if="advert.comp_auto">#На автомобиле</span><span v-if="advert.comp_on_foot">#Пешком</span><span v-if="advert.comp_on_bicycle">#На велосипеде</span><span v-if="advert.comp_on_moto">#На мотоцикле</span><span v-if="advert.comp_on_ship">#На кораблике</span><span v-if="advert.comp_on_heli">#На вертолете</span><span v-if="advert.comp_on_scooter">#На самокате</span><span v-if="advert.comp_on_parag">#Параглайдинг</span><span v-if="advert.comp_on_kvadro">#На квадроциклах</span><span v-if="advert.comp_on_raft">#Рафтинг</span>
+						<span v-if="tag.name.indexOf('Групповая') == -1 && tag.name.indexOf('Групповые') == -1 && tag.name.indexOf('детей') == -1 && tag.name.indexOf('Индивидуальные') == -1 && tag.name.indexOf('Индивидуальный') == -1 && tag.name.indexOf('Обзорные') == -1 && tag.name.indexOf('Познавательные') == -1&& tag.name.indexOf('Познавательная') == -1 && tag.name.indexOf('Музеи') == -1 && tag.name.indexOf('Гастрономические') == -1 && tag.name.indexOf('Фотосессии') == -1	&& tag.name.indexOf('Шоппинг') == -1 && tag.name.indexOf('Необычные') == -1	&& tag.name.indexOf('Онлайн') == -1 && tag.name.indexOf('Вебинары') == -1 && tag.name.indexOf('online') == -1 && tag.name.indexOf('Online') == -1 && tag.name.indexOf('Мастер-класс') == -1 && tag.name.indexOf('мастер-класс') == -1 && tag.name.indexOf('shopping') == -1 && tag.name.indexOf('На автомобиле') == -1 && tag.name.indexOf('на автомобиле') == -1 && tag.name.indexOf('Пешком') == -1 && tag.name.indexOf('пешком') == -1 && tag.name.indexOf('На автобусе') == -1 && tag.name.indexOf('на автобусе') == -1 && tag.name.indexOf('Автобусные экскурсии') == -1 && tag.name.indexOf('На велосипеде') == -1 && tag.name.indexOf('на велосипеде') == -1 && tag.name.indexOf('автомобильные') == -1 && tag.name.indexOf('На мотоцикле') == -1 && tag.name.indexOf('на мотоцикле') == -1 && tag.name.indexOf('На кораблике') == -1 && tag.name.indexOf('на кораблике') == -1 && tag.name.indexOf('На катере') == -1 && tag.name.indexOf('на катере') == -1 && tag.name.indexOf('На яхте') == -1 && tag.name.indexOf('на яхте') == -1 && tag.name.indexOf('На вертолете') == -1 && tag.name.indexOf('на вертолете') == -1 && tag.name.indexOf('Пешеходные экскурсии') == -1 && tag.name.indexOf('Круизы и речные прогулки') == -1 && tag.name.indexOf('Экскурсии по музеям') == -1 && tag.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && tag.name.indexOf('музей') == -1 && tag.name.indexOf('автобусный') == -1 && tag.name.indexOf('автобусная') == -1 && tag.name.indexOf('Кулинарный тур') == -1	&& tag.name.indexOf('кулинарный тур') == -1 && tag.name.indexOf('на самокатах') == -1 && tag.name.indexOf('На самокатах') == -1 && tag.name.indexOf('Параглайдинг') == -1 && tag.name.indexOf('параглайдинг') == -1 && tag.name.indexOf('Все') == -1 && tag.name.indexOf('Трансферы') == -1 && tag.name.indexOf('трансферы') == -1 && tag.name.indexOf('На квадроциклах') == -1 && tag.name.indexOf('Рафтинг') == -1" v-for="tag in advert.tags">#{{tag.name}}</span>
+						<span v-if="cat.name.indexOf('Групповая') == -1 && cat.name.indexOf('Групповые') == -1 && cat.name.indexOf('детей') == -1 && cat.name.indexOf('Индивидуальные') == -1 && cat.name.indexOf('Индивидуальный') == -1 && cat.name.indexOf('Обзорные') == -1 && cat.name.indexOf('Познавательные') == -1&& cat.name.indexOf('Познавательная') == -1 && cat.name.indexOf('Музеи') == -1 && cat.name.indexOf('Гастрономические') == -1 && cat.name.indexOf('Фотосессии') == -1	&& cat.name.indexOf('Шоппинг') == -1 && cat.name.indexOf('Необычные') == -1	&& cat.name.indexOf('Онлайн') == -1 && cat.name.indexOf('Вебинары') == -1 && cat.name.indexOf('online') == -1 && cat.name.indexOf('Online') == -1 && cat.name.indexOf('Мастер-класс') == -1 && cat.name.indexOf('мастер-класс') == -1 && cat.name.indexOf('shopping') == -1 && cat.name.indexOf('На автомобиле') == -1 && cat.name.indexOf('на автомобиле') == -1 && cat.name.indexOf('Пешком') == -1 && cat.name.indexOf('пешком') == -1 && cat.name.indexOf('На автобусе') == -1 && cat.name.indexOf('на автобусе') == -1 && cat.name.indexOf('Автобусные экскурсии') == -1 && cat.name.indexOf('На велосипеде') == -1 && cat.name.indexOf('на велосипеде') == -1 && cat.name.indexOf('автомобильные') == -1 && cat.name.indexOf('На мотоцикле') == -1 && cat.name.indexOf('на мотоцикле') == -1 && cat.name.indexOf('На кораблике') == -1 && cat.name.indexOf('на кораблике') == -1 && cat.name.indexOf('На катере') == -1 && cat.name.indexOf('на катере') == -1 && cat.name.indexOf('На яхте') == -1 && cat.name.indexOf('на яхте') == -1 && cat.name.indexOf('На вертолете') == -1 && cat.name.indexOf('на вертолете') == -1 && cat.name.indexOf('Пешеходные экскурсии') == -1 && cat.name.indexOf('Круизы и речные прогулки') == -1 && cat.name.indexOf('Экскурсии по музеям') == -1 && cat.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && cat.name.indexOf('музей') == -1 && cat.name.indexOf('автобусный') == -1 && cat.name.indexOf('автобусная') == -1 && cat.name.indexOf('Кулинарный тур') == -1	&& cat.name.indexOf('кулинарный тур') == -1 && cat.name.indexOf('на самокатах') == -1 && cat.name.indexOf('На самокатах') == -1 && cat.name.indexOf('Параглайдинг') == -1 && cat.name.indexOf('параглайдинг') == -1 && cat.name.indexOf('Все') == -1 && cat.name.indexOf('Трансферы') == -1 && cat.name.indexOf('трансферы') == -1 && cat.name.indexOf('На квадроциклах') == -1 && cat.name.indexOf('Рафтинг') == -1" v-for="cat in advert.categories">#{{cat.name}}</span>
+					</div>
+				</div>
 			</div>
 
 		</div>
 		</transition>
+		<transition name="fade">		
+		<div v-if="visibletype=='list'" id="excursion_wrapper-2">
+
+			<div class="excursion_item-2" v-for="advert in alladverts">
+				<div class="excursion_item-2_back">
+					<img :src="advert.result_img">
+				</div>
+				<div class="desc_wrap">				 
+				<div class="i_img_wrap-2" v-if="advert.result_img">
+					<img :src="advert.result_img">					
+				</div>
+				<div class="i_desc-2">
+					
+				<div class="text_wrap">
+					<div class="text">
+						<?php if($USER->IsAdmin()):?>
+						<div class="i_name-2" @click="detail(advert, advert.advertiser)"><h2 class="pointer">{{advert.result_title}}</h2></div>
+						<?php else:?>
+						<div class="i_name-2"><a target="_blank" class="res_url" :href="advert.result_url"><h2 class="pointer">{{advert.result_title}}</h2></a></div>
+						<?php endif;?>
+						<div class="tegs_text_wrap">
+						<p v-if="advert.result_description" v-html="advert.result_description">{{advert.result_description}}</p>
+						<button style="display:none;" @click="showtext" class="show_all" ref="el">Показать все</button>
+						<div class="tags layout-scrollbar">
+						<span v-if="advert.comp_mobile_adv">#Мобильный гид</span><span v-if="advert.comp_private">#Индивидуальная</span><span v-if="advert.comp_group">#Групповая</span><span v-if="advert.online == 'Да'">#Онлайн</span><span v-if="advert.comp_durationtype_several">#Несколько дней</span><span v-if="advert.comp_durationtype_day">#Весь день</span><span v-if="advert.comp_durationtype_hours">#Несколько часов</span><span v-if="advert.comp_child_friendly">#Для детей</span><span v-if="advert.comp_overview">#Обзорные</span><span v-if="advert.comp_educational">#Образовательные</span><span v-if="advert.comp_unusual">#Необычные</span><span v-if="advert.comp_master_class">#Мастер класс</span><span v-if="advert.comp_museum">#Музеи</span><span v-if="advert.comp_shoping">#Шоппинг</span><span v-if="advert.comp_gastro">#Гастрономическая</span><span v-if="advert.comp_photoses">#Фотосессия</span><span v-if="advert.comp_trans">#Трансферы</span><span v-if="advert.comp_auto">#На автомобиле</span><span v-if="advert.comp_on_foot">#Пешком</span><span v-if="advert.comp_on_bicycle">#На велосипеде</span><span v-if="advert.comp_on_moto">#На мотоцикле</span><span v-if="advert.comp_on_ship">#На кораблике</span><span v-if="advert.comp_on_heli">#На вертолете</span><span v-if="advert.comp_on_scooter">#На самокате</span><span v-if="advert.comp_on_parag">#Параглайдинг</span><span v-if="advert.comp_on_kvadro">#На квадроциклах</span><span v-if="advert.comp_on_raft">#Рафтинг</span>
+						<span v-if="tag.name.indexOf('Групповая') == -1 && tag.name.indexOf('Групповые') == -1 && tag.name.indexOf('детей') == -1 && tag.name.indexOf('Индивидуальные') == -1 && tag.name.indexOf('Индивидуальный') == -1 && tag.name.indexOf('Обзорные') == -1 && tag.name.indexOf('Познавательные') == -1&& tag.name.indexOf('Познавательная') == -1 && tag.name.indexOf('Музеи') == -1 && tag.name.indexOf('Гастрономические') == -1 && tag.name.indexOf('Фотосессии') == -1	&& tag.name.indexOf('Шоппинг') == -1 && tag.name.indexOf('Необычные') == -1	&& tag.name.indexOf('Онлайн') == -1 && tag.name.indexOf('Вебинары') == -1 && tag.name.indexOf('online') == -1 && tag.name.indexOf('Online') == -1 && tag.name.indexOf('Мастер-класс') == -1 && tag.name.indexOf('мастер-класс') == -1 && tag.name.indexOf('shopping') == -1 && tag.name.indexOf('На автомобиле') == -1 && tag.name.indexOf('на автомобиле') == -1 && tag.name.indexOf('Пешком') == -1 && tag.name.indexOf('пешком') == -1 && tag.name.indexOf('На автобусе') == -1 && tag.name.indexOf('на автобусе') == -1 && tag.name.indexOf('Автобусные экскурсии') == -1 && tag.name.indexOf('На велосипеде') == -1 && tag.name.indexOf('на велосипеде') == -1 && tag.name.indexOf('автомобильные') == -1 && tag.name.indexOf('На мотоцикле') == -1 && tag.name.indexOf('на мотоцикле') == -1 && tag.name.indexOf('На кораблике') == -1 && tag.name.indexOf('на кораблике') == -1 && tag.name.indexOf('На катере') == -1 && tag.name.indexOf('на катере') == -1 && tag.name.indexOf('На яхте') == -1 && tag.name.indexOf('на яхте') == -1 && tag.name.indexOf('На вертолете') == -1 && tag.name.indexOf('на вертолете') == -1 && tag.name.indexOf('Пешеходные экскурсии') == -1 && tag.name.indexOf('Круизы и речные прогулки') == -1 && tag.name.indexOf('Экскурсии по музеям') == -1 && tag.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && tag.name.indexOf('музей') == -1 && tag.name.indexOf('автобусный') == -1 && tag.name.indexOf('автобусная') == -1 && tag.name.indexOf('Кулинарный тур') == -1	&& tag.name.indexOf('кулинарный тур') == -1 && tag.name.indexOf('на самокатах') == -1 && tag.name.indexOf('На самокатах') == -1 && tag.name.indexOf('Параглайдинг') == -1 && tag.name.indexOf('параглайдинг') == -1 && tag.name.indexOf('Все') == -1 && tag.name.indexOf('Трансферы') == -1 && tag.name.indexOf('трансферы') == -1 && tag.name.indexOf('На квадроциклах') == -1 && tag.name.indexOf('Рафтинг') == -1" v-for="tag in advert.tags">#{{tag.name}}</span>
+						<span v-if="cat.name.indexOf('Групповая') == -1 && cat.name.indexOf('Групповые') == -1 && cat.name.indexOf('детей') == -1 && cat.name.indexOf('Индивидуальные') == -1 && cat.name.indexOf('Индивидуальный') == -1 && cat.name.indexOf('Обзорные') == -1 && cat.name.indexOf('Познавательные') == -1&& cat.name.indexOf('Познавательная') == -1 && cat.name.indexOf('Музеи') == -1 && cat.name.indexOf('Гастрономические') == -1 && cat.name.indexOf('Фотосессии') == -1	&& cat.name.indexOf('Шоппинг') == -1 && cat.name.indexOf('Необычные') == -1	&& cat.name.indexOf('Онлайн') == -1 && cat.name.indexOf('Вебинары') == -1 && cat.name.indexOf('online') == -1 && cat.name.indexOf('Online') == -1 && cat.name.indexOf('Мастер-класс') == -1 && cat.name.indexOf('мастер-класс') == -1 && cat.name.indexOf('shopping') == -1 && cat.name.indexOf('На автомобиле') == -1 && cat.name.indexOf('на автомобиле') == -1 && cat.name.indexOf('Пешком') == -1 && cat.name.indexOf('пешком') == -1 && cat.name.indexOf('На автобусе') == -1 && cat.name.indexOf('на автобусе') == -1 && cat.name.indexOf('Автобусные экскурсии') == -1 && cat.name.indexOf('На велосипеде') == -1 && cat.name.indexOf('на велосипеде') == -1 && cat.name.indexOf('автомобильные') == -1 && cat.name.indexOf('На мотоцикле') == -1 && cat.name.indexOf('на мотоцикле') == -1 && cat.name.indexOf('На кораблике') == -1 && cat.name.indexOf('на кораблике') == -1 && cat.name.indexOf('На катере') == -1 && cat.name.indexOf('на катере') == -1 && cat.name.indexOf('На яхте') == -1 && cat.name.indexOf('на яхте') == -1 && cat.name.indexOf('На вертолете') == -1 && cat.name.indexOf('на вертолете') == -1 && cat.name.indexOf('Пешеходные экскурсии') == -1 && cat.name.indexOf('Круизы и речные прогулки') == -1 && cat.name.indexOf('Экскурсии по музеям') == -1 && cat.name.indexOf('Литературные экскурсии. Экскурсии в музеи, галереи, выставки') == -1 && cat.name.indexOf('музей') == -1 && cat.name.indexOf('автобусный') == -1 && cat.name.indexOf('автобусная') == -1 && cat.name.indexOf('Кулинарный тур') == -1	&& cat.name.indexOf('кулинарный тур') == -1 && cat.name.indexOf('на самокатах') == -1 && cat.name.indexOf('На самокатах') == -1 && cat.name.indexOf('Параглайдинг') == -1 && cat.name.indexOf('параглайдинг') == -1 && cat.name.indexOf('Все') == -1 && cat.name.indexOf('Трансферы') == -1 && cat.name.indexOf('трансферы') == -1 && cat.name.indexOf('На квадроциклах') == -1 && cat.name.indexOf('Рафтинг') == -1" v-for="cat in advert.categories">#{{cat.name}}</span>
+						</div>
+						</div>
+					</div>
+					
+					<div class="square_price_wrap">
+						<div class="square_price">
+						<div class="rait_abs">{{advert.result_rating}} <i class="material-icons">star_rate</i> {{advert.result_review_count}} <i class="material-icons">comment</i></div>
+						
+							<a target="_blank" class="res_url" :href="advert.result_url">
+								<div>
+									<p v-if="advert.online == 'Да'">Онлайн</p>
+									<p v-if="advert.comp_mobile_adv">Мобильный гид</p>
+									<p v-if="advert.comp_private">Индивидуальная</p>
+									<p v-if="advert.comp_group">Групповая</p> на {{advert.duration}}<br>
+									<span class="color_block">
+									<span v-if="advert.approximately">~</span> за  <span class="the_price">{{advert.result_price}}</span><br> на {{advert.advertiser}} <span class="transition"> >>></span>
+									</span>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				</div> 
+				</div>
+				
+				<hr style="display:none;">
+				<div style="display:none;" class="i_props-2">
+					<p>Цена:{{advert.result_price}}</p>
+					<p>Рейтинг:{{advert.result_rating}}</p>
+					<p>Количество отзывов {{advert.result_review_count}}</p>
+					<p>Продолжительность:{{advert.duration}}</p>
+					<p>Маркетплейс:{{advert.advertiser}}</p>
+				</div>
+				<div class="button_wrapper-2" style="display:none;">
+				<button class="comp" @click="addtocomparison(advert)">В сравнение</button><button class="comp" @click="detail(advert, advert.advertiser)">Подробнее</button><button class="comp"><a :href="advert.result_url" target="_blank">Оформить</a></button>
+				</div>
+					
+
+			</div>
+
+		</div>
+		</transition>
+		<div id="for_calc"></div>
 		<div class="hide" @click="close()" id="popup_wrap">
 		</div>
 		<div class="hide" id="popup-form">
@@ -446,7 +542,7 @@
 			<table id="popup" v-show="show_data">
 			</table>
 		</div>
-			<div id="comparison_wrap">
+			<div id="comparison_wrap" style="display:none;">
 				<button id="mobile_comp_close">X</button>
 				<h2>Сравнение</h2>
 				<table id="comparison">
@@ -457,6 +553,7 @@
 				</table>
 				</div>
 			</div>
+	</div>
 	</div>
 </div>
 </main>
@@ -481,6 +578,7 @@ function printExcursion(table, obj, arrayDataExcursion = []) {
     if(arrayDataExcursion.length) {
         arrayDataExcursion.pop();
     }
+	
 }
 function sklonenie(number, txt) {
     var cases = [2, 0, 1, 1, 1, 2];
@@ -504,14 +602,14 @@ function sklonenie(number, txt) {
 					if(!window.matchMedia("(max-width: 700px)").matches){
 						if(st >= 790){
 							$("#desctop_f").addClass("fixed-filter");
-							$("#sort").addClass("fixed-sort");
+							//$("#fixedbar").addClass("fixed-sort");
 						} else {
 							$("#desctop_f").removeClass("fixed-filter");
-							$("#sort").removeClass("fixed-sort");
+							//$("#fixedbar").removeClass("fixed-sort");
 						}
 					} else {
 						$("#desctop_f").removeClass("fixed-filter");
-						$("#sort").removeClass("fixed-sort");
+						$("#fixedbar").removeClass("fixed-sort");
 					}
 					if(window.matchMedia("(max-width: 700px)").matches){
 						if(st > 500){
@@ -550,6 +648,7 @@ function sklonenie(number, txt) {
 						$("#price_field").text("от "+ ui.values[ 0 ] + " до "+ ui.values[ 1 ] + " руб");
 						app.pricefilterstart = ui.values[ 0 ];
 						app.pricefilterend = ui.values[ 1 ];
+						//$("input[disabled=disabled]").prop('checked', false);
 					},
 					change:function(event, ui){
 						$("#price_field").text("от "+ ui.values[ 0 ] + " до "+ ui.values[ 1 ] + " руб");
@@ -568,6 +667,7 @@ function sklonenie(number, txt) {
 					$("#rating_field").text( "от " + ui.values[ 0 ] + " до " + ui.values[ 1 ] );
 					app.ratingfilterstart = ui.values[ 0 ];
 					app.ratingfilterend = ui.values[ 1 ];      
+					//$("input[disabled=disabled]").prop('checked', false);
 				},
 				change:function(event, ui){
 					$("#rating_field").text( "от " + ui.values[ 0 ] + " до " + ui.values[ 1 ] );
@@ -580,6 +680,27 @@ function sklonenie(number, txt) {
 					create:false,
 					sortField:'text'
 				});
+				// Программирую чтобы список не показывался когда не введены данные
+				$(document).on('focus input', '#chose-select-selectized', function(){ 
+					let text = $(this).val();
+					if(text.length > 0){
+						$(".selectize-dropdown-content").removeClass("hidelist");
+					} else {
+						$(".selectize-dropdown-content").addClass("hidelist");
+					}
+				}); 
+				
+				//очищаем поле ввода при клике туда
+				/* $("#search-field").on("click", function(){
+					console.log($('.selectize-input .item').textContent);
+					//console.log($('.selectize-input .item').dataset.value);
+					console.log($('.selectize-input .item').dataset.Value);
+					console.log($("#chose-select-selectized").value);
+					$('.selectize-input .item').textContent = ' ';
+					$('.selectize-input .item').dataset.value = '';
+					$("#chose-select-selectized").value = '';
+				}); */
+				
 				let flag = false;
 				let search_block = $("#main_block");
 				$("#search-field").append(search_block);
@@ -587,18 +708,25 @@ function sklonenie(number, txt) {
 					flag = !flag;
 					if(flag){
 						$("#show_f span.f").html("Закрыть");
+						//$("body").style.overflowY = auto;
+						document.body.setAttribute('style', 'overflow-y: hidden;');
 					} else {
 						$("#show_f span.f").html("Фильтр");
+						//$("body").style.overflowY = hidden;
+						document.body.setAttribute('style', 'overflow-y: auto;');
 					}
 					//$("#comparison_wrap").removeClass("active");
 					$("#desctop_f").toggleClass("active");
+					$("#block-2").toggleClass("blur");
 				});
 				/*$("#mobile_comp, #mobile_comp_close").on("click", function(){
 					$("#desctop_f").removeClass("active");
 					$("#comparison_wrap").toggleClass("active");
 				})*/
-				<?php if(isset($_GET['citysearch']) && $_GET['citysearch'] != ''):?>
-				let searchshow = true;
+				
+				// скрытие поиска
+				<!--<?php if(isset($_GET['citysearch']) && $_GET['citysearch'] != ''):?>-->
+				/* let searchshow = true;
 				$(".not-viz").hide();
 				$(".link-city").on("click",	function(){
 					if(searchshow){
@@ -607,8 +735,9 @@ function sklonenie(number, txt) {
 						$(".not-viz").hide("100");
 					}
 					searchshow = !searchshow;
-				});
-				<?php endif;?>
+				}); */
+				<!--<?php endif;?>-->
+				
     });
     var app = new Vue({
         el: '#api-app',
@@ -672,7 +801,7 @@ function sklonenie(number, txt) {
 			trans:false,
 			on_foot:false,
 			auto:false,
-			on_bus:false,
+			//on_bus:false,
 			on_bicycle:false,
 			on_moto:false,
 			on_ship:false,
@@ -690,29 +819,76 @@ function sklonenie(number, txt) {
 			durationtype:[],
 			sort:'price',
 			sort_type_price:'asc',
-			sort_type_rate:'asc',
+			sort_type_rate:'desc',
 			adverts:{
 				Sputnik8:[],
 				Tripster:[],
 				Surprise_Me:[],
 				Weatlas:[]
-			}
+			},
+			min_price_online:0,
+			min_price_group:0,
+			min_price_private:0,
+			min_price_mobile_adv:0,
+			min_price_durationtype_hours:0,
+			min_price_durationtype_day:0,
+			min_price_durationtype_several:0,
+			min_price_on_foot:0,
+			min_price_auto:0,
+			//min_price_on_bus:0,
+			min_price_on_bicycle:0,
+			min_price_on_moto:0,
+			min_price_on_ship:0,
+			min_price_on_heli:0,
+			min_price_on_scooter:0,
+			min_price_on_parag:0,
+			min_price_on_kvadro:0,
+			min_price_on_raft:0,
+			min_price_child_friendly:0,
+			min_price_museum:0,
+			min_price_shoping:0,
+			min_price_gastro:0,
+			min_price_photoses:0,
+			min_price_trans:0,
+			min_price_sputnikfilter:0,
+			min_price_tripsterfilter:0,
+			min_price_surprisemefilter:0,
+			min_price_weatlasfilter:0,
+			min_price_overview:0,
+			min_price_educational:0,
+			min_price_unusual:0,
+			min_price_master_class:0
 		},
 		methods: {
+			check_Tripster:function(){
+				return this.catsvarchecked.length == 0 && !this.weatlasfilter && !this.sputnikfilter && !this.surprisemefilter && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview;
+			},
+			check_Sputnik8:function(){
+				return !this.is_new && this.tagsvarchecked.length == 0 && !this.weatlasfilter && !this.tripsterfilter && !this.surprisemefilter && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview;
+			},
+			check_Surprise_Me:function(){
+				return !this.weatlasfilter && !this.sputnikfilter && !this.tripsterfilter && !this.is_new && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0;
+			},
+			check_Weatlas:function(){
+				return !this.surprisemefilter && !this.tripsterfilter && !this.sputnikfilter && !this.is_new && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0 && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview;
+			},
 			toggle_sort_price:function(){
-				console.log("work");
-				if(this.sort_type_price == 'asc'){
-					this.sort_type_price = 'desc';
-				} else {
-					this.sort_type_price = 'asc';
+				if(this.sort == 'price'){
+					if(this.sort_type_price == 'asc'){
+						this.sort_type_price = 'desc';
+					} else {
+						this.sort_type_price = 'asc';
+					}
 				}
 				return false;
 			},
 			toggle_sort_rate:function(){
-				if(this.sort_type_rate == 'asc'){
-					this.sort_type_rate = 'desc';
-				} else {
-					this.sort_type_rate = 'asc';
+				if(this.sort == 'rating'){
+					if(this.sort_type_rate == 'asc'){
+						this.sort_type_rate = 'desc';
+					} else {
+						this.sort_type_rate = 'asc';
+					}
 				}
 				return false;
 			},
@@ -740,6 +916,40 @@ function sklonenie(number, txt) {
 				this.visibletype = type;
 			},
 			search: function() {
+				// Значения мин цены у галок
+				app.min_price_group = 0;
+				app.min_price_private = 0;
+				app.min_price_mobile_adv = 0;
+				app.min_price_durationtype_hours = 0;
+				app.min_price_durationtype_day = 0;
+				app.min_price_durationtype_several = 0;
+				app.min_price_on_foot = 0;
+				app.min_price_auto = 0;
+				app.min_price_on_bus = 0;
+				app.min_price_on_bicycle = 0;
+				app.min_price_on_moto = 0;
+				app.min_price_on_ship = 0;
+				app.min_price_on_heli = 0;
+				app.min_price_on_scooter = 0;
+				app.min_price_on_parag = 0;
+				app.min_price_on_kvadro = 0;
+				app.min_price_on_raft = 0;
+				app.min_price_child_friendly = 0;
+				app.min_price_museum = 0;	
+				app.min_price_shoping = 0;
+				app.min_price_gastro = 0;
+				app.min_price_photoses = 0;
+				app.min_price_trans = 0;
+				app.min_price_sputnikfilter = 0;
+				app.min_price_tripsterfilter = 0;
+				app.min_price_surprisemefilter = 0;
+				app.min_price_weatlasfilter = 0;
+				app.min_price_overview = 0;
+				app.min_price_educational = 0;
+				app.min_price_unusual = 0;
+				app.min_price_master_class = 0;
+				app.min_price_online = 0;
+
 				let searchIds = $("#chose-select").val();
 				let search_title_arr = searchIds.split("|");
 				let search_title = search_title_arr[3];
@@ -924,7 +1134,3701 @@ function sklonenie(number, txt) {
 				localStorage.setItem("comparison", compdata);
 			}
 		},
+		filters:{
+			count_tags:function(tagname){
+				let def = 0;
+				let resfilter = Object.assign({}, app.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name == tagname){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				def = resfilter.Tripster.length;
+				return def + " " + sklonenie(def, ['вариант', 'варианта', 'вариантов']);
+			},
+			count_cats:function(catname){
+				let def = 0;
+				let resfilter = Object.assign({}, app.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name == catname){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				def = resfilter.Sputnik8.length;
+				return def + " " + sklonenie(def, ['вариант', 'варианта', 'вариантов']);
+			},
+			price_tag:function(tagname){
+				let resfilter = Object.assign({}, app.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name == tagname){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				let minp = 0;
+				if(resfilter.Tripster.length > 0){
+					minp = app.maxprice;
+				}
+				resfilter["Tripster"].forEach(adv => {
+					if(adv.price.currency == "EUR"){
+						pvalue = adv.price.value * app.curs_euro;
+					} else if(adv.price.currency == "USD"){
+						pvalue = adv.price.value * app.curs_dollar;
+					} else if(adv.price.currency == "UAH"){
+						pvalue = adv.price.value * app.curs_grvn;
+					} else if(adv.price.currency == "GBP"){
+						pvalue = adv.price.value * app.curs_funt_ster;
+					} else if(adv.price.currency == "RUB"){
+						pvalue = adv.price.value;
+					}
+					if(pvalue < minp){
+						minp = pvalue;
+					}
+				});
+				return Math.round(minp);
+			},
+			price_cat:function(catname){
+				let resfilter = Object.assign({}, app.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name == catname){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				let minp = 0;
+				if(resfilter.Sputnik8.length > 0){
+					minp = app.maxprice;
+				}
+				resfilter.Sputnik8.forEach(adv => {
+					if(adv.price.indexOf("€") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * app.curs_euro;
+					} else if(adv.price.indexOf("$") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * app.curs_dollar;
+					} else if(adv.price.indexOf("грн.") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * app.curs_grvn;
+					} else if(adv.price.indexOf("£") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * app.curs_funt_ster;
+					} else if(adv.price.indexOf("₽") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+					}
+					if(pvalue < minp){
+						minp = pvalue;
+					}
+				});
+				return Math.round(minp);
+			}
+		},
 		computed:{
+			count_sputnikfilter:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				def = resfilter.Sputnik8.length;
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(def > 0){
+					minp = this.maxprice;
+				}
+				resfilter.Sputnik8.forEach(adv => {
+					if(adv.price.indexOf("€") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+					} else if(adv.price.indexOf("$") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+					} else if(adv.price.indexOf("грн.") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+					} else if(adv.price.indexOf("£") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+					} else if(adv.price.indexOf("₽") > -1){
+						pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+					}
+					if(pvalue < minp){
+						minp = pvalue;
+					}
+				});
+				this.min_price_sputnikfilter = Math.round(minp);
+				return def;
+			},
+			count_tripsterfilter:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				def = resfilter.Tripster.length;
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(def > 0){
+					minp = this.maxprice;
+				}
+				resfilter["Tripster"].forEach(adv => {
+					if(adv.price.currency == "EUR"){
+						pvalue = adv.price.value * this.curs_euro;
+					} else if(adv.price.currency == "USD"){
+						pvalue = adv.price.value * this.curs_dollar;
+					} else if(adv.price.currency == "UAH"){
+						pvalue = adv.price.value * this.curs_grvn;
+					} else if(adv.price.currency == "GBP"){
+						pvalue = adv.price.value * this.curs_funt_ster;
+					} else if(adv.price.currency == "RUB"){
+						pvalue = adv.price.value;
+					}
+					if(pvalue < minp){
+						minp = pvalue;
+					}
+				});
+				this.min_price_tripsterfilter = Math.round(minp);
+				return def;
+			},
+			count_surprisemefilter:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				def = resfilter['Surprise_Me'].length;
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(def > 0){
+					minp = this.maxprice;
+				}
+				resfilter["Surprise_Me"].forEach(adv => {
+					if(adv.currency.code == "EUR"){
+						pvalue = adv.price * this.curs_euro;
+					} else if(adv.currency.code == "USD"){
+						pvalue = adv.price * this.curs_dollar;
+					} else if(adv.currency.code == "UAH"){
+						pvalue = adv.price * this.curs_grvn;
+					} else if(adv.currency.code == "GBP"){
+						pvalue = adv.price * this.curs_funt_ster;
+					}	else if(adv.currency.code == "RUB"){
+						pvalue = adv.price;
+					}
+					if(pvalue < minp){
+						minp = pvalue;
+					}
+				});
+				this.min_price_surprisemefilter = Math.round(minp);
+				return def;
+			},
+			count_weatlasfilter:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				def = resfilter["Weatlas"].length;
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(def > 0){
+					minp = this.maxprice;
+				}
+				resfilter["Weatlas"].forEach(adv => {
+					if(adv.Currency == "EUR"){
+						pvalue = adv.Price * this.curs_euro;
+					} else if(adv.Currency == "USD"){
+						pvalue = adv.Price * this.curs_dollar;
+					} else if(adv.Currency == "UAH"){
+						pvalue = adv.Price * this.curs_grvn;
+					} else if(adv.Currency == "GBP"){
+						pvalue = adv.Price * this.curs_funt_ster;
+					} else if(adv.Currency == "RUB"){
+						pvalue = adv.Price;
+					}
+					if(pvalue < minp){
+						minp = pvalue;
+					}
+				});
+				this.min_price_weatlasfilter = Math.round(minp);
+				return def;
+			},
+			count_durationtype_hours:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) >= 0 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 4);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) >= 0 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 4);
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					let filterflag = false;
+					if(adv.duration.indexOf("–") > -1 && adv.duration.indexOf("минут") == -1){
+						let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i >= 0  && i <= 4){
+								filterflag = true;
+							}
+						}
+						return filterflag;
+					} if(adv.duration.indexOf("минут") > -1 && adv.duration.indexOf("час") == -1 && adv.duration.indexOf("часа") == -1 && adv.duration.indexOf("часов") == -1) {
+						return true;
+					} else {
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+						return advdurres >= 0 && advdurres <= 4;
+					}
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					if(adv.duration.replace("-","–").indexOf("–") > -1) {
+						let filterflag = false;
+						let advresarr = adv.duration.replace("-","–").replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i >= 0 && i <= 4){
+								filterflag = true;
+							}
+						}
+						return filterflag;
+					} else if(adv.duration.indexOf('дня') > -1 || adv.duration.indexOf('день') > -1 || adv.duration.indexOf("ночь") > -1) {
+						let advval = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",",".")) * 12;
+						return advval >= 0 && advval <= 4;
+					} else if(adv.duration.indexOf("+") > -1){
+						let advresarr = adv.duration.replace(",",".").split("+").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						return (advresarr[0] + advresarr[1]) >= 0 && (advresarr[0] + advresarr[1]) <= 4;
+					} else if(adv.duration.indexOf("минут") > -1) { 
+						let advresarr, res;
+						if(adv.duration.indexOf("час") > -1 || adv.duration.indexOf("часа") > -1 || adv.duration.indexOf("часов")){
+							advresarr = adv.duration.replace("10 минут",'+'+1/6).replace("20 минут",'+'+1/3).replace("30 минут",'+'+0.5).replace("40 минут",'+'+2/3).replace('50 минут','+'+5/6).split('+').map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							res = advresarr[0] + advresarr[1];
+						} else {
+							res = adv.duration.replace("10 минут",1/6).replace("20 минут",1/3).replace("30 минут",0.5).replace("40 минут",2/3).replace('50 минут',5/6);
+						}
+						return res >= 0 && res <= 4;
+					} else {
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",","."))
+						return advdurres >= 0  && advdurres <= 4;
+					}
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						}	else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_durationtype_hours = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_durationtype_day:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 4 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 12);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 4 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 12);
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					if(adv.duration.indexOf("минут") == -1){
+						let filterflag = false;
+						if(adv.duration.indexOf("–") > -1){
+							let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+								if(i > 4  && i <= 12){
+									filterflag = true;
+								}
+							}
+							return filterflag;
+						} else 	{
+							let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+							return advdurres > 4 && advdurres <= 12;
+						}
+					} else {
+						return false;
+					}
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					if(adv.duration.replace("-","–").indexOf("–") > -1) {
+						let filterflag = false;
+						let advresarr = adv.duration.replace("-","–").replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i > 4 && i <= 12){
+								filterflag = true;
+							}
+						}
+						return filterflag;
+					} else if(adv.duration.indexOf('дня') > -1 || adv.duration.indexOf('день') > -1 || adv.duration.indexOf("ночь") > -1) {
+						let advval = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",",".")) * 12;
+						return advval > 4 && advval <= 12;
+					} else if(adv.duration.indexOf("+") > -1){
+						let advresarr = adv.duration.replace(",",".").split("+").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						return (advresarr[0] + advresarr[1]) > 4 && (advresarr[0] + advresarr[1]) <= 12;
+					} else if(adv.duration.indexOf("минут") > -1) { 
+						let advresarr, res;
+						if(adv.duration.indexOf("час") > -1 || adv.duration.indexOf("часа") > -1 || adv.duration.indexOf("часов")){
+							advresarr = adv.duration.replace("10 минут",'+'+1/6).replace("20 минут",'+'+1/3).replace("30 минут",'+'+0.5).replace("40 минут",'+'+2/3).replace('50 минут','+'+5/6).split('+').map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							res = advresarr[0] + advresarr[1];
+						} else {
+							res = adv.duration.replace("10 минут",1/6).replace("20 минут",1/3).replace("30 минут",0.5).replace("40 минут",2/3).replace('50 минут',5/6);
+						}
+						return res > 4 && res <= 12;
+					} else {
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",","."))
+						return advdurres > 4  && advdurres <= 12;
+					}
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						}	else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_durationtype_day = Math.round(minp);				
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_durationtype_several:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 12);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 12);
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					if(adv.duration.indexOf("минут") == -1){
+						let filterflag = false;
+						if(adv.duration.indexOf("–") > -1){
+							let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+								if(i > 12){
+									filterflag = true;
+								}
+							}
+							return filterflag;
+						} else 	{
+							let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+							return advdurres > 12;
+						}
+					} else {
+						return false;
+					}
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					if(adv.duration.replace("-","–").indexOf("–") > -1) {
+						let filterflag = false;
+						let advresarr = adv.duration.replace("-","–").replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i > 12){
+								filterflag = true;
+							}
+						}
+						return filterflag;
+					} else if(adv.duration.indexOf('дня') > -1 || adv.duration.indexOf('день') > -1 || adv.duration.indexOf("ночь") > -1) {
+						let advval = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",",".")) * 12;
+						return advval > 12;
+					} else if(adv.duration.indexOf("+") > -1){
+						let advresarr = adv.duration.replace(",",".").split("+").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						return (advresarr[0] + advresarr[1]) > 12;
+					} else if(adv.duration.indexOf("минут") > -1) { 
+						let advresarr, res;
+						if(adv.duration.indexOf("час") > -1 || adv.duration.indexOf("часа") > -1 || adv.duration.indexOf("часов")){
+							advresarr = adv.duration.replace("10 минут",'+'+1/6).replace("20 минут",'+'+1/3).replace("30 минут",'+'+0.5).replace("40 минут",'+'+2/3).replace('50 минут','+'+5/6).split('+').map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							res = advresarr[0] + advresarr[1];
+						} else {
+							res = adv.duration.replace("10 минут",1/6).replace("20 минут",1/3).replace("30 минут",0.5).replace("40 минут",2/3).replace('50 минут',5/6);
+						}
+						return res > 12;
+					} else {
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",","."))
+						return advdurres > 12;
+					}
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						}	else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_durationtype_several = Math.round(minp);	
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_group:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => adv.type == 'group');
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => adv.product_type == 'shared');
+				resfilter['Weatlas']  = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Груповая") > - 1 || adv.name.indexOf("Груповые") > - 1);
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Груповая") > - 1 || adv.name.indexOf("Груповые") > - 1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						}	else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_group = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_private:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => adv.type == 'private');
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => adv.product_type == 'private');
+				resfilter['Weatlas']  = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Индивидуальные") > - 1 || adv.name.indexOf("Индивидуальный") > - 1 || adv.name.indexOf("Груповая") == -1 || adv.name.indexOf("Груповые") == -1);
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Индивидуальные") > - 1 || adv.name.indexOf("Индивидуальные") > - 1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						}	else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						console.log(minp);
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_private = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_mobile_adv:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter['Tripster'] = resfilter['Tripster'].filter(adv => {
+					return (adv.title.indexOf("Аудиогид") > - 1 || adv.title.indexOf("аудиогид") > - 1);
+				});
+				resfilter['Sputnik8'] = resfilter['Sputnik8'].filter(adv => {
+					return (adv.title.indexOf("Аудиогид") > - 1 || adv.title.indexOf("аудиогид") > - 1);
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => adv.types.audioguide == true || adv.content_types.streetview == false);
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Аудиогид") > - 1 || adv.name.indexOf("аудиогид") > - 1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(+pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(+pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						}	else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(+pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(+pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_mobile_adv = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_online:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => adv.online == 'Да');
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => adv.online == 'Да');
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => adv.online == 'Да');
+				resfilter["Weatlas"] = resfilter["Weatlas"].filter(adv => adv.online == 'Да');
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						}	else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_online = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_foot:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+						let flag = false;
+						adv.categories.forEach(cattag => {
+							if(adv.title.indexOf("Пешеходная") > -1 || adv.title.indexOf("пешеходная") > -1 || cattag.name.indexOf("Пешком") > -1 || cattag.name.indexOf("пешком") > -1 || cattag.name.indexOf("Пешеходные экскурсии") > -1){
+								flag = true;
+							}
+						});
+						return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+						let flag = false;
+						adv.tags.forEach(advtag => {
+							if(adv.title.indexOf("Пешеходная") > -1 || adv.title.indexOf("пешеходная") > -1 || advtag.name.indexOf("Пешком") > -1 || advtag.name.indexOf("пешком") > -1 || advtag.name.indexOf("Пешеходные экскурсии") > -1) {
+								flag = true;
+							}
+						});
+						return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Пешеходная") > -1 || adv.name.indexOf("пешеходная") > -1 || adv.name.indexOf("Пешком") > 1 || adv.name.indexOf("пешком") > -1 || adv.name.indexOf("Пешеходные экскурсии") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.goType == 'Пешая'|| adv.name.indexOf("Пешеходная") > -1 || adv.name.indexOf("пешеходная") > -1 || adv.name.indexOf("Пешком") > 1 || adv.name.indexOf("пешком") > -1 || adv.name.indexOf("Пешеходные экскурсии") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_foot = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_auto:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(adv.short_info.indexOf("на автомобиле") > -1 || adv.short_info.indexOf("автомобильная") > -1 || adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || cattag.name.indexOf("На автомобиле") > -1 || cattag.name.indexOf("на автомобиле") > -1 || cattag.name.indexOf("автомобильные") > -1 || adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+						let flag = false;
+						adv.tags.forEach(advtag => {
+							if(adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || advtag.name.indexOf("На автомобиле") > -1 || advtag.name.indexOf("на автомобиле") > -1 || advtag.name.indexOf("автомобильные") > -1 || adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
+								flag = true;
+							}
+						});
+						return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1 || adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1 || adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_auto = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			/*count_on_bus:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+						let flag = false;
+					adv.categories.forEach(cattag => {
+						if(adv.title.indexOf("автобусный") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(adv.title.indexOf("автобусный") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_bus = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},*/
+			count_on_bicycle:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("На велосипеде") > -1 || cattag.name.indexOf("на велосипеде") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("На велосипеде") > -1 || advtag.name.indexOf("на велосипеде") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("На велосипеде") > -1 || adv.name.indexOf("на велосипеде") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("На велосипеде") > 1 || adv.name.indexOf("на велосипеде") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_bicycle = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_moto:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(adv.title.indexOf("На мотоцикле") > -1 || adv.title.indexOf("на мотоцикле") > -1 || adv.title.indexOf("Мото урок") > -1 || cattag.name.indexOf("На мотоцикле") > -1 || cattag.name.indexOf("на мотоцикле") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(adv.title.indexOf("На мотоцикле") > -1 || adv.title.indexOf("на мотоцикле") > -1 || adv.title.indexOf("Мото урок") > -1 || advtag.name.indexOf("На мотоцикле") > -1 || advtag.name.indexOf("на мотоцикле") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Мото урок") > -1 || adv.name.indexOf("На мотоцикле") > -1 || adv.name.indexOf("на мотоцикле") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Мото урок") > -1 || adv.name.indexOf("На мотоцикле") > -1 || adv.name.indexOf("на мотоцикле") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_moto = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_ship:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(adv.title.indexOf("яхт") > -1 || cattag.name.indexOf("На кораблике") > -1 || cattag.name.indexOf("на кораблике") > -1 || cattag.name.indexOf("На яхте") > -1 || cattag.name.indexOf("на яхте") > -1 || cattag.name.indexOf("На катере") > -1 || cattag.name.indexOf("на катере") > -1 || cattag.name.indexOf("Круизы и речные прогулки") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(adv.title.indexOf("яхт") > -1 || advtag.name.indexOf("На кораблике") > -1 || advtag.name.indexOf("на кораблике") > -1 || advtag.name.indexOf("На яхте") > -1 || advtag.name.indexOf("На катере") > -1 || advtag.name.indexOf("на яхте") > -1 || advtag.name.indexOf("на катере") > -1 || advtag.name.indexOf("Круизы и речные прогулки") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("яхт") > -1 || adv.name.indexOf("На кораблике") > -1 || adv.name.indexOf("на кораблике") > -1 || adv.name.indexOf("На яхте") > -1 || adv.name.indexOf("на яхте") > -1 || adv.name.indexOf("На катере") > -1 || adv.name.indexOf("на катере") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("яхт") > -1 || adv.name.indexOf("На кораблике") > -1 || adv.name.indexOf("на кораблике") > -1 || adv.name.indexOf("На яхте") > -1 || adv.name.indexOf("на яхте") > -1 || adv.name.indexOf("На катере") > -1 || adv.name.indexOf("на катере") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_ship = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_heli:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("На вертолете") > -1 || cattag.name.indexOf("на вертолете") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("На вертолете") > -1 || advtag.name.indexOf("на вертолете") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("На вертолете") > -1 || adv.name.indexOf("на вертолете") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("На вертолете") > -1 || adv.name.indexOf("на вертолете") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_heli = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_scooter:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+					if(adv.title.indexOf("на самокатах") > -1 || cattag.name.indexOf("на самокатах") > -1 || cattag.name.indexOf("На самокатах") > -1){
+						flag = true;
+					}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(adv.title.indexOf("на самокатах") > -1 || advtag.name.indexOf("на самокатах") > -1 || advtag.name.indexOf("На самокатах") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("на самокатах") > -1 || adv.name.indexOf("На самокатах") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("на самокатах") > -1 || adv.name.indexOf("На самокатах") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_scooter = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_parag:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(adv.title.indexOf("Параглайдинг") > -1 || adv.title.indexOf("параглайдинг") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(adv.title.indexOf("Параглайдинг") > -1 || adv.title.indexOf("параглайдинг") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Параглайдинг") > -1 || adv.name.indexOf("параглайдинг") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Параглайдинг") > -1 || adv.name.indexOf("параглайдинг") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_parag = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_kvadro:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("На квадроциклах") > -1 || adv.title.indexOf("квадроциклах") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("На квадроциклах") > -1 || adv.title.indexOf("квадроциклах") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("На квадроциклах") > -1 || adv.name.indexOf("на квадроциклах") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("На квадроциклах") > -1 || adv.name.indexOf("на квадроциклах") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_kvadro = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_on_raft:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Рафтинг") > -1 || adv.title.indexOf("Рафтинг") > -1 || adv.title.indexOf("рафтинг") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+					if(advtag.name.indexOf("Рафтинг") > -1 || adv.title.indexOf("Рафтинг") > -1 || adv.title.indexOf("рафтинг") > -1) {
+						flag = true;
+					}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Рафтинг") > -1 || adv.name.indexOf("рафтинг") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Рафтинг") > -1 || adv.name.indexOf("рафтинг") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_on_raft = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_child_friendly:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name == 'Для детей') {
+							flag = true;
+						}
+					});
+					return flag || adv.child_friendly == true;
+				});
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.short_name == 'Для детей'){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Weatlas']  = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("для детей") > - 1 || adv.name.indexOf("Для детей") > - 1);
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("для детей") > - 1 || adv.name.indexOf("Для детей") > - 1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_child_friendly = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_museum:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Музеи") > -1 || cattag.name.indexOf("Литературные экскурсии. Экскурсии в музеи, галереи, выставки") > -1 || cattag.name.indexOf("Экскурсии по музеям") > -1 || adv.title.indexOf("музеев") > -1 || adv.title.indexOf("музей") > -1 || adv.title.indexOf("Музей") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("Музеи") > -1 || advtag.name.indexOf("Литературные экскурсии. Экскурсии в музеи, галереи, выставки") > -1 || advtag.name.indexOf("Экскурсии по музеям") > -1 || adv.title.indexOf("музеев") > -1 || adv.title.indexOf("музей") > -1 || adv.title.indexOf("Музей") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Музеи") > -1 || adv.name.indexOf("музеев") > -1 || adv.name.indexOf("музей") > -1 || adv.name.indexOf("Музей") > -1);
+				});
+				resfilter['Weatlas']  = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Музеи") > -1 || adv.name.indexOf("музеев") > -1 || adv.name.indexOf("музей") > -1 || adv.name.indexOf("Музей") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_museum = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_shoping:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(adv.title.indexOf("За покупками") > -1 || adv.title.indexOf("Шоп-тур") > -1 || adv.title.indexOf("шоп-тур") > -1 || adv.title.indexOf("Шопинг") > -1 || cattag.name.indexOf("Шопинг") > -1 || cattag.name.indexOf("Шоппинг") > -1 || adv.title.indexOf("Шоппинг") > -1 || adv.title.indexOf("шопинг-тур") > -1 || cattag.name.indexOf("shopping") > -1 || adv.title.indexOf("shopping") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(adv.title.indexOf("За покупками") > -1 || adv.title.indexOf("Шоп-тур") > -1 || adv.title.indexOf("шоп-тур") > -1 || adv.title.indexOf("Шопинг") > -1 || advtag.name.indexOf("Шопинг") > -1 || advtag.name.indexOf("Шоппинг") > -1 || adv.title.indexOf("Шоппинг") > -1 || adv.title.indexOf("шопинг-тур") > -1 || advtag.name.indexOf("shopping") > -1 || adv.title.indexOf("shopping") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("За покупками") > -1 || adv.name.indexOf("Шоп-тур") > -1 || adv.name.indexOf("шоп-тур") > -1 || adv.name.indexOf("Шопинг") > -1 || adv.name.indexOf("Шоппинг") > -1 || adv.name.indexOf("шоппинг") > -1 || adv.name.indexOf("шопинг") > -1 || adv.name.indexOf("shopping") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("За покупками") > -1 || adv.name.indexOf("Шоп-тур") > -1 || adv.name.indexOf("шоп-тур") > -1 || adv.name.indexOf("Шопинг") > -1 || adv.name.indexOf("Шоппинг") > -1 || adv.name.indexOf("шоппинг") > -1 || adv.name.indexOf("шопинг") > -1 || adv.name.indexOf("shopping") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_shoping = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_gastro:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(adv.title.indexOf("дегустация") > -1 || adv.title.indexOf("Дегустация") > -1 || adv.title.indexOf("Гастрономический") > -1 || adv.title.indexOf("гастрономический") > -1 || cattag.name.indexOf("Гастрономические") > -1 || adv.title.indexOf("Кулинарный тур") > -1 || adv.title.indexOf("кулинарный тур") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(adv.title.indexOf("дегустация") > -1 || adv.title.indexOf("Дегустация") > -1 || adv.title.indexOf("Гастрономический") > -1 || adv.title.indexOf("гастрономический") > -1 || advtag.name.indexOf("Гастрономические") > -1 || adv.title.indexOf("Кулинарный тур") > -1 || adv.title.indexOf("кулинарный тур") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("дегустация") > -1 || adv.name.indexOf("Дегустация") > -1 || adv.name.indexOf("Гастрономический") > -1 || adv.name.indexOf("гастрономический") > -1 || adv.name.indexOf("Гастрономические") > -1 || adv.name.indexOf("Кулинарный тур") > -1 || adv.name.indexOf("кулинарный тур") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("дегустация") > -1 || adv.name.indexOf("Дегустация") > -1 || adv.name.indexOf("Гастрономический") > -1 || adv.name.indexOf("гастрономический") > -1 || adv.name.indexOf("Гастрономические") > -1 || adv.name.indexOf("Кулинарный тур") > -1 || adv.name.indexOf("кулинарный тур") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_gastro = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_photoses:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Фотосессии") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("Фотосессии") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Фотосессии") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Фотосессии") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_photoses = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_trans:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Трансферы") > -1 || adv.title.indexOf("Трансферы") > -1 || adv.title.indexOf("трансферы") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("Трансферы") > -1 || adv.title.indexOf("Трансферы") > -1 || adv.title.indexOf("трансферы") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Трансферы") > -1 || adv.name.indexOf("трансферы") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Трансферы") > -1 || adv.name.indexOf("трансферы") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_trans = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_overview:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Обзорные") > -1 || adv.title.indexOf("Обзорный") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("Обзорные") > -1 || adv.title.indexOf("Обзорный") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Weatlas']  = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Обзорные") > - 1 || adv.name.indexOf("Обзорный") > -1 || adv.name.indexOf("Обзорная") > -1 || adv.name.indexOf("обзорные") > -1 || adv.name.indexOf("обзорная") > -1);
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Обзорные") > - 1 || adv.name.indexOf("Обзорный") > -1 || adv.name.indexOf("Обзорная") > -1 || adv.name.indexOf("обзорные") > -1 || adv.name.indexOf("обзорная") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_overview = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_educational:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Познавательные") > -1 || cattag.name.indexOf("Познавательная") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("Познавательные") > -1 || advtag.name.indexOf("Познавательная") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Познавательные") > -1 || adv.name.indexOf("Познавательная") > -1);
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Познавательные") > -1 || adv.name.indexOf("Познавательная") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_educational = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_unusual:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Необычные") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("Необычные") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => adv.collection_slug == 'unusual');
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Необычные") > -1);
+				});				
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_unusual = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
+			count_master_class:function(){
+				let def = 0;
+				let resfilter = Object.assign({}, this.advertsfiltered);
+				resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
+					let flag = false;
+					adv.categories.forEach(cattag => {
+						if(cattag.name.indexOf("Мастер-класс") > -1 || cattag.name.indexOf("мастер-класс") > -1){
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter.Tripster = resfilter.Tripster.filter(adv => {
+					let flag = false;
+					adv.tags.forEach(advtag => {
+						if(advtag.name.indexOf("Мастер-класс") > -1 || advtag.name.indexOf("мастер-класс") > -1) {
+							flag = true;
+						}
+					});
+					return flag;
+				});
+				resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
+					return (adv.name.indexOf("Мастер-класс") > -1 || adv.name.indexOf("мастер-класс") > -1);
+				});
+				resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+					return (adv.name.indexOf("Мастер-класс") > -1 || adv.name.indexOf("мастер-класс") > -1);
+				});
+				let resT = 0;
+				let resSp = 0;
+				let resSur = 0;
+				let resWeat = 0;
+				if(this.check_Tripster()){
+					resT = resfilter.Tripster.length;
+				}
+				if(this.check_Sputnik8()){
+					resSp = resfilter.Sputnik8.length;
+				}
+				if(this.check_Surprise_Me()){
+					resSur = resfilter['Surprise_Me'].length;
+				}
+				if(this.check_Weatlas()){
+					resWeat = resfilter["Weatlas"].length;
+				}
+				// высчитываем мин цену у галки
+				let minp = 0;
+				if(resT != 0 || resSp != 0 || resSur != 0 || resWeat != 0){
+					minp = this.maxprice;
+				}
+				if(resT > 0){
+					resfilter["Tripster"].forEach(adv => {
+						if(adv.price.currency == "EUR"){
+							pvalue = adv.price.value * this.curs_euro;
+						} else if(adv.price.currency == "USD"){
+							pvalue = adv.price.value * this.curs_dollar;
+						} else if(adv.price.currency == "UAH"){
+							pvalue = adv.price.value * this.curs_grvn;
+						} else if(adv.price.currency == "GBP"){
+							pvalue = adv.price.value * this.curs_funt_ster;
+						} else if(adv.price.currency == "RUB"){
+							pvalue = adv.price.value;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSp > 0){
+					resfilter.Sputnik8.forEach(adv => {
+						if(adv.price.indexOf("€") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_euro;
+						} else if(adv.price.indexOf("$") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_dollar;
+						} else if(adv.price.indexOf("грн.") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_grvn;
+						} else if(adv.price.indexOf("£") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price) * this.curs_funt_ster;
+						} else if(adv.price.indexOf("₽") > -1){
+							pvalue = +/[0-9]+\.[0-9]+|\d+/.exec(adv.price);
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resSur > 0){
+					resfilter["Surprise_Me"].forEach(adv => {
+						if(adv.currency.code == "EUR"){
+							pvalue = adv.price * this.curs_euro;
+						} else if(adv.currency.code == "USD"){
+							pvalue = adv.price * this.curs_dollar;
+						} else if(adv.currency.code == "UAH"){
+							pvalue = adv.price * this.curs_grvn;
+						} else if(adv.currency.code == "GBP"){
+							pvalue = adv.price * this.curs_funt_ster;
+						} else if(adv.currency.code == "RUB"){
+							pvalue = adv.price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				if(resWeat > 0){
+					resfilter["Weatlas"].forEach(adv => {
+						if(adv.Currency == "EUR"){
+							pvalue = adv.Price * this.curs_euro;
+						} else if(adv.Currency == "USD"){
+							pvalue = adv.Price * this.curs_dollar;
+						} else if(adv.Currency == "UAH"){
+							pvalue = adv.Price * this.curs_grvn;
+						} else if(adv.Currency == "GBP"){
+							pvalue = adv.Price * this.curs_funt_ster;
+						} else if(adv.Currency == "RUB"){
+							pvalue = adv.Price;
+						}
+						if(pvalue < minp){
+							minp = pvalue;
+						}
+					});
+				}
+				this.min_price_master_class = Math.round(minp);
+				def = resT + resSp + resSur + resWeat;
+				return def;
+			},
 			filter_url:function(){
 				let resarrurl = [];
 				let result_str='';
@@ -937,9 +4841,9 @@ function sklonenie(number, txt) {
 				if(this.auto){
 					resarrurl.push('auto=y');
 				}
-				if(this.on_bus){
+				/*if(this.on_bus){
 					resarrurl.push('on_bus=y');
-				}
+				}*/
 				if(this.on_bicycle){
 					resarrurl.push('on_bicycle=y');
 				}
@@ -1054,16 +4958,16 @@ function sklonenie(number, txt) {
 				let surp = [];
 				let weat = [];
 				let resArr = [];
-				if(this.catsvarchecked.length == 0 && !this.weatlasfilter && !this.sputnikfilter && !this.surprisemefilter && !this.mobile_adv && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview){
+				if(this.catsvarchecked.length == 0 && !this.weatlasfilter && !this.sputnikfilter && !this.surprisemefilter && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview){
 					trip = this.advertsfiltered["Tripster"];
 				}
-				if(!this.is_new && this.tagsvarchecked.length == 0 && !this.weatlasfilter && !this.tripsterfilter && !this.surprisemefilter && !this.mobile_adv && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview){
+				if(!this.is_new && this.tagsvarchecked.length == 0 && !this.weatlasfilter && !this.tripsterfilter && !this.surprisemefilter && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview){
 					sput = this.advertsfiltered["Sputnik8"];
 				}
-				if(!this.weatlasfilter && !this.sputnikfilter && !this.tripsterfilter && !this.is_new && !this.child_friendly && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0){
+				if(!this.weatlasfilter && !this.sputnikfilter && !this.tripsterfilter && !this.is_new && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0){
 					surp = this.advertsfiltered["Surprise_Me"];
 				}
-				if(!this.mobile_adv && !this.surprisemefilter && !this.tripsterfilter && !this.sputnikfilter && !this.is_new && !this.child_friendly && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0 && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview){
+				if(!this.surprisemefilter && !this.tripsterfilter && !this.sputnikfilter && !this.is_new && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0 && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview){
 					weat = this.advertsfiltered["Weatlas"];
 				}
 				trip.forEach(adv => {
@@ -1510,10 +5414,11 @@ function sklonenie(number, txt) {
 				this.adverts["Sputnik8"].forEach(adv => adv.comp_on_foot = false);
 				this.adverts["Surprise_Me"].forEach(adv => adv.comp_on_foot = false);
 				this.adverts["Weatlas"].forEach(adv => adv.comp_on_foot = false);
-				this.adverts["Tripster"].forEach(adv => adv.comp_on_bus = false);
+				/*this.adverts["Tripster"].forEach(adv => adv.comp_on_bus = false);
 				this.adverts["Sputnik8"].forEach(adv => adv.comp_on_bus = false);
 				this.adverts["Surprise_Me"].forEach(adv => adv.comp_on_bus = false);
 				this.adverts["Weatlas"].forEach(adv => adv.comp_on_bus = false);
+				*/
 				this.adverts["Tripster"].forEach(adv => adv.comp_on_bicycle = false);
 				this.adverts["Sputnik8"].forEach(adv => adv.comp_on_bicycle = false);
 				this.adverts["Surprise_Me"].forEach(adv => adv.comp_on_bicycle = false);
@@ -1550,7 +5455,264 @@ function sklonenie(number, txt) {
 				this.adverts["Sputnik8"].forEach(adv => adv.comp_on_raft = false);
 				this.adverts["Surprise_Me"].forEach(adv => adv.comp_on_raft = false);
 				this.adverts["Weatlas"].forEach(adv => adv.comp_on_raft = false);
+				this.adverts["Tripster"].forEach(adv => adv.comp_durationtype_hours = false);
+				this.adverts["Sputnik8"].forEach(adv => adv.comp_durationtype_hours = false);
+				this.adverts["Surprise_Me"].forEach(adv => adv.comp_durationtype_hours = false);
+				this.adverts["Weatlas"].forEach(adv => adv.comp_durationtype_hours = false);
+				this.adverts["Tripster"].forEach(adv => adv.comp_durationtype_day = false);
+				this.adverts["Sputnik8"].forEach(adv => adv.comp_durationtype_day = false);
+				this.adverts["Surprise_Me"].forEach(adv => adv.comp_durationtype_day = false);
+				this.adverts["Weatlas"].forEach(adv => adv.comp_durationtype_day = false);
+				this.adverts["Tripster"].forEach(adv => adv.comp_durationtype_several = false);
+				this.adverts["Sputnik8"].forEach(adv => adv.comp_durationtype_several = false);
+				this.adverts["Surprise_Me"].forEach(adv => adv.comp_durationtype_several = false);
+				this.adverts["Weatlas"].forEach(adv => adv.comp_durationtype_several = false);
+				this.adverts["Tripster"].forEach(adv => adv.comp_mobile_adv = false);
+				this.adverts["Sputnik8"].forEach(adv => adv.comp_mobile_adv = false);
+				this.adverts["Surprise_Me"].forEach(adv => adv.comp_mobile_adv = false);
+				this.adverts["Weatlas"].forEach(adv => adv.comp_mobile_adv = false);
 
+				this.adverts['Tripster'].forEach(adv => {
+					if(adv.title.indexOf("Аудиогид") > - 1 || adv.title.indexOf("аудиогид") > - 1){
+						adv.comp_mobile_adv = true;
+					}
+				});
+				this.adverts['Sputnik8'].forEach(adv => {
+					if(adv.title.indexOf("Аудиогид") > - 1 || adv.title.indexOf("аудиогид") > - 1){
+						adv.comp_mobile_adv = true;
+					}
+				});
+				this.adverts['Surprise_Me'].forEach(adv =>{
+					if(adv.types.audioguide == true || adv.content_types.streetview == false){
+						adv.comp_mobile_adv = true;
+					}
+				});
+				this.adverts['Weatlas'].forEach(adv => {
+					if(adv.name.indexOf("Аудиогид") > - 1 || adv.name.indexOf("аудиогид") > - 1){
+						adv.comp_mobile_adv = true;
+					}
+				});
+	//--
+				this.adverts['Tripster'].forEach(adv => {
+					if(+/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) >= 0 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 4){
+						adv.comp_durationtype_hours = true;
+					}
+				});
+				this.adverts['Sputnik8'].forEach(adv => {
+					if(+/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) >= 0 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 4){
+						adv.comp_durationtype_hours = true;
+					}
+				});
+				this.adverts['Surprise_Me'].filter(adv => {
+					let filterflag = false;
+					if(adv.duration.indexOf("–") > -1){
+						let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i >= 0  && i <= 4){
+								filterflag = true;
+							}
+						}
+						if(filterflag){
+							adv.comp_durationtype_hours = true;
+						}
+					} if(adv.duration.indexOf("минут") > -1 && adv.duration.indexOf("час") == -1 && adv.duration.indexOf("часа") == -1 && adv.duration.indexOf("часов") == -1) {
+						adv.comp_durationtype_hours = true;
+					} else 	{
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+						if(advdurres >= 0 && advdurres <= 4){
+							adv.comp_durationtype_hours = true;
+						}
+					}
+				});
+				this.adverts['Weatlas'].forEach(adv => {
+					if(adv.duration.replace("-","–").indexOf("–") > -1) {
+						let filterflag = false;
+						let advresarr = adv.duration.replace("-","–").replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i >= 0 && i <= 4){
+								filterflag = true;
+							}
+						}
+						if(filterflag){
+							adv.comp_durationtype_hours = true;
+						}
+					} else if(adv.duration.indexOf('дня') > -1 || adv.duration.indexOf('день') > -1 || adv.duration.indexOf("ночь") > -1) {
+						let advval = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",",".")) * 12;
+						if(advval >= 0 && advval <= 4){
+							adv.comp_durationtype_hours = true;
+						}
+					} else if(adv.duration.indexOf("+") > -1){
+						let advresarr = adv.duration.replace(",",".").split("+").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						if((advresarr[0] + advresarr[1]) >= 0 && (advresarr[0] + advresarr[1]) <= 4){
+							adv.comp_durationtype_hours = true;
+						}
+					} else if(adv.duration.indexOf("минут") > -1) { 
+						let advresarr, res;
+						if(adv.duration.indexOf("час") > -1 || adv.duration.indexOf("часа") > -1 || adv.duration.indexOf("часов")){
+							advresarr = adv.duration.replace("10 минут",'+'+1/6).replace("20 минут",'+'+1/3).replace("30 минут",'+'+0.5).replace("40 минут",'+'+2/3).replace('50 минут','+'+5/6).split('+').map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							res = advresarr[0] + advresarr[1];
+						} else {
+							res = adv.duration.replace("10 минут",1/6).replace("20 минут",1/3).replace("30 минут",0.5).replace("40 минут",2/3).replace('50 минут',5/6);
+						}
+						if(res >= 0 && res <= 4){
+							adv.comp_durationtype_hours = true;
+						}
+					} else {
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",","."));
+						if(advdurres >= 0  && advdurres <= 4){
+							adv.comp_durationtype_hours = true;
+						}
+					}
+				});
+	//--
+	//--
+				this.adverts['Tripster'].forEach(adv => {
+					if(+/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 4 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 12){
+						adv.comp_durationtype_day = true;
+					}
+				});
+				this.adverts['Sputnik8'].forEach(adv => {
+					if(+/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 4 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 12){
+						adv.comp_durationtype_day = true;
+					}
+				});
+				this.adverts['Surprise_Me'].forEach(adv => {
+					if(adv.duration.indexOf("минут") == -1){
+						let filterflag = false;
+						if(adv.duration.indexOf("–") > -1){
+							let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+								if(i > 4  && i <= 12){
+									filterflag = true;
+								}
+							}
+							if(filterflag){
+								adv.comp_durationtype_day = true;
+							}
+						} else 	{
+							let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+							if(advdurres > 4 && advdurres <= 12){
+								adv.comp_durationtype_day = true;
+							}
+						}
+					} else {
+						return false;
+					}
+				});
+				this.adverts['Weatlas'].forEach(adv => {
+					if(adv.duration.replace("-","–").indexOf("–") > -1) {
+						let filterflag = false;
+						let advresarr = adv.duration.replace("-","–").replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i > 4 && i <= 12){
+								filterflag = true;
+							}
+						}
+						if(filterflag){
+							adv.comp_durationtype_day = true;
+						}
+					} else if(adv.duration.indexOf('дня') > -1 || adv.duration.indexOf('день') > -1 || adv.duration.indexOf("ночь") > -1) {
+						let advval = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",",".")) * 12;
+						return advval > 4 && advval <= 12;
+					} else if(adv.duration.indexOf("+") > -1){
+						let advresarr = adv.duration.replace(",",".").split("+").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						if((advresarr[0] + advresarr[1]) > 4 && (advresarr[0] + advresarr[1]) <= 12){
+							adv.comp_durationtype_day = true;
+						}
+					} else if(adv.duration.indexOf("минут") > -1) { 
+						let advresarr, res;
+						if(adv.duration.indexOf("час") > -1 || adv.duration.indexOf("часа") > -1 || adv.duration.indexOf("часов")){
+							advresarr = adv.duration.replace("10 минут",'+'+1/6).replace("20 минут",'+'+1/3).replace("30 минут",'+'+0.5).replace("40 минут",'+'+2/3).replace('50 минут','+'+5/6).split('+').map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							res = advresarr[0] + advresarr[1];
+						} else {
+							res = adv.duration.replace("10 минут",1/6).replace("20 минут",1/3).replace("30 минут",0.5).replace("40 минут",2/3).replace('50 минут',5/6);
+						}
+						if(res > 4 && res <= 12){
+							adv.comp_durationtype_day = true;
+						}
+					} else {
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",","."));
+						if(advdurres > 4  && advdurres <= 12){
+							adv.comp_durationtype_day = true;
+						}
+					}
+				});
+	//--
+	//-
+				this.adverts['Tripster'].forEach(adv =>{
+					if(+/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 12){
+						adv.comp_durationtype_several = true;
+					}
+				});
+				this.adverts['Sputnik8'].forEach(adv => {
+					if(+/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 12){
+						adv.comp_durationtype_several = true;
+					}
+				});
+				this.adverts['Surprise_Me'].forEach(adv => {
+					if(adv.duration.indexOf("минут") == -1){
+						let filterflag = false;
+						if(adv.duration.indexOf("–") > -1){
+							let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+								if(i > 12){
+									filterflag = true;
+								}
+							}
+							if(filterflag){
+								adv.comp_durationtype_several = true;
+							}
+						} else 	{
+							let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+							if(advdurres > 12){
+								adv.comp_durationtype_several = true;
+							}
+						}
+					} else {
+						return false;
+					}
+				});
+				this.adverts['Weatlas'].forEach(adv => {
+					if(adv.duration.replace("-","–").indexOf("–") > -1) {
+						let filterflag = false;
+						let advresarr = adv.duration.replace("-","–").replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+							if(i > 12){
+								filterflag = true;
+							}
+						}
+						if(filterflag){
+							adv.comp_durationtype_several = true;
+						}
+					} else if(adv.duration.indexOf('дня') > -1 || adv.duration.indexOf('день') > -1 || adv.duration.indexOf("ночь") > -1) {
+						let advval = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",",".")) * 12;
+						if(advval > 12){
+							adv.comp_durationtype_several = true;
+						}
+					} else if(adv.duration.indexOf("+") > -1){
+						let advresarr = adv.duration.replace(",",".").split("+").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+						if((advresarr[0] + advresarr[1]) > 12){
+							adv.comp_durationtype_several = true;
+						}
+					} else if(adv.duration.indexOf("минут") > -1) { 
+						let advresarr, res;
+						if(adv.duration.indexOf("час") > -1 || adv.duration.indexOf("часа") > -1 || adv.duration.indexOf("часов")){
+							advresarr = adv.duration.replace("10 минут",'+'+1/6).replace("20 минут",'+'+1/3).replace("30 минут",'+'+0.5).replace("40 минут",'+'+2/3).replace('50 минут','+'+5/6).split('+').map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+							res = advresarr[0] + advresarr[1];
+						} else {
+							res = adv.duration.replace("10 минут",1/6).replace("20 минут",1/3).replace("30 минут",0.5).replace("40 минут",2/3).replace('50 минут',5/6);
+						}
+						if(res > 12){
+							adv.comp_durationtype_several = true;
+						}
+					} else {
+						let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration.replace(",","."));
+						if(advdurres > 12){
+							adv.comp_durationtype_several = true;
+						}
+					}
+				});
+	//-
 				this.adverts['Tripster'].forEach(adv => {
 					if(adv.child_friendly == true){
 						adv.comp_child_friendly = true;
@@ -1591,12 +5753,12 @@ function sklonenie(number, txt) {
 					}
 				});
 				this.adverts['Weatlas'].forEach(adv => {
-					if(adv.name.indexOf("Груповая") > -1 || adv.name.indexOf("Груповые") > -1){
+					if(adv.name.indexOf("Групповая") > -1 || adv.name.indexOf("Групповые") > -1){
 						adv.comp_group = true;
 					}
 				});
 				this.adverts['Surprise_Me'].forEach(adv => {
-					if(adv.name.indexOf("Груповая") > -1 || adv.name.indexOf("Груповые") > -1){
+					if(adv.name.indexOf("Групповая") > -1 || adv.name.indexOf("Групповые") > -1){
 						adv.comp_group = true;
 					}
 				});
@@ -1611,7 +5773,7 @@ function sklonenie(number, txt) {
 					}
 				});
 				this.adverts['Weatlas'].forEach(adv => {
-					if(adv.name.indexOf("Индивидуальные") > -1 || adv.name.indexOf("Индивидуальные") > -1){
+					if(adv.name.indexOf("Индивидуальные") > -1 || adv.name.indexOf("Индивидуальные") > -1 || (adv.name.indexOf("Групповая") == -1 && adv.name.indexOf("Групповые") == -1)){
 						adv.comp_private = true;
 					}
 				});
@@ -1814,25 +5976,25 @@ function sklonenie(number, txt) {
 				});
 				this.adverts['Sputnik8'].forEach(adv => {
 					adv.categories.forEach(cattag => {
-						if(adv.short_info.indexOf("на автомобиле") > -1 || adv.short_info.indexOf("автомобильная") > -1 || adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || cattag.name.indexOf("На автомобиле") > -1 || cattag.name.indexOf("на автомобиле") > -1 || cattag.name.indexOf("автомобильные") > -1){
+						if(adv.short_info.indexOf("на автомобиле") > -1 || adv.short_info.indexOf("автомобильная") > -1 || adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || cattag.name.indexOf("На автомобиле") > -1 || cattag.name.indexOf("на автомобиле") > -1 || cattag.name.indexOf("автомобильные") > -1 || adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
 							adv.comp_auto = true;
 						}
 					});
 				});
 				this.adverts['Tripster'].forEach(adv => {
 					adv.tags.forEach(advtag => {
-						if(adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || advtag.name.indexOf("На автомобиле") > -1 || advtag.name.indexOf("на автомобиле") > -1 || advtag.name.indexOf("автомобильные") > -1) {
+						if(adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || advtag.name.indexOf("На автомобиле") > -1 || advtag.name.indexOf("на автомобиле") > -1 || advtag.name.indexOf("автомобильные") > -1 || adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
 							adv.comp_auto = true;
 						}
 					});
 				});
 				this.adverts['Surprise_Me'].forEach(adv => {
-					if(adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1){
+					if(adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1 || adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1){
 						adv.comp_auto = true;
 					}
 				});
 				this.adverts['Weatlas'].forEach(adv => {
-					if(adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1){
+					if(adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1 || adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1){
 						adv.comp_auto = true;
 					}
 				});
@@ -1856,34 +6018,34 @@ function sklonenie(number, txt) {
 					}
 				});
 				this.adverts['Weatlas'].forEach(adv => {
-					if(adv.name.indexOf("Пешеходная") > -1 || adv.name.indexOf("пешеходная") > -1 || adv.name.indexOf("Пешком") > 1 || adv.name.indexOf("пешком") > -1 || adv.name.indexOf("Пешеходные экскурсии") > -1){
+					if(adv.goType == 'Пешая' || adv.name.indexOf("Пешеходная") > -1 || adv.name.indexOf("пешеходная") > -1 || adv.name.indexOf("Пешком") > 1 || adv.name.indexOf("пешком") > -1 || adv.name.indexOf("Пешеходные экскурсии") > -1){
 						adv.comp_on_foot = true;
 					}
 				});
-				this.adverts['Sputnik8'].forEach(adv => {
+				/*this.adverts['Sputnik8'].forEach(adv => {
 					adv.categories.forEach(cattag => {
-						if(adv.title.indexOf("автобусный") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
+						if(adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
 							adv.comp_on_bus = true;
 						}
 					});
 				});
 				this.adverts['Tripster'].forEach(adv => {
 					adv.tags.forEach(advtag => {
-						if(adv.title.indexOf("автобусный") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
+						if(adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
 							adv.comp_on_bus = true;
 						}
 					});
 				});
 				this.adverts['Surprise_Me'].forEach(adv => {
-					if(adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > 1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1){
+					if(adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > 1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1){
 						adv.comp_on_bus = true;
 					}
 				});
 				this.adverts['Weatlas'].forEach(adv => {
-					if(adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > 1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1){
+					if(adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > 1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1){
 						adv.comp_on_bus = true;
 					}
-				});
+				});*/
 				this.adverts['Sputnik8'].forEach(adv => {
 					adv.categories.forEach(cattag => {
 						if(cattag.name.indexOf("На велосипеде") > -1 || cattag.name.indexOf("на велосипеде") > -1){
@@ -2076,7 +6238,6 @@ function sklonenie(number, txt) {
 						adv.comp_on_kvadro = true;
 					}
 				});
--
 				this.adverts['Sputnik8'].forEach(adv => {
 					adv.categories.forEach(cattag => {
 						if(cattag.name.indexOf("Рафтинг") > -1 || adv.title.indexOf("Рафтинг") > -1 || adv.title.indexOf("рафтинг") > -1){
@@ -2102,7 +6263,7 @@ function sklonenie(number, txt) {
 					}
 				});
 
-				if(!this.on_raft && !this.on_kvadro && !this.trans && !this.on_parag && !this.on_scooter && !this.on_heli && !this.on_ship && !this.on_moto && !this.on_bicycle && !this.on_bus && !this.auto && !this.on_foot && !this.master_class && !this.unusual && !this.shoping && !this.photoses && !this.gastro && !this.museum && !this.educational && !this.overview && this.durationtype.length == 0 && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview && !this.mobile_adv && !this.surprisemefilter && !this.weatlasfilter && !this.sputnikfilter && !this.tripsterfilter && !this.online && (this.pricefilterstart == this.minprice && this.pricefilterend == this.maxprice) && (this.ratingfilterstart == this.minrating && this.ratingfilterend == this.maxrating) && this.is_new == false && this.child_friendly == false && this.group == false && this.private == false && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0){
+				if(!this.on_raft && !this.on_kvadro && !this.trans && !this.on_parag && !this.on_scooter && !this.on_heli && !this.on_ship && !this.on_moto && !this.on_bicycle && !this.auto && !this.on_foot && !this.master_class && !this.unusual && !this.shoping && !this.photoses && !this.gastro && !this.museum && !this.educational && !this.overview && this.durationtype.length == 0 && !this.type_image && !this.type_video && !this.type_audio && !this.type_streetview && !this.mobile_adv && !this.surprisemefilter && !this.weatlasfilter && !this.sputnikfilter && !this.tripsterfilter && !this.online && (this.pricefilterstart == this.minprice && this.pricefilterend == this.maxprice) && (this.ratingfilterstart == this.minrating && this.ratingfilterend == this.maxrating) && this.is_new == false && this.child_friendly == false && this.group == false && this.private == false && this.tagsvarchecked.length == 0 && this.catsvarchecked.length == 0){
 					this.show_pokazat = false;
 					return this.adverts;
 				} else {
@@ -2343,11 +6504,11 @@ function sklonenie(number, txt) {
 						return (adv.name.indexOf("На велосипеде") > 1 || adv.name.indexOf("на велосипеде") > -1);
 					});
 				}
-				if(this.on_bus){
+					/*if(this.on_bus){
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
 							let flag = false;
 							adv.categories.forEach(cattag => {
-								if(adv.title.indexOf("автобусный") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
+								if(adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
 									flag = true;
 								}
 							});
@@ -2356,19 +6517,19 @@ function sklonenie(number, txt) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => {
 							let flag = false;
 							adv.tags.forEach(advtag => {
-								if(adv.title.indexOf("автобусный") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
+								if(adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
 									flag = true;
 								}
 							});
 							return flag;
 					});
 					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
-						return (adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
+						return (adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
 					});
 					resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
-						return (adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
+						return (adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
 					});
-				}
+				}*/
 				if(this.on_foot){
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
 							let flag = false;
@@ -2392,14 +6553,14 @@ function sklonenie(number, txt) {
 						return (adv.name.indexOf("Пешеходная") > -1 || adv.name.indexOf("пешеходная") > -1 || adv.name.indexOf("Пешком") > 1 || adv.name.indexOf("пешком") > -1 || adv.name.indexOf("Пешеходные экскурсии") > -1);
 					});
 					resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
-						return (adv.name.indexOf("Пешеходная") > -1 || adv.name.indexOf("пешеходная") > -1 || adv.name.indexOf("Пешком") > 1 || adv.name.indexOf("пешком") > -1 || adv.name.indexOf("Пешеходные экскурсии") > -1);
+						return (adv.goType == 'Пешая' || adv.name.indexOf("Пешеходная") > -1 || adv.name.indexOf("пешеходная") > -1 || adv.name.indexOf("Пешком") > 1 || adv.name.indexOf("пешком") > -1 || adv.name.indexOf("Пешеходные экскурсии") > -1);
 					});
 				}
 				if(this.auto){
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
 							let flag = false;
 							adv.categories.forEach(cattag => {
-								if(adv.short_info.indexOf("на автомобиле") > -1 || adv.short_info.indexOf("автомобильная") > -1 || adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || cattag.name.indexOf("На автомобиле") > -1 || cattag.name.indexOf("на автомобиле") > -1 || cattag.name.indexOf("автомобильные") > -1){
+								if(adv.short_info.indexOf("на автомобиле") > -1 || adv.short_info.indexOf("автомобильная") > -1 || adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || cattag.name.indexOf("На автомобиле") > -1 || cattag.name.indexOf("на автомобиле") > -1 || cattag.name.indexOf("автомобильные") > -1 || adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || cattag.name.indexOf("На автобусе") > -1 || cattag.name.indexOf("на автобусе") > -1 || cattag.name.indexOf("Автобусные экскурсии") > -1){
 									flag = true;
 								}
 							});
@@ -2408,17 +6569,17 @@ function sklonenie(number, txt) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => {
 							let flag = false;
 							adv.tags.forEach(advtag => {
-								if(adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || advtag.name.indexOf("На автомобиле") > -1 || advtag.name.indexOf("на автомобиле") > -1 || advtag.name.indexOf("автомобильные") > -1) {
+								if(adv.title.indexOf("автомобильная") > -1 || adv.title.indexOf("Автомобильная") > -1 || advtag.name.indexOf("На автомобиле") > -1 || advtag.name.indexOf("на автомобиле") > -1 || advtag.name.indexOf("автомобильные") > -1 || adv.title.indexOf("автобусный") > -1 || adv.title.indexOf("автобусная") > -1 || advtag.name.indexOf("На автобусе") > -1 || advtag.name.indexOf("на автобусе") > -1 || advtag.name.indexOf("Автобусные экскурсии") > -1) {
 									flag = true;
 								}
 							});
 							return flag;
 					});
 					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
-						return (adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1);
+						return (adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1 || adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
 					});
 					resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
-						return (adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1);
+						return (adv.name.indexOf("автомобильная") > -1 || adv.name.indexOf("Автомобильная") > -1 || adv.name.indexOf("На автомобиле") > 1 || adv.name.indexOf("на автомобиле") > -1 || adv.name.indexOf("автомобильные") > -1 || adv.name.indexOf("Автобусная") > -1 || adv.name.indexOf("автобусная") > -1 || adv.name.indexOf("автобусный") > -1 || adv.name.indexOf("На автобусе") > -1 || adv.name.indexOf("на автобусе") > -1 || adv.name.indexOf("Автобусные экскурсии") > -1);
 					});
 				}
 				if(this.master_class){
@@ -2632,7 +6793,7 @@ function sklonenie(number, txt) {
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) >= 0 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 4);
 					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
 						let filterflag = false;
-						if(adv.duration.indexOf("–") > -1){
+						if(adv.duration.indexOf("–") > -1 && adv.duration.indexOf("минут") == -1){
 							let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
 							for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
 								if(i >= 0  && i <= 4){
@@ -2640,7 +6801,9 @@ function sklonenie(number, txt) {
 								}
 							}
 							return filterflag;
-						} else 	{
+						} if(adv.duration.indexOf("минут") > -1 && adv.duration.indexOf("час") == -1 && adv.duration.indexOf("часа") == -1 && adv.duration.indexOf("часов") == -1) {
+							return true;
+						} else {
 							let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
 							return advdurres >= 0 && advdurres <= 4;
 						}
@@ -2679,18 +6842,22 @@ function sklonenie(number, txt) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 4 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 12);
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 4 && +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) <= 12);
 					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
-						let filterflag = false;
-						if(adv.duration.indexOf("–") > -1){
-							let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
-							for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
-								if(i > 4  && i <= 12){
-									filterflag = true;
+						if(adv.duration.indexOf("минут") == -1){
+							let filterflag = false;
+							if(adv.duration.indexOf("–") > -1){
+								let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+								for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+									if(i > 4 && i <= 12){
+										filterflag = true;
+									}
 								}
+								return filterflag;
+							} else 	{
+								let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+								return advdurres > 4 && advdurres <= 12;
 							}
-							return filterflag;
-						} else 	{
-							let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
-							return advdurres > 4 && advdurres <= 12;
+						} else {
+							return false;
 						}
 					});
 					resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
@@ -2727,18 +6894,22 @@ function sklonenie(number, txt) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 12);
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration) > 12);
 					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
-						let filterflag = false;
-						if(adv.duration.indexOf("–") > -1){
-							let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
-							for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
-								if(i > 12){
-									filterflag = true;
+						if(adv.duration.indexOf("минут") == -1){
+							let filterflag = false;
+							if(adv.duration.indexOf("–") > -1){
+								let advresarr = adv.duration.replace(",",".").split("–").map(advdur => {return +/[0-9]+\.[0-9]+|\d+/.exec(advdur)});
+								for(let i = advresarr[0];i <= advresarr[1];i += 0.25){
+									if(i > 12){
+										filterflag = true;
+									}
 								}
+								return filterflag;
+							} else 	{
+								let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
+								return advdurres > 12;
 							}
-							return filterflag;
-						} else 	{
-							let advdurres = +/[0-9]+\.[0-9]+|\d+/.exec(adv.duration);
-							return advdurres > 12;
+						} else {
+							return false;
 						}
 					});
 					resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
@@ -2854,7 +7025,16 @@ function sklonenie(number, txt) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => adv.is_new == true);
 				}
 				if(this.mobile_adv){
-					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => adv.types.audioguide == true);
+					resfilter['Tripster'] = resfilter['Tripster'].filter(adv => {
+						return (adv.title.indexOf("Аудиогид") > - 1 || adv.title.indexOf("аудиогид") > - 1);
+					});
+					resfilter['Sputnik8'] = resfilter['Sputnik8'].filter(adv => {
+						return (adv.title.indexOf("Аудиогид") > - 1 || adv.title.indexOf("аудиогид") > - 1);
+					});
+					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => adv.types.audioguide == true || adv.content_types.streetview == false);
+					resfilter['Weatlas'] = resfilter['Weatlas'].filter(adv => {
+						return (adv.name.indexOf("Аудиогид") > - 1 || adv.name.indexOf("аудиогид") > - 1);
+					});
 				}
 				if(this.child_friendly) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => {
@@ -2866,7 +7046,6 @@ function sklonenie(number, txt) {
 							});
 							return flag || adv.child_friendly == true;
 					});
-					//resfilter.Tripster = resfilter.Tripster.filter(adv => adv.child_friendly == true);
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => {
 							let flag = false;
 							adv.categories.forEach(cattag => {
@@ -2887,17 +7066,17 @@ function sklonenie(number, txt) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => adv.type == 'group');
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => adv.product_type == 'shared');
 					resfilter['Weatlas']  = resfilter['Weatlas'].filter(adv => {
-						return (adv.name.indexOf("Груповая") > - 1 || adv.name.indexOf("Груповые") > - 1);
+						return (adv.name.indexOf("Групповая") > - 1 || adv.name.indexOf("Групповые") > - 1);
 					});
 					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
-						return (adv.name.indexOf("Груповая") > - 1 || adv.name.indexOf("Груповые") > - 1);
+						return (adv.name.indexOf("Групповая") > - 1 || adv.name.indexOf("Групповые") > - 1);
 					});
 				}
 				if(this.private) {
 					resfilter.Tripster = resfilter.Tripster.filter(adv => adv.type == 'private');
 					resfilter.Sputnik8 = resfilter.Sputnik8.filter(adv => adv.product_type == 'private');
 					resfilter['Weatlas']  = resfilter['Weatlas'].filter(adv => {
-						return (adv.name.indexOf("Индивидуальные") > - 1 || adv.name.indexOf("Индивидуальный") > - 1);
+						return (adv.name.indexOf("Индивидуальные") > - 1 || adv.name.indexOf("Индивидуальный") > - 1 || (adv.name.indexOf("Групповая") == -1 && adv.name.indexOf("Групповые") == -1));
 					});
 					resfilter['Surprise_Me'] = resfilter['Surprise_Me'].filter(adv => {
 						return (adv.name.indexOf("Индивидуальные") > - 1 || adv.name.indexOf("Индивидуальные") > - 1);
@@ -2947,7 +7126,7 @@ function sklonenie(number, txt) {
 								&& tag.name.indexOf("shopping") == -1 && tag.name.indexOf("На автомобиле") == -1
 								&& tag.name.indexOf("на автомобиле") == -1 && tag.name.indexOf("Пешком") == -1
 								&& tag.name.indexOf("пешком") == -1 && tag.name.indexOf("На автобусе") == -1
-								&& tag.name.indexOf("на автобусе") == -1 && tag.name.indexOf("Автобусные экскурсии") == -1
+								&& tag.name.indexOf("на автобусе") == -1 && tag.name.indexOf("Автобусные экскурсии") == -1 && tag.name.indexOf("автобусная") == -1
 								&& tag.name.indexOf("На велосипеде") == -1 && tag.name.indexOf("на велосипеде") == -1
 								&& tag.name.indexOf("автомобильные") == -1 && tag.name.indexOf("На мотоцикле") == -1
 								&& tag.name.indexOf("на мотоцикле") == -1 && tag.name.indexOf('На кораблике') == -1
@@ -2984,7 +7163,7 @@ function sklonenie(number, txt) {
 								&& cat.name.indexOf("shopping") == -1 && cat.name.indexOf("На автомобиле") == -1
 								&& cat.name.indexOf("на автомобиле") == -1 && cat.name.indexOf("Пешком") == -1
 								&& cat.name.indexOf("пешком") == -1 && cat.name.indexOf("На автобусе") == -1
-								&& cat.name.indexOf("на автобусе") == -1 && cat.name.indexOf("Автобусные экскурсии") == -1
+								&& cat.name.indexOf("на автобусе") == -1 && cat.name.indexOf("Автобусные экскурсии") == -1 && cat.name.indexOf("автобусная") == -1
 								&& cat.name.indexOf("На велосипеде") == -1 && cat.name.indexOf("на велосипеде") == -1
 								&& cat.name.indexOf("автомобильные") == -1 && cat.name.indexOf("На мотоцикле") == -1
 								&& cat.name.indexOf("на мотоцикле") == -1 && cat.name.indexOf('На кораблике') == -1
@@ -3015,13 +7194,16 @@ function sklonenie(number, txt) {
 			/*window.addEventListener('popstate', function(){
 				location.reload();
 			});*/
+			$("#og-description").attr("content", "Подбор лучших экскурсий и сравнение цен ведущих агентств - Tripster, Sputnik8, WeAtlas, SurpriseMe");
 			<?php if(isset($_GET['citysearch']) && $_GET['citysearch'] != ''):?>
 				let searchIds = '<?=$_GET["citysearch"];?>';
 				let search_title_arr = searchIds.split("|");
 				let search_title = search_title_arr[3];
+				$("#fixedbar_city").html(search_title);
 				if(search_title != ''){
 					search_title = lvovich.inclineFirstname(search_title, 'dative');
 					$("title").html("Экскурсии по " + search_title);
+					$("#og-title").attr("content", "Экскурсии по " + search_title);
 					$("h1 > span").html(search_title);
 					$("#preload-city").html("по " + search_title);
 				}
@@ -3042,7 +7224,7 @@ function sklonenie(number, txt) {
 					$this.online = <?php if(isset($_GET["online"]) && $_GET["online"] == 'y'):?>true<?php else:?>false<?php endif;?>;
 					$this.on_foot = <?php if(isset($_GET["on_foot"]) && $_GET["on_foot"] == 'y'):?>true<?php else:?>false<?php endif;?>;
 					$this.auto = <?php if(isset($_GET["auto"]) && $_GET["auto"] == 'y'):?>true<?php else:?>false<?php endif;?>;
-					$this.on_bus = <?php if(isset($_GET["on_bus"]) && $_GET["on_bus"] == 'y'):?>true<?php else:?>false<?php endif;?>;
+					//$this.on_bus = <?php if(isset($_GET["on_bus"]) && $_GET["on_bus"] == 'y'):?>true<?php else:?>false<?php endif;?>;
 					$this.on_bicycle = <?php if(isset($_GET["on_bicycle"]) && $_GET["on_bicycle"] == 'y'):?>true<?php else:?>false<?php endif;?>;
 					$this.on_moto = <?php if(isset($_GET["on_moto"]) && $_GET["on_moto"] == 'y'):?>true<?php else:?>false<?php endif;?>;
 					$this.on_ship = <?php if(isset($_GET["on_ship"]) && $_GET["on_ship"] == 'y'):?>true<?php else:?>false<?php endif;?>;
@@ -3105,6 +7287,7 @@ function sklonenie(number, txt) {
 			let searchIds = $("#chose-select").val();
 			let search_title_arr = searchIds.split("|");
 			let search_title = search_title_arr[3];
+			$("#fixedbar_city").html(search_title);
 			if(search_title != ''){
 				search_title = lvovich.inclineFirstname(search_title, 'dative');
 				//$("title").html("Экскурсии по "+search_title);
@@ -3112,5 +7295,229 @@ function sklonenie(number, txt) {
 				$("#preload-city").html("по " + search_title);
 			}
 		}
+
 	});
+	
+</script>
+
+
+
+<script>
+//прозвон- отрисовался ли список экскурсий	
+	/* var	exSearch = document.querySelectorAll('#main_block');	
+	
+	exSearch.onclick = function(){	
+		excursionSearch();
+	}; */
+	
+	//excursionSearch = function(){	
+		
+					
+			//console.log("прошла "+(++i)+" секунд(а)");
+			
+			
+			
+	if ($(window).width() < 700) {
+		var i=0;
+		function interval(){
+			var containersWrapMob = document.querySelector("#excursion_wrapper")
+			if(containersWrapMob){	
+				clearInterval(intervalID); 			
+				setTimeout(function(){
+				  $(".i_desc p").dotdotdot();
+				},1000);
+				setTimeout(function(){
+				  $(".i_desc p").dotdotdot();
+				},5000);			
+			}
+		}
+		var intervalID=setInterval(interval,1000);  
+	}else{
+		var i=0;
+		function interval(){
+			var containersWrap = document.querySelector("#excursion_wrapper-2")
+			if(containersWrap){	
+				clearInterval(intervalID); 			
+				setTimeout(function(){
+				  //excursionBackground();				  
+					$(".i_desc-2 .text p").dotdotdot();
+					$(".i_name-2 h2").dotdotdot();				 
+				},1000);
+				setTimeout(function(){
+					//excursionBackground();				  
+					$(".i_desc-2 .text p").dotdotdot();
+					$(".i_name-2 h2").dotdotdot();				 
+				},5000);				
+			}
+		}
+		var intervalID=setInterval(interval,1000);  
+	}
+			
+		
+	//};
+	
+	
+	
+//функция перекрашивания фона в соответствии с картинкой
+excursionBackground = function () {	
+	var	containers = document.querySelectorAll('.excursion_item-2');
+		
+	for (var i = 0; i < containers.length; i++) {
+		var container = containers[i];
+		var image = container.querySelector('.i_img_wrap-2 img');
+		// var imgUrl = image.getAttribute("src");
+		var containerBackground = container.querySelector('.excursion_item-2_back');		
+				
+		if(image === null){	
+			image = document.querySelector('.i_img_wrap-2 img');
+			var imgUrl = image.getAttribute("src");	
+			containerBackground.style.backgroundImage = 'url(' + imgUrl + ')';
+			
+			container.querySelector('.i_desc-2').style.width = 100 + '%';
+			continue;
+		}
+
+		if(typeof image !== 'null'){
+			var imgUrl = image.getAttribute("src");	
+			
+			containerBackground.style.backgroundImage = 'url(' + imgUrl + ')';
+			continue;
+		} 
+			
+	};	
+};
+	
+//при клике в сайдбаре перекрашиваем фоны		
+	
+	/* var filtersBlock = document.querySelector("#block-1");//родительский блок, в котором есть элементы, клики на которые нужно выловить
+	filtersBlock.onclick = function(event) {
+		var target = event.target; // где был клик?
+		
+		if (target.tagName != 'SPAN') return; // не на там? тогда не интересует
+		$( "#excursion_wrapper-2" ).fadeOut( 500, "linear", function(){			
+			$('html, body').animate({scrollTop:($("#api-app").offset().top)
+			}, 400);				
+		});
+		
+		setTimeout(function(){			
+			$( "#excursion_wrapper-2" ).fadeIn( 500 );
+			$(".i_desc-2 .text p").dotdotdot();
+			$(".i_name-2 h2").dotdotdot();
+		},1000);
+	}; */
+	
+	$('#desctop_f').click(function(){
+	$('#desctop_f label input').change(function(){
+		$( "#excursion_wrapper-2" ).fadeOut( 500, "linear", function(){			
+			$('html, body').animate({scrollTop:($("#api-app").offset().top)
+			}, 400);				
+		});
+		
+		setTimeout(function(){			
+			$( "#excursion_wrapper-2" ).fadeIn( 500 );
+			$(".i_desc-2 .text p").dotdotdot();
+			$(".i_name-2 h2").dotdotdot();
+		},1000);
+	});
+	});
+	
+	
+	
+	
+//при клике на кнопке поиска	
+	var  searchButton = document.querySelector("#main_block button");
+		
+	searchButton.onclick = function () {
+		
+		if ($(window).width() < 700) {
+		var i=0;
+		function interval(){
+			var containersWrapMob = document.querySelector("#excursion_wrapper")
+			if(containersWrapMob){	
+				clearInterval(intervalID); 			
+				setTimeout(function(){
+				  $(".i_desc p").dotdotdot();
+				},500);
+				setTimeout(function(){
+				  $(".i_desc p").dotdotdot();
+				},5000);			
+			}
+		};
+		var intervalID=setInterval(interval,1000);  
+		}else{
+			var i=0;
+			function interval(){
+				var containersWrap = document.querySelector("#excursion_wrapper-2")
+				if(containersWrap){	
+					clearInterval(intervalID); 			
+					setTimeout(function(){
+						//excursionBackground();				  
+						$(".i_desc-2 .text p").dotdotdot();
+						$(".i_name-2 h2").dotdotdot();
+					},500);
+					setTimeout(function(){
+					  //excursionBackground();				  
+						$(".i_desc-2 .text p").dotdotdot();
+						$(".i_name-2 h2").dotdotdot();
+					},2000);				
+				}
+			}
+			var intervalID=setInterval(interval,1000);  
+		}
+		
+	};
+		
+	
+//при кликах в выплывающей шапке выдачи, и в статичной тоже перекрашиваем фоны	
+	var advFilterWrapp = document.querySelector("#block-2");//родительский блок, в котором есть элементы, клики на которые нужно выловить
+	advFilterWrapp.onclick = function(event) {
+		var target = event.target; // где был клик?
+		if (target.className != 'cross') return; // не на .cross? тогда не интересует
+		//excursionBackground(); //пререкрасить фоны
+			$(".i_desc-2 .text p").dotdotdot();
+			$(".i_name-2 h2").dotdotdot();//и многоточия
+	};
+	
+// когда двигаются ползунки - перекрашиваем фоны	
+	$( "#polz-price" ).slider({
+		stop: function( event, ui ) { 
+			//excursionBackground();
+			$(".i_desc-2 .text p").dotdotdot();
+			$(".i_name-2 h2").dotdotdot();
+		}
+		
+	});
+	$( "#polz-reit" ).slider({
+		stop: function( event, ui ) { 
+			//excursionBackground();
+			$(".i_desc-2 .text p").dotdotdot();
+			$(".i_name-2 h2").dotdotdot();
+		}		
+	}); 	
+	
+// фильтр, который прачется
+	var filterBottom = $('#fix_menu');	
+	var scrollPrev = 0;
+
+	$(window).scroll(function () {
+		scrolled = $(window).scrollTop();
+
+		if (scrolled > 100 && scrolled > scrollPrev) {
+			
+			filterBottom.addClass('out');	
+		} else {
+			filterBottom.removeClass('out');			
+		}
+		scrollPrev = scrolled;
+	});
+
+
+$('#desctop_f .slide_toggle').click(function(){
+  $(this).toggleClass('active').next('div').slideToggle();
+
+});
+
+
+
+
 </script>

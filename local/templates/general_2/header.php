@@ -27,6 +27,7 @@ $curPage = $APPLICATION->GetCurPage(); // Получаем текущий адр
 		<!--<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet"> -->
 		
 		<link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700&display=swap&subset=cyrillic-ext" rel="stylesheet"> 
+		<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 		
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic-ext" rel="stylesheet"> 
 		
@@ -34,9 +35,9 @@ $curPage = $APPLICATION->GetCurPage(); // Получаем текущий адр
 		<meta property="twitter:url" content="<?=SITE_SERVER_PROTOCOL . SITE_SERVER_NAME . $curPage?>">
 		<meta property="og:type" content="website">
 		<meta name="twitter:card" content="summary_large_image">
-		<meta property="og:title" content="<?$APPLICATION->ShowProperty("title")?>">
+		<meta id="og-title" property="og:title" content="<?$APPLICATION->ShowProperty("title")?>">
 		<meta property="twitter:title" content="<?$APPLICATION->ShowProperty("title")?>">
-		<meta property="og:description" content="<?=$APPLICATION->ShowProperty("description")?>">
+		<meta id="og-description" property="og:description" content="<?=$APPLICATION->ShowProperty("description")?>">
 		<meta property="twitter:description" content="<?=$APPLICATION->ShowProperty("description")?>">
 		<meta property="og:image" content="<?=$APPLICATION->ShowProperty("og:image")?>">
 		<meta property="vk:image" content="<?=$APPLICATION->ShowProperty("vk:image")?>">
@@ -72,6 +73,7 @@ $curPage = $APPLICATION->GetCurPage(); // Получаем текущий адр
         <meta name="yandex-verification" content="528bd9518a04995a" />
         <meta name="yandex-verification" content="facac1b27c186b40" />
         <meta name="p:domain_verify" content="6e149213cd2879de82d4f1ddb48f19f2"/>
+        <meta name="yandex-verification" content="1421221ce6b67469" />
 	</head>
 	
 	<body>

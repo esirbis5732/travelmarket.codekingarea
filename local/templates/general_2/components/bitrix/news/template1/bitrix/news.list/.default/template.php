@@ -95,7 +95,6 @@ $this->setFrameMode(true);
 <?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
-<div id="Razrabotka" style="display:none;"><p>Извините, раздел находится в разработке</p></div>
 </div>
 <script src="https://cdn.rawgit.com/briangonzalez/rgbaster.js/b2fb235b/rgbaster.min.js"></script>
 <script> 
@@ -135,8 +134,6 @@ $(".news_preview_text").dotdotdot({
 });
 </script>
 <script>
-	
-	
     (function (BX) {
         BX.ready(function () {
             $('.sbr_tags').click(function (e) {
@@ -150,30 +147,16 @@ $(".news_preview_text").dotdotdot({
                     '<?=$APPLICATION->GetCurPage()?>',
                     {'TYPE': 'REPORT_AJAX', 'NAME': myHref.html()},
                     function (data){
-						
-					
                         $('.news-item small').each(function () {
-							
                             if($(this).html().indexOf(data['NAME'])>-1){
                                 //оставляем
-								$(this).parent().parent().removeAttr('style');
-							
-							
+                                $(this).parent().parent().removeAttr('style');
                             }else{
                                 //скрыываем
-								$(this).parent().parent().attr('style','display:none;');
-								
-							
-				
+                                $(this).parent().parent().attr('style','display:none;');
                             }
-							if($(this).html().indexOf(data['NAME'])>-2){
-							$('#Razrabotka').removeAttr('style');
-						}
-						});
-						
-						$('body,html').animate({
-            scrollTop: 0
-        }, 400);
+
+                        });
                     },
                     function (data){
                     }

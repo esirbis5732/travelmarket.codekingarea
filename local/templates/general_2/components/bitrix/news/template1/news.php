@@ -62,32 +62,29 @@ $this->setFrameMode(true);
 
 <div class="tags_block">
 	<!--<h4>Облако тегов</h4>-->
-	<?$APPLICATION->IncludeComponent(
-	"bitrix:search.tags.cloud", 
-	"gadget", 
-	array(
-		"CACHE_TIME" => "3600",
-		"CACHE_TYPE" => "A",
-		"CHECK_DATES" => "N",
-		"COLOR_NEW" => "3E74E6",
-		"COLOR_OLD" => "C0C0C0",
-		"COLOR_TYPE" => "Y",
+	<?$APPLICATION->IncludeComponent("bitrix:search.tags.cloud", "gadget1", Array(
+	"CACHE_TIME" => "3600",	// Время кеширования (сек.)
+		"CACHE_TYPE" => "A",	// Тип кеширования
+		"CHECK_DATES" => "N",	// Искать только в активных по дате документах
+		"COLOR_NEW" => "3E74E6",	// Цвет более позднего тега (пример: "C0C0C0")
+		"COLOR_OLD" => "C0C0C0",	// Цвет более раннего тега (пример: "FEFEFE")
+		"COLOR_TYPE" => "Y",	// Плавное изменение цвета
 		"COMPONENT_TEMPLATE" => "gadget",
-		"FILTER_NAME" => "",
-		"FONT_MAX" => "25",
-		"FONT_MIN" => "20",
-		"PAGE_ELEMENTS" => "150",
-		"PERIOD" => "",
-		"PERIOD_NEW_TAGS" => "",
-		"SHOW_CHAIN" => "Y",
-		"SORT" => "NAME",
-		"TAGS_INHERIT" => "Y",
-		"URL_SEARCH" => "/search/index.php",
-		"WIDTH" => "100%",
-		"arrFILTER" => array(
+		"FILTER_NAME" => "",	// Дополнительный фильтр
+		"FONT_MAX" => "25",	// Максимальный размер шрифта (px)
+		"FONT_MIN" => "20",	// Минимальный  размер шрифта (px)
+		"PAGE_ELEMENTS" => "150",	// Количество тегов
+		"PERIOD" => "",	// Период выборки тегов (дней)
+		"PERIOD_NEW_TAGS" => "",	// Период,  в течение которого считать тег новым (дней)
+		"SHOW_CHAIN" => "Y",	// Показывать цепочку навигации
+		"SORT" => "NAME",	// Сортировка тегов
+		"TAGS_INHERIT" => "Y",	// Сужать область поиска
+		"URL_SEARCH" => "/search/index.php",	// Путь к странице поиска (от корня сайта)
+		"WIDTH" => "100%",	// Ширина облака тегов (пример: "100%" или "100px", "100pt", "100in")
+		"arrFILTER" => array(	// Ограничение области поиска
 			0 => "iblock_news",
 		),
-		"arrFILTER_iblock_news" => array(
+		"arrFILTER_iblock_news" => array(	// Искать в информационных блоках типа "iblock_news"
 			0 => "1",
 		)
 	),

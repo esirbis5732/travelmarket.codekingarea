@@ -82,3 +82,65 @@ footer {
     font-size: 25px;
     color: black;
 }
+
+/* кастомные стили для API экскурсий */
+
+#api-app {
+    align-items: flex-start;
+}
+
+@media (min-width: 1320px) {
+    #block-1 {
+        position: sticky;
+        top: 90px;
+    }
+}
+
+#desctop_f.fixed-filter {
+    position: relative;
+    left: auto;
+    top: 0;
+    /*bottom:0px;*/
+    width: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: calc(100vh - 90px);
+}
+
+/*#desctop_f.absolute-filter{
+	position:absolute;
+	bottom:0px;
+}*/
+
+/* кастомные стили для слайдера тегов */
+
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.tags-slider {
+    width: 100%;
+    overflow: hidden;
+}
+
+.search-tags-cloud.swiper-wrapper {
+    flex-wrap: wrap;
+}
+
+@media(max-width: 767px) {
+    .search-tags-cloud.swiper-wrapper {
+        flex-wrap: nowrap;
+    }
+    .search-tags-cloud a {
+        border: 1px solid #00c7cb;
+        border-radius: 8px;
+        padding: 10px 10px 10px 45px;
+        width: auto;
+        margin-right: 15px;
+        font-size: 20px !important;
+    }
+    .search-tags-cloud a::before {
+        left: 10px;
+    }
+}

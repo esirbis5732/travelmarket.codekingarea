@@ -16,7 +16,7 @@ $APPLICATION->SetTitle("Онлайн-экскурсии");
 </div>
  <section class="main_search anchor_scroll">
 <div class="container">
- <img src="/local/templates/general_2/img/excursions_background_big.png" alt="">
+ <img src="/local/templates/general_2/img/excursions_online_background_big.png" alt="">
 	<h1>Самые интересные онлайн-экскурсии по всему миру от ведущих операторов</h1>
 	<div class="search_system_wrapper">
 		<div class="container">

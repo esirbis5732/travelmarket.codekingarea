@@ -231,6 +231,7 @@ IncludeTemplateLangFile(__FILE__);
 	<? $APPLICATION->AddHeadScript("/local/templates/general_2/js/owl.carousel.min.js"); ?>
 <!--<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/owl.carousel.min.js"></script>-->	
 	<? $APPLICATION->AddHeadScript("/local/templates/general_2/js/jquery.mousewheel.min.js"); ?>
+	<? $APPLICATION->AddHeadScript("https://unpkg.com/swiper/swiper-bundle.min.js"); ?>
 	<script src="/local/templates/general_2/js/jquery.touchSwipe.min.js"></script>
 	<?php if($curPage != '/ekskursii/'):?>
 	<script>
@@ -343,5 +344,8 @@ IncludeTemplateLangFile(__FILE__);
             }
 		}
 	?>
+    <script async src="https://fin.market/local/lib/capture-form.js"></script>
+		
+
 	</body>
 </html>

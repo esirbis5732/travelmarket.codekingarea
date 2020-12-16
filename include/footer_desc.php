@@ -2,11 +2,11 @@
 <p>TRAVEL&#127965;MARKET -  СЕРВИС ПУТЕШЕСТВИЙ<br>
 Сравниваем цены популярных сервисов бронирования </p>
 
-<?/*?><?if($APPLICATION->GetCurPage() != "/"){?>
+<?if($APPLICATION->GetCurPage() != "/"){?>
 
 <p><? echo $APPLICATION->ShowProperty("description");?></p>
 
-<?}?><?*/?>
+<?}?>
 
 
 <!--<p class="up_to_date">Будьте всегда в курсе!</p>
