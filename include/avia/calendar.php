@@ -1,0 +1,2 @@
+<h2>Календарь цен</h2>
+<script async charset="utf-8" src="//www.travelpayouts.com/calendar_widget/iframe.js?marker=200556.&origin=URS&currency=rub&searchUrl=hydra.aviasales.ru&one_way=false&only_direct=false&locale=ru&period=year&range=7%2C14&powered_by=true?speed=100"></script>

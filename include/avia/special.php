@@ -1,0 +1,2 @@
+<h2>Специальные тарифы от авиакомпаний</h2>
+<script async src="//www.travelpayouts.com/ducklett/scripts.js?widget_type=slider&currency=rub&host=hydra.aviasales.ru&marker=200556.&limit=21&powered_by=true" charset="UTF-8"></script>

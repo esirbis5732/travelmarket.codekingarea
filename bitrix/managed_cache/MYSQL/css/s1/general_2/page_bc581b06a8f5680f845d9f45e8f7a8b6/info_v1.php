@@ -1,0 +1,1 @@
+<?php $filesInfo = array("/local/templates/general_2/js/owl.carousel.css" => "16050883095526",); ?>

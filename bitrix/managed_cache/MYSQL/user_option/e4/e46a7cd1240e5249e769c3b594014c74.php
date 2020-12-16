@@ -1,0 +1,7 @@
+<?
+if($INCLUDE_FROM_CACHE!='Y')return false;
+$datecreate = '001608068715';
+$dateexpire = '001608072315';
+$ser_content = 'a:2:{s:7:"CONTENT";s:0:"";s:4:"VARS";a:7:{s:11:"code_editor";a:2:{s:5:"theme";s:5:"light";s:9:"highlight";s:1:"1";}s:18:"file_dialog_config";s:50:"s1;/local/templates/general_2/images;list;type;asc";s:11:"last_pathes";s:417:"a:10:{i:0;s:39:"/local/templates/general_2/img/logo_min";i:1;s:30:"/local/templates/general_2/img";i:2;s:26:"/local/templates/general_2";i:3;s:29:"/local/templates/general_2/js";i:4;s:16:"/local/templates";i:5;s:6:"/local";i:6;s:33:"/local/templates/general_2/images";i:7;s:27:"/local/templates/dev/images";i:8;s:20:"/local/templates/dev";i:9;s:65:"/local/components/codeking/excursions/templates/vue-template/ajax";}";s:17:"medialib_def_type";s:1:"1";s:17:"medialib_user_set";s:9:"600,450,1";s:28:"taskbar_settings_filesrc_pub";s:246:"a:3:{s:19:"BXPropertiesTaskbar";a:3:{s:4:"show";b:1;s:3:"set";i:3;s:6:"active";b:1;}s:20:"BXComponents2Taskbar";a:3:{s:4:"show";b:1;s:3:"set";s:1:"2";s:6:"active";b:1;}s:17:"BXSnippetsTaskbar";a:3:{s:4:"show";b:1;s:3:"set";i:3;s:6:"active";b:0;}}";s:31:"taskbarset_settings_filesrc_pub";s:90:"a:2:{i:2;a:2:{s:4:"show";b:1;s:4:"size";i:200;}i:3;a:2:{s:4:"show";b:0;s:4:"size";i:160;}}";}}';
+return true;
+?>

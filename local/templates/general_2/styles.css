@@ -1,0 +1,84 @@
+footer {
+    background: #f6f6f7;
+    color: #222;
+}
+
+.card {
+    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 7px;
+    padding: 10px 10px 0;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container-card {
+    padding: 0px;
+    text-align: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.main_menu>li a[href="/tours/beach-tours/#tour_best_price"]::before {
+    background: url(img/avia_4_d.png) center left no-repeat;
+    content: ' ';
+    background-size: 80%;
+}
+
+.main_menu>li a[href="/tours/beach-tours/#last_minute_tours"]::before {
+    background: url(img/avia_3_d.png) center left no-repeat;
+    content: ' ';
+    background-size: 80%;
+}
+
+.main_menu>li a[href="/tours/beach-tours/#statistics"]::before {
+    background: url(img/icon_1_blue.png) center left no-repeat;
+    content: ' ';
+    background-size: 80%;
+}
+
+.main_menu>li a[href="/tours/beach-tours/#main_search"]::before {
+    background: url(img/avia_1_d.png) center left no-repeat;
+    content: ' ';
+    background-size: 80%;
+}
+
+/* .main_menu_submenu>li a[href^="/"] {
+    color: #2A3D71!important;
+} */
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+/*.p-banner, .p-footer{display:none!important;}*/
+
+._1iOefnxYQB[data-color-theme=aquamarine] ._2MJ7MpJU_z {
+    background: #00C7CB!important;
+    font: bold 17px/26px Arial, Helvetica, sans-serif!important;
+    color: #fff!important;
+}
+
+@media screen and (max-width: 550px) {
+    .mt-40 {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    #__lt-widget-place {
+        overflow: scroll!important;
+    }
+}
+
+.i_name .res_url p, .i_name-2 .res_url p {
+    text-decoration: underline;
+    font-size: 25px;
+    color: black;
+}

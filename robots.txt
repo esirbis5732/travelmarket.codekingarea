@@ -1,0 +1,4 @@
+User-Agent: *
+Host: https://travelmarket.ru
+Sitemap: https://travelmarket.ru/sitemap_file.xml
+Sitemap: https://travelmarket.ru/sitemap.xml

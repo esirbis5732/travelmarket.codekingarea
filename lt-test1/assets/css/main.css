@@ -1,0 +1,684 @@
+.tur_wrapper{
+  max-width: 1400px;
+  margin: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.hotel__info__stars{
+  min-width: 77px;
+  background: url(../img/stars.png) 0 0 no-repeat;
+  background-position: 0px -14px;
+}
+.hotel-stars-current{
+  background: url(../img/stars.png) 0 0 no-repeat;
+  width: 0px;
+  height: 13px;
+}
+.hotel-stars-current_5{
+  width: 77px;
+}
+.hotel-stars-current_4{
+  width: 60px;
+}
+.hotel-stars-current_3{
+  width: 45px;
+}
+.hotel-stars-current_2{
+  width: 30px;
+}
+
+.col hotel__info__city{
+  color:#9c9c9c;
+}
+.p15px{
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.hotel__facts{
+  display: flex;
+  margin-top: 10px;
+}
+.hotel__facts .hotel__fact-container{
+  text-align: center;
+  margin: 10px;
+  padding: 8px;
+  border-radius: 12px;
+  position: relative;
+  background: #5fc4dc;
+  box-shadow: 0 0 3px 0px #a5a5a5;
+  color: #fff;
+  height: 70px;
+}
+.hotel__facts .hotel__fact-container img{
+  position: absolute;
+  top: -12px;
+  width: 31px;
+  height: 31px;
+  right: -7px;
+  border-radius: 17px;
+  background: #5fc4dc;
+  padding: 3px;
+}
+.hotel__info__city{
+  color: #9a9a9a;
+  font-size: 17px;
+}
+
+.hotel__order{
+  width: 214px;
+  background: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  flex: 0 0 114px;
+  text-align: center;
+}
+
+.hotel__order .more {
+  display: block;
+  background: #dc3545;
+  margin: 10px 0;
+  padding: 7px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.hotel__info{
+  padding: 20px;
+  flex: 1 1 auto;
+}
+
+.addChildSelect {
+  cursor: pointer;
+  margin: 2px;
+  background: white;
+  color: #47c6ef;
+  text-align: center;
+}
+
+.childSelect{
+  margin-top: 32px;
+  padding: 0;
+}
+.childSelect .childSelect__box{
+  background: #f7f7f7;
+}
+.childSelect  .childSelect__item{
+  margin: 2px 0;
+  cursor: pointer;
+  text-align: left;
+  padding: 0 5px;
+}
+.childSelect  .childSelect__item:hover{
+  color: #fff;
+  background: #17a2b8;
+}
+.childSelect  .childSelect__item-first{
+  font-size: 13px;
+  color: #808080;
+  background: #d4d4d4;
+  margin-right: 0px;
+  margin-left: 0px;
+  padding: 5px;
+}
+.childSelect  .childSelect__item-first:hover{
+  color: #808080;
+  background: #d4d4d4;
+}
+.childSelect__box {
+  position: absolute;
+  top: 38px;
+  max-height: 0;
+  overflow: hidden;
+  min-width: 204px;
+  z-index: 10;
+  left: 7px;
+  box-shadow: 0px 4px 2px 1px rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: max-height 0.4s;
+}
+.childSelect_added {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  align-items: center;
+  box-shadow: inset 0 0 1px black;
+}
+.childSelect_added  .delete-button{
+  margin: 1px;
+  padding: 3px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.childSelect_added__title{
+  margin-right: 5px;
+}
+.childSelect_added__name{
+  display: inline-block;
+  margin-right: 8px;
+  color: #47c6ef;
+}
+.childSelect_added .fa-trash {
+  color: #dc3545;
+  padding: 3px;
+  border-radius: 7px;
+}
+.showAgeBtn{
+  position: relative;
+}
+
+.showAgeBtn:focus .childSelect__box,.showAgeBtn:hover .childSelect__box  {
+  max-height: 10000px;
+  transition: max-height 0.4s;
+  opacity: 1;
+}
+
+.hotel__info_text_collapse{
+  margin-top: 22px;
+  font-size: 13px;
+  box-shadow: 0 0 1px black;
+  padding: 10px;
+  color: #6d6d6d;
+}
+
+.hotel__info_text_collapse_btn{
+  color: #49a2b7;
+  text-transform: uppercase;
+  margin-top: 15px;
+}
+
+.hotel__other_night_collapse_btn {
+  color: #212529;
+  text-transform: uppercase;
+  margin-top: 15px;
+  padding: 5px 0;
+}
+.collapse__night__collapse__title{
+  text-align: center;
+  background: #e0e0e0;
+}
+.hotel__info_text_collapse_btn:focus{
+  color: #337180;
+  outline: none;
+}
+
+.hotel .slick-track, .hotel .slick-slide{
+  min-width: 250px;
+}
+.hotel__images .slick-initialized{
+  height: 230px;
+}
+
+.hotel__info__desc_otel{
+  background: #f5f5f5;
+  box-shadow: 0 0 1px black;
+  margin: 5px 0;
+  padding: 14px;
+  text-align: left;
+}
+.hotel__info__desc_otel__first{
+  margin: 5px 0;
+  padding: 8px;
+}
+
+.hotel__info__desc_otel .collapse.show,.hotel__info__desc_otel  .collapsing{
+  margin: 5px 0;
+  padding: 8px;
+}
+.search_btn-img{
+  display: none;
+  width: auto;
+  max-width: 89px;
+}
+
+.search_btn-text{
+  display: inline-block;
+}
+
+.searchimg .search_btn-img{
+  display: inline-block;
+}
+.searchimg .search_btn-text{
+  display: none;
+}
+.tour__were__found{
+  background: url("../img/found.png")0 0 no-repeat;
+  width: 200px;
+  height: 200px;
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+  z-index: 100;
+  background-size: contain;;
+  display: none;
+}
+
+.tour__were__found__box{
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  bottom: 7px;
+  background: #5ca027;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 25px 25px;
+  box-shadow: 0 0 3px 1px rgba(0,0,0,0.3);
+
+}
+.tour__were__found__box span{
+  color: #ffd600;
+
+}
+.tour__were__found.showCount{
+  display: block;
+}
+
+.tour__were__found__text{
+  color: #dc3545;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: none;
+}
+.tour__were__found__text.show{
+  display: block;
+}
+.tour__were__found__text span{
+  color: #47c6ef;
+  text-decoration: underline;
+}
+.selctedStarLabel{
+  display: flex;
+  align-items: center;
+}
+.selctedStarLabel .hotel__info__stars{
+  margin-left: 8px;
+}
+.filterHide{
+  display: none;
+
+}
+.filter label{
+  color: #5ca027;
+  font-weight: 600;
+}
+.filter label img{
+  margin-right: 4px;
+}
+.sliderRangeBox{
+  width: 80%;
+  margin: auto;
+}
+#sliderRange{
+  width: 80%;
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 70px;
+
+}
+#sliderRange .noUi-value{
+  transform: translate(-50%,32%);
+}
+#sliderRange .noUi-handle-lower .noUi-tooltip{
+  bottom: -41px;
+}
+#sliderRange .noUi-connect {
+  background: #5fc4dc;
+}
+#sliderRange .noUi-value-large:last-child{
+  left: 100%;
+  transform: translate(-50%,-69px);
+}
+#sliderRange .noUi-value-large{
+  background: #e4e4e4;
+  padding: 2px 8px;
+}
+#sliderRange .noUi-marker{
+  display: none;
+}
+#sliderRange .noUi-tooltip {
+  position: absolute;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 1px 0px black;
+  background: #5ca027;
+  color: #fff;
+  padding: 5px 13px;
+}
+#pansionFood option{
+  padding: 0 5px;
+}
+.sticky {
+  position: fixed;
+  top: 71px;
+  width: 100%;
+  max-width: 196px;
+}
+.emptyFilter{
+  text-align: center;
+  font-size: 25px;
+  text-transform: uppercase;
+  color: #dc3545;
+  align-self: center;
+  font-weight: 700;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 150px;
+  background: whitesmoke;
+  border-radius: 8px;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0,0.15);
+}
+.searchingOfers{
+  position: relative;
+  opacity: .4;
+}
+.searchingOfers:after{
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background:rgba(235,234,234,.4);
+  width: 100%;
+  height: 100%;
+  min-width: 1px;
+  z-index: 99;;
+}
+.delalTabel{
+  display: flex;
+  flex-direction: column;
+}
+.delalTabel_titel{
+  font-size: 20px;
+  font-weight: 700;
+}
+.delalTabel_tr{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e6e6e6;
+}
+.delalTabel_td{
+
+}
+.delalTabel_td:first-child{
+
+}
+.delalTabel_td:last-child{
+  text-align: left;
+}
+.readMore{
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+  background: #5ca027;
+  color: #fff;
+  box-shadow: 0 0 2px 0px rgba(0,0,0,0.5);
+  margin-top: 5px;
+  transition: all 0.8s;
+}
+.readMore:hover{
+  background: #4e8a20;
+  color: #fff;
+  text-decoration: none;
+}
+
+.starsShow{
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.starsShow label{
+  margin-bottom: 0;
+  margin-left: 8px;
+}
+.pupup-offers{
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  background: #f3f3f3;
+  padding: 22px 15px;
+}
+.collapse__night__collapse__title{
+  flex: 100%;
+  font-size: 22px;
+  border-bottom: 2px solid #efefef;
+  margin-bottom: 14px;
+}
+.hotel__other_night_collapse_btn.popup{
+  display: flex;
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+.collapse__night__collapse{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.collapse__night__collapse__box{
+  width: auto;
+  margin: 8px;
+}
+.offers_sletat{
+  width: 250px;
+  margin: 8px;
+}
+.offers_sletat__title{
+  background: #fff;
+  padding: 8px;
+}
+.offers_sletat__thesame{
+  display: flex;
+  flex-wrap: wrap;
+}
+.offers_sletat__thesame .hotel__info__desc_otel{
+  margin: 10px;
+}
+.pupup-otel-desc{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.pupup-otel-desc__item{
+  width: 250px;
+  margin: 11px;
+  margin-top: 35px;
+  text-align: center;
+  margin-bottom: 22px;
+  border-bottom: 1px solid gainsboro;
+}
+.pupup-otel-desc__item_title{
+  width: 100%;
+  background: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-size: 28px;
+}
+
+.pupup-otel-desc__item.item_in{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.pupup-otel-desc__item.item_in span{
+  border: 1px solid;
+  margin: 14px;
+  padding: 2px 9px;
+}
+.loadInfoOffer{
+  padding: 10px;
+  background: white;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 4px 2px rgba(0 ,0 ,0, 0.26);
+  margin: 33px 0
+}
+.loadInfoOffer__title{
+  text-align: center;
+  color: #f55252;
+  font-size: 22px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.loadInfoOffer.hide{
+  display: none;
+}
+
+
+.hotellook{
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hotellook__title{
+  flex: 100%;
+  text-align: center;
+  margin-bottom: 41px;
+}
+.hotellook__row{
+  display: flex;
+  flex-wrap: wrap;
+  width: 320px;
+}
+.hotellook__col{
+  padding: 5px;
+}
+.hotellook__row__img{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hotellook__row__img img{
+  display: block;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 7px 1px #868686;
+}
+
+.popupLeveltravel__body{
+  display: flex;
+  flex-wrap: wrap;
+}
+.popupLeveltravel__body__item{
+  width: 250px;
+  margin: 8px;
+}
+
+.otherTourContainer{
+  width: 100%;
+  background: #fff;
+}
+.otherTours__title{
+  width: 100%;
+  padding: 23px 0 7px 0;
+  font-size: 25px;
+  border-bottom: 2px solid #efefef;
+  text-align: center;
+}
+
+.tabel-offers__header,.tabel-offers{
+  width: 100%;
+}
+.tabel-offers td{
+  border: 1px solid #000;
+  vertical-align: top;
+}
+.tabel-offers__tr td{
+  padding: 8px;
+}
+
+.tabel-offers__header__tr{
+  display: flex;
+}
+.tabel-offers__header__td{
+  flex: 1 0 12.5%;
+  text-align: center;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  padding: 8px;
+  background: gainsboro;
+}
+.tabel-offers__body__tr{
+  display: flex;
+  flex-wrap: wrap;
+}
+.tabel-offers__body__tr .lodaInfoOffer {
+  flex: 100%;
+}
+.tabel-offers__body__td{
+  flex: 1 0 12.5%;
+  border: 1px solid #6b6b6b;
+  padding: 9px;
+}
+.rangeSelect {
+  display: block;
+  background: #47c6ef;
+  text-align: center;
+  padding: 8px 0;
+  margin-left: -9px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.rangeSelect input[type="checkbox"]{
+  position: relative;
+  top: 2px;
+}
+.rangeSelect label{
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 992px) {
+  .hotel__inner{
+    flex-direction: column;
+    align-items: center;
+  }
+  .hotel__images{
+    width: 350px;
+    height: 300px;
+  }
+  .hotel .slick-slide, .hotel .slick-track{
+    width: 350px;
+    height: 300px;
+  }
+  .hotel__order{
+    background: none;
+  }
+  .tour__were__found{
+    background: none;
+    width: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .hotel__images{
+    margin-top: 25px;
+  }
+  .hotel__order {
+    flex: 0 0 73px;
+  }
+
+}
+@media screen and (max-width: 778px){
+  .tour__were__found__text{
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+
+

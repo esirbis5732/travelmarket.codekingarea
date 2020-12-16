@@ -1,0 +1,25 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Страхование", 
+		"/insurance/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Компенсации", 
+		"/more-services/compensations/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Симкарты", 
+		"/more-services/sim-karty/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

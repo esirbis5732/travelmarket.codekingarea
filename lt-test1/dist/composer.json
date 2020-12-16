@@ -1,0 +1,12 @@
+{
+    "name": "phpner/search-tour",
+    "authors": [
+        {
+            "name": "phpner",
+            "email": "phpner@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}

@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Компенсации";
+$arDirProperties = array(
+
+);
+?>

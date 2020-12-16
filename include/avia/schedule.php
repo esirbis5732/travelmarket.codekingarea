@@ -1,0 +1,2 @@
+<h2>Расписание рейсов</h2>
+<script src="//tp.media/content?promo_id=2811&shmarker=200556&campaign_id=100&locale=ru&target_host=hydra.aviasales.ru&origin=MOW&destination=LED&border_radius=0&powered_by=true" charset="utf-8"></script>

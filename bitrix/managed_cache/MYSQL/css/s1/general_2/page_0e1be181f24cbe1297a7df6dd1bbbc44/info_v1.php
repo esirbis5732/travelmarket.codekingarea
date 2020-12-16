@@ -1,0 +1,1 @@
+<?php $filesInfo = array("/local/templates/general_2/js/owl.carousel.css" => "16050883095526","/local/templates/general_2/components/bitrix/news.list/.default/style.css" => "16050883082606",); ?>

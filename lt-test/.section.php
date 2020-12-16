@@ -1,0 +1,3 @@
+<?
+$sSectionName="lt-test1";
+?>

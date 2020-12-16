@@ -1,0 +1,603 @@
+body{
+	font-family: 'Roboto', Arial, sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 26px;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+}
+img {
+	max-width: 100%;
+	height: auto;
+}
+.container{
+	width: 1110px;
+	margin: 0 auto;
+}
+.container_2{
+	width: 1320px;
+	margin: 0 auto;
+}
+ul{
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+h1{
+	color: #2A3D71;
+	padding: 290px 0 20px;
+	text-align: center;
+	margin: 0;		
+}
+.avia h1{
+	background: url("../img/avia_background.png") center 67%;	
+	background-position-x: -27%;
+}
+h2{
+	font-style: normal;
+	font-weight: bold;
+	font-size: 44px;
+	line-height: 52px;
+	color: #2A3D71;
+	padding-left: 60px;
+	position: relative;
+}
+h2::before {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 0;    
+}
+.popular h2::before {
+    width: 31px;
+    height: 39px;
+    background: url(../img/avia_2_1.png) center left no-repeat;
+    content: ' ';
+}
+.special h2::before {
+    width: 31px;
+    height: 39px;
+    background: url(../img/avia_3_1.png) center left no-repeat;
+    content: ' ';
+}
+.calendar h2::before {
+    width: 43px;
+    height: 38px;
+    background: url(../img/avia_4_1.png) center left no-repeat;
+    content: ' ';
+}
+.schedule h2::before {
+    width: 38px;
+    height: 38px;
+    background: url(../img/avia_5_1.png) center left no-repeat;
+    content: ' ';
+}
+.transfer h2::before {
+    width: 58px;
+    height: 32px;
+    background: url(../img/avia_6_1.png) center left no-repeat;
+    content: ' ';
+}
+.transfer h2{
+	padding-left: 70px;
+}
+h3{
+	width: 100%;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 28px;
+	line-height: 32px;
+}
+/* ===============HEADER=================== */
+nav {
+    min-width: 1240px;
+}
+.main_menu{	
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 165px 0 70px;
+	text-transform: uppercase;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 17px;
+	line-height: 20px;	
+}
+.main_menu>li a{
+	color: #2A3D71;
+	opacity: 0.6;
+	transition: opacity 0.3s;
+	padding: 0 10px;
+}
+.main_menu .logo a{
+	opacity: 1;
+}
+.main_menu li a:hover,
+.main_menu li.active a{
+	opacity: 1;
+	transition: opacity 0.3s;
+}
+.main_menu_submenu{
+	display: none;
+	list-style: none;
+	position: absolute;
+    background: #fff;
+    z-index: 10;
+	padding: 30px 10px 10px 0;
+}
+.logo {
+    margin: 20px 0 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.main_menu_submenu li{
+	margin: 15px 0;
+}
+.section_name {
+    font-size: 22px;
+    line-height: 28px;
+    color: #00C7CB;
+    letter-spacing: -1.5px;
+    font-weight: bold;
+    /* font-family: 'Roboto Condensed', sans-serif; */
+    text-transform: uppercase;
+    font-stretch: ultra-condensed;
+    font-family: 'Oswald', sans-serif;
+	margin-bottom: 11px;
+}
+/* ==========ГЛАВНАЯ ================*/
+.index{
+	background: #E5E5E5;
+	display: flex;		
+}
+.container_2 {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch;
+	width: 1320px;
+	padding-top: 60px;
+	padding-bottom: 40px;
+	/* flex-direction: column */
+}
+/* .container_2 div{
+		
+} */
+.container_2 .big_block{
+	width: 60%;
+	background: #fff;
+	margin-bottom: 20px;
+}
+.container_2 .small_block{
+	width: 100%;
+	background: #fff;
+	min-height: 240px;
+	margin-bottom: 20px
+}
+.container_2 .wrap_block{
+	width: 18%;
+}
+
+
+
+
+
+/*============ АВИАБИЛЕТЫ ==================*/
+/* БЛОК ГЛАВНОГО ПОИСКА */
+.main_search {
+	position: relative;
+    background: linear-gradient(180deg, RGBA(0, 199, 203, 0.8) 0%, RGBA(47, 158, 216, 0.8) 55.73%, RGBA(85, 125, 227, 0.8) 100%);
+    padding: 1px 0;
+	height: auto;
+}
+.anchor_block{
+	position: absolute;
+	width: 50px;
+	height: auto;
+	top: 100px;
+	left: calc((100vw - 1170px) / 4);
+}
+.anchor_block img{
+	margin: 10px 0;
+	opacity: 0.7;
+	transition: opacity 0.3s;
+}
+.anchor_block img:hover{
+	opacity: 1;
+	transition: opacity 0.3s;
+}
+/* всплывающие подсказки */
+dfn {
+  cursor: pointer;
+  position: relative;  
+}
+dfn::after {
+  content: attr(data-info);
+  display: inline;
+  position: absolute;
+  top: 22px; 
+  left: 45px;
+  opacity: 0;
+  width: 230px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 0.5em 0.8em;
+  background: rgba(256,256,256,1);
+  color: #333;
+  pointer-events: none; /* This prevents the box from apearing when hovered. */
+  transition: opacity 250ms, top 250ms;
+}
+dfn::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 32px; 
+  left: 33px;
+  opacity: 0;
+  width: 0; 
+  height: 0;
+  border: solid transparent 6px;
+  border-bottom-color: rgb(255, 255, 255);
+  transition: opacity 250ms, top 250ms;
+  transform: rotate(-90deg);
+}
+dfn:hover {z-index: 2;} /* Keeps the info boxes on top of other elements */
+dfn:hover::after,
+dfn:hover::before {opacity: 1;}
+dfn:hover::after {top: 32px;}
+a[href="#main_search"] dfn:hover::after {top: -24px; left: 73px;}
+dfn:hover::before {top: 44px;}
+a[href="#main_search"] dfn:hover::before {top: -11px; left: 61px;}
+/* всплывающие подсказки конец */
+.search_system_selection {
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 16px;
+	position: relative;
+	margin: 0 0 50px;
+	min-width: 1110px;
+}
+.search_system_selection:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: calc((100% - 390px) / 2);
+	height: 2px;
+	background: linear-gradient(90deg, RGBA(255, 255, 255, 0) 5%, RGBA(255, 255, 255, 0.7) 95%);
+    content: ' ';
+}
+.search_system_selection:after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: calc((100% - 390px) / 2);
+	height: 2px;
+	background: linear-gradient(90deg, RGBA(255, 255, 255, 0.7) 5%, RGBA(255, 255, 255, 0) 95%);
+    content: ' ';
+}
+#tpcwl_iframe {
+    /* height: 108px !important; */
+    /* min-height: 108px !important; */
+	height: auto;
+	min-height: auto;
+}
+/*===== табы в блоке поиска ================*/
+/* Стили для списка вкладок */
+.search_system_list {
+	list-style: none;
+	padding-left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 0 0 30px;
+}
+/* Стили для вкладки */
+.search_system_list li {
+	padding: 10px 50px 10px 0;   
+	cursor: pointer;   
+}
+.search_system_list li {
+	background: url("../img/avia_7_1.png") no-repeat;
+	background-position: 1% 37%;	
+}
+.search_system_list li img{
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+/* Стили для активной вкладки */
+.search_system_list li.active img {
+	opacity: 1;
+	transition: opacity 0.3s;   
+}
+.search_system_list li:hover img {
+	opacity: 0.4;
+	transition: opacity 0.3s;
+}
+.search_system_list li.active:hover img{
+	opacity: 1;	
+}
+/* Стиль для списка контейнеров с содержимым вкладок */
+.search_form_list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+/* Стили для контейнера с содержимым вкладки. По умолчанию скрыт. */
+.search_form_list li {
+	display: none;
+	padding: 5px 5px 10px;
+	margin: -1px 0 50px;
+	/* border: 1px solid #fff; */
+	min-height: 116px;
+}
+/* Стили для активного контейнера вкладки */
+.search_form_list li.active {
+	display: block;
+}
+/* ПОПУЛЯРНЫЕ НАПРАВЛЕНИЯ */
+.popular{
+	margin: 0 0 100px
+}
+.popular_wrapper>div{
+	width: 27%;
+	display: inline-block;
+	vertical-align: top;
+}
+.popular_wrapper>div:nth-of-type(3),
+.popular_wrapper>div:nth-of-type(4){
+	width: 15%;	
+}
+.popular_wrapper p{
+	color: #888AA3;
+}
+.countries_widget_item .weedle-widget .weedle-offers_list-item > a{
+	color: #000!important;
+}
+/* размешение текста на картинке в виджете популярных направлений */
+
+/* .countries_widget_item .weedle-widget .weedle-header__city{
+	display: inline-block !Important;
+	bottom: -52px !Important;
+	left: -12px !Important;
+}
+.countries_widget_item .weedle-widget .weedle-header__country {    
+    display: inline-block !Important;
+    bottom: -52px !Important;
+	left: -12px !Important;
+} */
+/*===== табы в блоке популярные направления ================*/
+/* Стили для списка вкладок */
+.countries_list {
+   list-style: none;
+   padding-left: 0;   
+   margin: 0;
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-orient: vertical;
+   -webkit-box-direction: normal;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   -ms-flex-wrap: wrap;
+   flex-wrap: wrap;
+   -ms-flex-line-pack: start;
+   align-content: stretch;
+   max-height: 160px;
+   line-height: 36px;
+}
+/* Стили для вкладки */
+.countries_list li {
+   cursor: pointer;   
+}
+/* Стили для активной вкладки */
+.countries_list li.active {
+   color: #2A3D71;;  
+}
+/* Стиль для списка контейнеров с содержимым вкладок */
+.countries_widget_list {
+   list-style: none;
+   padding: 0;
+   margin: 0 0 100px;
+}
+/* Стили для контейнера с содержимым вкладки. По умолчанию скрыт. */
+.countries_widget_list>li {
+	display: none;
+	opacity: 0;
+	transition: opacity 3s;
+}
+/* Стили для активного контейнера вкладки */
+.countries_widget_list li.active {
+	display: block;
+	opacity: 1;
+	transition: opacity 3s;
+}
+.countries_widget_wrapper{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch; 
+}
+.countries_widget_wrapper>div{
+	width: 22%;
+}
+
+/* СПЕЦИАЛЬНЫЕ ТАРИФЫ */
+.special {
+    margin: 0 0 100px;
+}
+#special .ducklett-widget .ducklett-special_offer-title-wrapper {
+    background-color: #00b1dd !important;
+	background: linear-gradient(180deg, RGBA(0, 199, 203, 0.8) 0%, RGBA(47, 158, 216, 0.8) 55.73%, RGBA(85, 125, 227, 0.8) 100%)!important;
+}
+#special .ducklett-widget .ducklett-special_offer-body__button {
+	background-color: #FCDC25 !important;
+	color: #2A3D71 !important;
+	transition: background-color 0.3s;
+}
+#special .ducklett-widget .ducklett-special_offer-body__button:hover {
+    background-color: #FAED36 !important; 
+	transition: background-color 0.3s;
+}
+/* КАЛЕНДАРЬ ЦЕН */
+.calendar {
+	margin: 0 0 100px;
+}
+/* РАСПИСАНИЕ РЕЙСОВ */
+.schedule{
+	margin: 0 0 100px;
+}
+/* ТРАНСФЕРЫ */
+.transfer{
+	margin: 0 0 122px;
+}
+.transfer_wrap{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch;
+}
+.transfer_desc {
+    width: 40%;
+}
+t.ransfer_img{
+	 width: 60%;
+}
+.transfer_desc_list li{
+	padding-left: 20px;
+	position: relative;
+}
+.transfer_desc_list li::before {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #00C7CB;
+	border-radius: 50%;
+    content: ' ';
+}
+.transfer_desc a{
+	background-color: #FCDC25;
+	border-radius: 4px;
+	color: #2A3D71;
+	padding: 18px 40px 19px;
+	display: inline-block;
+	transition: background-color 0.3s;
+}
+.transfer_desc a:hover{
+	background-color: #FAED36;
+	transition: background-color 0.3s;	
+}
+
+.transfer_desc_list{
+	margin: 0 0 30px;
+}
+
+/* ========FOOTER============ */
+
+footer{
+	background: #2A2F35;
+	color: #fff;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch;
+	padding: 60px 0 80px;
+}
+footer>.container{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: stretch;
+}
+.menu_footer li:nth-of-type(1),
+.amenities li:nth-of-type(1) {
+	margin: 0 0 10px;
+}
+footer .logo_wrap{
+	width: 60%;
+	padding-right: 140px;
+	box-sizing: border-box;
+	font-size: 16px;
+	line-height: 19px;
+}
+footer>.container>ul{
+	width: 20%;
+	line-height: 28px;
+}
+.social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+	margin: 36px 0 0;
+}
+.social li{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	font-size: 0;
+	line-height: 0;
+	margin: 0 15px 0 0;
+	
+	box-shadow: inset 0 0 0 0px #2A2F35;;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+	transition: box-shadow 0.5s, transform 0.5s, border 0.5s;
+	/* border: 0px solid transparent;
+	box-sizing: border-box;	 */
+}
+.social li:hover{
+	box-shadow: inset 0 0 0 20px #2A2F35;;
+    -webkit-transform: scale3d(0.9, 0.9, 1);
+    transform: scale3d(0.9, 0.9, 1);
+    -webkit-transition: box-shadow 0.5s, -webkit-transform 0.5;
+    transition: box-shadow 0.5s, transform 0.5s, border 0.5s;
+	/* border: 1px solid #fff;	 */
+}
+.vk {
+	background: #4D76A1;
+}
+.whatsapp {
+	background: linear-gradient(180deg, #64ED7B 0%, #0BB529 100%);
+}
+.telegram {
+	background: #41B4E6;
+}
+.instagram{
+	background-image: linear-gradient(205.56deg, #7024C4 15.07%, #C21975 43.75%, #C74C4D 65.26%, #E09B3D 86.76%);
+}
+.viber{
+	background: #6F3FAA;
+}
+.ok{
+	background: #FF9800;
+}
+.facebook{
+	background: #3B5998;
+}
+.twitter {
+	background: #55ACEE;
+}
+
+
+

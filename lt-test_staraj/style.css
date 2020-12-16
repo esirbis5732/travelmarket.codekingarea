@@ -1,0 +1,18 @@
+.hotels{
+    display: block;
+}
+
+.hotel{
+    display: inline-block;
+    border: 2px solid gray;
+}
+
+.hotel_left{
+    float: left;
+    width: 200px;
+}
+
+.hotel_right{
+    float: left;
+    width: 300px;
+}
