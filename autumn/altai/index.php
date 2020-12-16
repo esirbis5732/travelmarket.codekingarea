@@ -8,7 +8,7 @@ $APPLICATION->SetTitle("Осенний Горный Алтай");
     <main id="description" class="directions cyprus">
         <div id="SEOtext" class="container">
             <h1>Осенний Горный Алтай</h1>
-            <img  class="main_img" src="<?=SITE_TEMPLATE_PATH?>/img/hotels_background_big_thai.png" alt="">
+            <img  class="main_img" src="<?=SITE_TEMPLATE_PATH?>/img/jordan_small.png" alt="">
             <p>Величественные горы Алтая осенью будто раскрашены желто-красными мазками, что привлекает сюда фотографов и художников со всей России. Поток туристов тут не такой, как летом или зимой, можно без труда найти домик по приемлемой цене, да и попасть на экскурсии легче, чем в сезон. Однако на полное безлюдье рассчитывать не придется.</p>
             <p>Что посмотреть:</p>
             <ul>

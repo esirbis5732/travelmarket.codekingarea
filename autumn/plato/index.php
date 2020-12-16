@@ -8,7 +8,7 @@ $APPLICATION->SetTitle("Плато Лаго-Наки");
     <main id="description" class="directions cyprus">
         <div id="SEOtext" class="container">
             <h1>Плато Лаго-Наки</h1>
-            <img  class="main_img" src="<?=SITE_TEMPLATE_PATH?>/img/hotels_background_big_thai.png" alt="">
+            <img  class="main_img" src="<?=SITE_TEMPLATE_PATH?>/img/dominicana_small.png" alt="">
             <p>Жители Адыгеи и Краснодарского края предпочитают отдыхать тут зимой, но и осенью есть на что посмотреть. Зной уже в сентябре туристов не беспокоит, до холодов еще далеко, а потому капризы погоды не будут отвлекать от созерцания величественных кавказских гор, лесов и рек.</p>
             <p>В окрестностях плато можно посетить:</p>
             <ul>
