@@ -15,6 +15,6 @@
 	<li class="facebook"><a href="https://www.facebook.com/utravell/
 	" target="_blank" title="facebook"><img src="<?=SITE_TEMPLATE_PATH?>/img/facebook.png"></a></li>
 	<!--<li class="twitter"><a href="https://twitter.com/account/access" target="_blank" title="twitter"><img src="<?=SITE_TEMPLATE_PATH?>/img/twitter.png"></a></li>-->
-	<li class="zen"><a href="https://zen.yandex.ru/id/5cc3023f13574e00b23c2b78" target="_blank" title="Яндекс Дзен"><img src="/local/templates/general_2/img/zen-icon.svg"></a></li>
+	<li class="zen"><a href="https://zen.yandex.ru/id/5faa89d45f35b663594dc531" target="_blank" title="Яндекс Дзен"><img src="/local/templates/general_2/img/zen-icon.svg"></a></li>
 	</ul>
 </div>
