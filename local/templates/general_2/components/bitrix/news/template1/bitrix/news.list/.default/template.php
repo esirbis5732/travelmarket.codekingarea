@@ -16,7 +16,11 @@ $this->setFrameMode(true);
 <?if($arParams["DISPLAY_TOP_PAGER"]):?>
 	<?=$arResult["NAV_STRING"]?><br />
 <?endif;?>
+
+
+
 <?foreach($arResult["ITEMS"] as $arItem):?>
+	
 	<?
 	$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 	$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
@@ -92,9 +96,12 @@ $this->setFrameMode(true);
 	</div>
 	
 <?endforeach;?>
+
 <?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
+<div class="empty-el"></div>
+
 </div>
 <script src="https://cdn.rawgit.com/briangonzalez/rgbaster.js/b2fb235b/rgbaster.min.js"></script>
 <script> 
@@ -134,37 +141,81 @@ $(".news_preview_text").dotdotdot({
 });
 </script>
 <script>
+	
+	
     (function (BX) {
         BX.ready(function () {
+			
             $('.sbr_tags').click(function (e) {
                 e.preventDefault();
-                $('.news_list_block .news-item').removeAttr("style");
-            });
+				$('.news_list_block .news-item').removeAttr("style");
+			});
+			var visibleCount = 0;
+			function getCount(){
+				visibleCount = 0;
+					$('.news-item').each(function () {
+					
+						var el =$(this);
+
+						if($(el).css("display")!="none"){ 
+							visibleCount++;
+					
+					}    
+			
+					if (visibleCount == 0){
+						$(".empty-el").text("Извините, раздел находится в разработке");
+						//$("font.text").hide();
+					}else{
+						//$("font.text").show();		
+						$(".empty-el").text("") 
+					} 
+				
+				});
+	}
             $('.search-tags-cloud a').click(function (e) {
-                e.preventDefault();
+				e.preventDefault();
+				
+
                 var myHref = $(this);
                 BX.ajax.loadJSON(
                     '<?=$APPLICATION->GetCurPage()?>',
-                    {'TYPE': 'REPORT_AJAX', 'NAME': myHref.html()},
+					{'TYPE': 'REPORT_AJAX', 'NAME': myHref.html()},
+					
                     function (data){
+					
+					
+					
+					
+					
+					
                         $('.news-item small').each(function () {
+							
                             if($(this).html().indexOf(data['NAME'])>-1){
                                 //оставляем
-                                $(this).parent().parent().removeAttr('style');
-                            }else{
+								$(this).parent().parent().removeAttr('style');
+								
+							}else{
                                 //скрыываем
-                                $(this).parent().parent().attr('style','display:none;');
-                            }
+								$(this).parent().parent().attr('style','display:none;');
+								
+							
+				
+							}
+							
+													});
+						
+						$('body,html').animate({scrollTop: 0}, 400);
+						getCount()
+					},
+									
+				);
+			
+				
+				
+				
 
-                        });
-						$('body,html').animate({
-            scrollTop: 0
-        }, 400);
-                    },
-                    function (data){
-                    }
-                );
-            });
+			});
+			
         });
     })(BX);
 </script>
