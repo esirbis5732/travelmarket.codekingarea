@@ -4,9 +4,9 @@ $APPLICATION->SetPageProperty("twitter:image", "https://u-travell.ru/local/templ
 $APPLICATION->SetPageProperty("fb:image", "https://u-travell.ru/local/templates/general_2/img/sim_karty_wide_og_tw.png");
 $APPLICATION->SetPageProperty("vk:image", "https://u-travell.ru/local/templates/general_2/img/sim_karty_wide_og_vk.png");
 $APPLICATION->SetPageProperty("og:image", "https://u-travell.ru/local/templates/general_2/img/sim_karty_wide_og_tw.png");
-$APPLICATION->SetPageProperty("title", "U-TRAVELL - СИМ-КАРТЫ");
+$APPLICATION->SetPageProperty("title", "СИМ-КАРТЫ");
 $APPLICATION->SetPageProperty("keywords", "Симкарты");
-$APPLICATION->SetPageProperty("description", "U-TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам  Дримсим — универсальная симка для путешественников");
+$APPLICATION->SetPageProperty("description", "TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам  Дримсим — универсальная симка для путешественников");
 $APPLICATION->SetTitle("Симкарты");
 ?>
 

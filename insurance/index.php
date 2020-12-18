@@ -4,9 +4,9 @@ $APPLICATION->SetPageProperty("twitter:image", "https://u-travell.ru/local/templ
 $APPLICATION->SetPageProperty("fb:image", "https://u-travell.ru/local/templates/general_2/img/insurance_wide_og_tw.png");
 $APPLICATION->SetPageProperty("vk:image", "https://u-travell.ru/local/templates/general_2/img/insurance_wide_og_vk.png");
 $APPLICATION->SetPageProperty("og:image", "https://u-travell.ru/local/templates/general_2/img/insurance_wide_og_tw.png");
-$APPLICATION->SetPageProperty("title", "U-TRAVELL - СТРАХОВАНИЕ");
+$APPLICATION->SetPageProperty("title", "СТРАХОВАНИЕ");
 $APPLICATION->SetPageProperty("keywords", "Страхование");
-$APPLICATION->SetPageProperty("description", "U-TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам");
+$APPLICATION->SetPageProperty("description", "TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам");
 $APPLICATION->SetTitle("Страхование туристов");
 ?>
 

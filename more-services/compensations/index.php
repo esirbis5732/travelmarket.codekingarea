@@ -1,8 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetPageProperty("title", "U-TRAVELL - КОМПЕНСАЦИИ");
+$APPLICATION->SetPageProperty("title", "КОМПЕНСАЦИИ");
 $APPLICATION->SetPageProperty("keywords", "Компенсации");
-$APPLICATION->SetPageProperty("description", "U-TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам Компенсации за задержку или отмену рейса");
+$APPLICATION->SetPageProperty("description", "TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам Компенсации за задержку или отмену рейса");
 $APPLICATION->SetTitle("Компенсации");
 ?>
 

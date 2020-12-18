@@ -4,9 +4,9 @@ $APPLICATION->SetPageProperty("twitter:image", "https://u-travell.ru/local/templ
 $APPLICATION->SetPageProperty("fb:image", "https://u-travell.ru/local/templates/general_2/img/car_wide_og_tw.png");
 $APPLICATION->SetPageProperty("vk:image", "https://u-travell.ru/local/templates/general_2/img/car_wide_og_vk.png");
 $APPLICATION->SetPageProperty("og:image", "https://u-travell.ru/local/templates/general_2/img/car_wide_og_tw.png");
-$APPLICATION->SetPageProperty("title", "U-TRAVELL - ПРОКАТ АВТО");
+$APPLICATION->SetPageProperty("title", "ПРОКАТ АВТО");
 $APPLICATION->SetPageProperty("keywords", "Прокат авто");
-$APPLICATION->SetPageProperty("description", "U-TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам");
+$APPLICATION->SetPageProperty("description", "TRAVELL - это лучший способ найти оптимальные предложения по лучшим ценам");
 $APPLICATION->SetTitle("Прокат авто");
 ?>
 
