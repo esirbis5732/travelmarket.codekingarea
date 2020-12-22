@@ -197,6 +197,7 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 		</div>
 	</div>
 </div>
+
  <section class="stories">
 <div class="container">
 	<h2>Сторис <a href="/news/">Все &gt;&gt;&gt;</a></h2>
