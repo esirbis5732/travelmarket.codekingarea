@@ -1,4 +1,91 @@
 
+.module-pagination .flex-direction-nav {
+    position: absolute;
+    width: 100%;
+}
+
+.flex-direction-nav {
+    margin: 0;
+    padding: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.module-pagination .nums {
+    display: inline-block;
+    position: relative;
+}
+.bottom_nav .module-pagination {
+    padding-bottom: 0;
+}
+
+.bottom_nav .module-pagination {
+    padding-top: 0px;
+}
+.module-pagination {
+    margin: 0;
+    text-align: center;
+    font-size: 0;
+    padding: 20px 0px 0px;
+    position: relative;
+}
+.more_text_ajax:after {
+    background-color: #1771ca;
+}
+
+.more_text_ajax:after {
+    width: 19px;
+    height: 19px;
+    left: 5px;
+    margin-top: -10px;
+    top: 50%;
+    background: #ddd url(/local/templates/aspro_next/images/svg/Show_more.svg) center no-repeat;
+    -webkit-transition: background 0.7s ease-in-out;
+    -moz-transition: background 0.7s ease-in-out;
+    -o-transition: background 0.7s ease-in-out;
+    transition: background 0.7s ease-in-out;
+}
+.more_text_ajax:after {
+    content: "";
+    display: block;
+    position: absolute;
+}
+.more_text_ajax {
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 400;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    padding: 15px 0px 15px 34px;
+    color: #333;
+}
+.ajax_load_btn {
+    text-align: center;
+    margin: 0px 0px 20px;
+    border: 1px solid #f2f2f2;
+    cursor: pointer;
+}
+.blog.banners-small .bottom_nav {
+    padding-top: 18px;
+}
+
+.blog .bottom_nav {
+    text-align: center;
+    padding: 50px 0px 20px;
+}
+.lazy-hidden {
+    visibility: hidden;
+}
+.module-pagination .flex-direction-nav {
+    position: absolute;
+    width: 100%;
+}
+.lazy-hidden .module-pagination {
+    display: none;
+}
 .news-list{
 	display: flex;
 	flex-wrap: wrap;

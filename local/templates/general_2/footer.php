@@ -217,7 +217,39 @@ IncludeTemplateLangFile(__FILE__);
             </div>
         </footer>
 	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-	
+	<script>
+//#netwiz start ленивая загрузка сторис
+    function scrollTracking(){
+        var windowTop = $(window).scrollTop();
+        var windowHeight = $(window).height();
+        var footerPosition = $('footer').offset().top - 110;
+        var footerHeight = $('footer').outerHeight();
+        var documentHeight = $(document).height();
+        //проверяем, дошла ли прокрутка до конца блока сторис (показался футер в видимой части экрана)
+        if (windowTop + windowHeight >= footerPosition) {
+            // показываем кнопку того, что мы загружаем следующую порцию статей
+            $('.lazy-hidden .ajax_load_btn').css('visibility', 'visible');
+            //крутим ее а-ля прелоадер
+            setTimeout(300);
+            //инициируем событие клика на кнопку загрузки доп статей
+            $('.lazy-hidden .ajax_load_btn').trigger('click');
+			// zenColours();
+			
+        }
+    }
+    //если у нас все еще есть скрытая кнопка "показать еще посты" (то есть они не закончились)
+    if($('.lazy-hidden')) {
+        $(window).on('scroll', function () {
+            //раскрашиваем под дзен если загрузили новое
+            // zenColours();
+            //по скроллу проверяем, закончился ли у нас контент
+            scrollTracking();
+        });
+
+    }
+    //#netwiz end ленивая загрузка сторис
+	//#netwiz start автозагрузка баннера на страницах сторис
+	</script>
 	
 	<!--<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>-->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>

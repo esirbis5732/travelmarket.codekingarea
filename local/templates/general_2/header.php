@@ -68,7 +68,6 @@ $curPage = $APPLICATION->GetCurPage(); // Получаем текущий адр
 		  
 		<!--<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>-->
 		<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/init.js"></script>
-		
         <meta name="yandex-verification" content="2144dfb8a037f547" />
         <meta name="yandex-verification" content="528bd9518a04995a" />
         <meta name="yandex-verification" content="facac1b27c186b40" />

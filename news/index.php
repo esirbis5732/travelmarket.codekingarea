@@ -162,4 +162,10 @@ $APPLICATION->SetTitle("Сторис - статьи для туристов");
 );?>
 	</div>
 </div>
- </main><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+ </main>
+ 
+ 
+ 
+ 
+ 
+ <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

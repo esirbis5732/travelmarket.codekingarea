@@ -12,7 +12,27 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 ?>
-<div class="news-list">
+<?$isAjax = (isset($_GET["AJAX_REQUEST"]) && $_GET["AJAX_REQUEST"] == "Y");?>
+<?if($arResult['ITEMS']):?>
+	<?if(!($_REQUEST["IS_AJAX"] == "Y")):?>
+	<div id="ajax-cont" style="
+    /* display: flex; */
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    width: calc(100% - 300px);
+    align-content: flex-start;
+">
+<div class="news-list" style="
+    width: 100%;
+">
+<?endif;?>
+
+<?if($_REQUEST["IS_AJAX"] == "Y")
+{
+		$APPLICATION->RestartBuffer();
+}?>
+
 <?if($arParams["DISPLAY_TOP_PAGER"]):?>
 	<?=$arResult["NAV_STRING"]?><br />
 <?endif;?>
@@ -20,7 +40,16 @@ $this->setFrameMode(true);
 
 
 <?foreach($arResult["ITEMS"] as $arItem):?>
-	
+	<div class="items row" style="
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    /* width: calc(100% - 300px); */
+    align-content: flex-start;
+">
+				<?foreach($arItem['ITEMS'] as $key => $arItem):?>
 	<?
 	$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 	$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
@@ -94,15 +123,80 @@ $this->setFrameMode(true);
 		</div>
 		
 	</div>
-	
+	<?endforeach;?>
+			</div>
+			<script>
+	$(function(){
+		let stateobj = {};
+		///let flag = '<?//=(!empty($_GET['tags'])) ? "Y" : "N";?>';
+		//if (flag == 'Y') {
+		//	$("#ajax-menu").load("/articles/ #ajax-menu > *");
+		//}
+        // zenColours();
+		// $(".sidearea a").on("click", function(e){
+		// 	let url = $(this).attr("href");
+  //           zenColours();
+		// 	$( "#ajax-cont" ).load( url + " #ajax-cont > *" );
+		// 	history.pushState(stateobj, "page", url);
+		// 	//console.log(url);
+		// 	e.preventDefault();
+  //           zenColours();
+		// 	return false;
+		// });
+		// $(window).on("popstate", function(){
+		// 	//console.log(window.location);
+		// 	let url = window.location;
+		// 	$( "#ajax-cont" ).load( url + " #ajax-cont > *" );
+  //           zenColours();
+		// });
+	});
+</script>
 <?endforeach;?>
 
-<?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>
+	
+
+<?/*?><?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>
 	<br /><?=$arResult["NAV_STRING"]?>
-<?endif;?>
+<?endif;?><?*/?>
 <div class="empty-el"></div>
 
 </div>
+<div class="bottom_nav lazy-hidden" <?=($isAjax ? "style='display: none; '" : "");?>>
+	<?if( $arParams["DISPLAY_BOTTOM_PAGER"] == "Y" ){?>
+		<?=$arResult["NAV_STRING"]?>
+	<?}?>
+</div>
+	<?if(!$isAjax):?>
+		</div>
+	</div>
+	<?endif;?>
+<?endif;?>
+<script>
+$(function() {
+    var load_more = false;
+
+    $(window).scroll(function() {
+        if($("#ajax_next_page").length && !load_more) {
+            var url = $("#ajax_next_page").attr("href");
+            var offset_button = $("#ajax_next_page").offset();
+            if($(this).scrollTop() >= offset_button.top - $(window).height()) {
+				setTimeout(300);
+                load_more = true;
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {IS_AJAX: 'Y'},
+                    success: function(data) {
+                        $("#ajax_next_page").after(data);
+                        $("#ajax_next_page").remove();
+                        load_more = false;
+                    }
+                });
+            }
+        }
+    });
+});
+</script>
 <script src="https://cdn.rawgit.com/briangonzalez/rgbaster.js/b2fb235b/rgbaster.min.js"></script>
 <script> 
 	$(".news-item_desc").each(function(index, element){
