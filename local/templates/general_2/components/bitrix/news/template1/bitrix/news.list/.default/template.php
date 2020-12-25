@@ -14,24 +14,16 @@ $this->setFrameMode(true);
 ?>
 <?$isAjax = (isset($_GET["AJAX_REQUEST"]) && $_GET["AJAX_REQUEST"] == "Y");?>
 <?if($arResult['ITEMS']):?>
-	<?if(!($_REQUEST["IS_AJAX"] == "Y")):?>
-	<div id="ajax-cont" style="
-    /* display: flex; */
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: stretch;
-    width: calc(100% - 300px);
-    align-content: flex-start;
-">
-<div class="news-list" style="
-    width: 100%;
-">
-<?endif;?>
-
-<?if($_REQUEST["IS_AJAX"] == "Y")
+	<?if($_REQUEST["IS_AJAX"] == "Y")
 {
 		$APPLICATION->RestartBuffer();
 }?>
+	<?if(!($_REQUEST["IS_AJAX"] == "Y")):?>
+	<div id="ajax-cont" class="ajax-cont_list">
+<div class="news-list">
+<?endif;?>
+
+
 
 <?if($arParams["DISPLAY_TOP_PAGER"]):?>
 	<?=$arResult["NAV_STRING"]?><br />
@@ -40,15 +32,7 @@ $this->setFrameMode(true);
 
 
 <?foreach($arResult["ITEMS"] as $arItem):?>
-	<div class="items row" style="
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: stretch;
-    /* width: calc(100% - 300px); */
-    align-content: flex-start;
-">
+	<div class="items row ajax-cont_items">
 				<?foreach($arItem['ITEMS'] as $key => $arItem):?>
 	<?
 	$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
@@ -161,7 +145,7 @@ $this->setFrameMode(true);
 <div class="empty-el"></div>
 
 </div>
-<div class="bottom_nav lazy-hidden" <?=($isAjax ? "style='display: none; '" : "");?>>
+<div class="bottom_nav lazy-hidden" <?=($isAjax ? "style='display: none; '" : "border-style: none; '");?>>
 	<?if( $arParams["DISPLAY_BOTTOM_PAGER"] == "Y" ){?>
 		<?=$arResult["NAV_STRING"]?>
 	<?}?>
@@ -180,7 +164,7 @@ $(function() {
             var url = $("#ajax_next_page").attr("href");
             var offset_button = $("#ajax_next_page").offset();
             if($(this).scrollTop() >= offset_button.top - $(window).height()) {
-				setTimeout(300);
+				setTimeout(100);
                 load_more = true;
                 $.ajax({
                     url: url,
@@ -188,7 +172,8 @@ $(function() {
                     data: {IS_AJAX: 'Y'},
                     success: function(data) {
                         $("#ajax_next_page").after(data);
-                        $("#ajax_next_page").remove();
+						$("#ajax_next_page").remove();
+					
                         load_more = false;
                     }
                 });
@@ -237,79 +222,79 @@ $(".news_preview_text").dotdotdot({
 <script>
 	
 	
-    (function (BX) {
-        BX.ready(function () {
+//     (function (BX) {
+//         BX.ready(function () {
 			
-            $('.sbr_tags').click(function (e) {
-                e.preventDefault();
-				$('.news_list_block .news-item').removeAttr("style");
-			});
-			var visibleCount = 0;
-			function getCount(){
-				visibleCount = 0;
-					$('.news-item').each(function () {
+//             $('.sbr_tags').click(function (e) {
+//                 e.preventDefault();
+// 				$('.news_list_block .items .news-item').removeAttr("style");
+// 			});
+// 			var visibleCount = 0;
+// 			function getCount(){
+// 				visibleCount = 0;
+// 					$('.news-item').each(function () {
 					
-						var el =$(this);
+// 						var el =$(this);
 
-						if($(el).css("display")!="none"){ 
-							visibleCount++;
+// 						if($(el).css("display")!="none"){ 
+// 							visibleCount++;
 					
-					}    
+// 					}    
 			
-					if (visibleCount == 0){
-						$(".empty-el").text("Извините, раздел находится в разработке");
-						//$("font.text").hide();
-					}else{
-						//$("font.text").show();		
-						$(".empty-el").text("") 
-					} 
+// 					if (visibleCount == 0){
+// 						$(".empty-el").text("Извините, раздел находится в разработке");
+// 						//$("font.text").hide();
+// 					}else{
+// 						//$("font.text").show();		
+// 						$(".empty-el").text("") 
+// 					} 
 				
-				});
-	}
-            $('.search-tags-cloud a').click(function (e) {
-				e.preventDefault();
+// 				});
+// 	}
+//             $('.search-tags-cloud a').click(function (e) {
+// 				e.preventDefault();
 				
 
-                var myHref = $(this);
-                BX.ajax.loadJSON(
-                    '<?=$APPLICATION->GetCurPage()?>',
-					{'TYPE': 'REPORT_AJAX', 'NAME': myHref.html()},
+//                 var myHref = $(this);
+//                 BX.ajax.loadJSON(
+//                     '<?//=$APPLICATION->GetCurPage()?>',
+// 					{'TYPE': 'REPORT_AJAX', 'NAME': myHref.html()},
 					
-                    function (data){
-					
-					
+//                     function (data){
 					
 					
 					
 					
-                        $('.news-item small').each(function () {
+					
+					
+//                         $('.news-item small').each(function () {
 							
-                            if($(this).html().indexOf(data['NAME'])>-1){
-                                //оставляем
-								$(this).parent().parent().removeAttr('style');
+//                             if($(this).html().indexOf(data['NAME'])>-1){
+//                                 //оставляем
+// 								$(this).parent().parent().removeAttr('style');
 								
-							}else{
-                                //скрыываем
-								$(this).parent().parent().attr('style','display:none;');
+// 							}else{
+//                                 //скрыываем
+// 								$(this).parent().parent().attr('style','display:none;');
 								
 							
 				
-							}
+// 							}
 							
-													});
+// 													});
 						
-						$('body,html').animate({scrollTop: 0}, 400);
-						getCount()
-					},
+// 						$('body,html').animate({scrollTop: 0}, 400);
+// 						getCount()
+// 					},
 									
-				);
+// 				);
 			
 				
 				
 				
 
-			});
+// 			});
 			
-        });
-    })(BX);
-</script>
+//         });
+//     })(BX);
+// </script>

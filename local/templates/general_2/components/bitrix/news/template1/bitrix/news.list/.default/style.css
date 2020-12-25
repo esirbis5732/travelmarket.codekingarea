@@ -65,9 +65,26 @@
 .ajax_load_btn {
     text-align: center;
     margin: 0px 0px 20px;
-    border: 1px solid #f2f2f2;
+    /* border: 1px solid #f2f2f2; */
     cursor: pointer;
 }
+.ajax-cont_items{ 
+	 width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    /* width: calc(100% - 300px); */
+    align-content: flex-start;}
+.ajax-cont_list{
+	flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    width: calc(100% - 300px);
+    align-content: flex-start;
+
+}
+#ajax-cont .news-list{width: 100%;}
 .blog.banners-small .bottom_nav {
     padding-top: 18px;
 }

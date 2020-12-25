@@ -218,11 +218,81 @@ IncludeTemplateLangFile(__FILE__);
         </footer>
 	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 	<script>
+		  (function (BX) {
+        BX.ready(function () {
+			
+            $('.sbr_tags').click(function (e) {
+                e.preventDefault();
+				$('.news_list_block .news-item').removeAttr("style");
+			});
+			var visibleCount = 0;
+			function getCount(){
+				visibleCount = 0;
+					$('.news-item').each(function () {
+					
+						var el =$(this);
+
+						if($(el).css("display")!="none"){ 
+							visibleCount++;
+					
+					}    
+			
+					if (visibleCount == 0){
+						$(".empty-el").text("Извините, раздел находится в разработке");
+						//$("font.text").hide();
+					}else{
+						//$("font.text").show();		
+						$(".empty-el").text("") 
+					} 
+				
+				});
+	}
+            $('.search-tags-cloud a').click(function (e) {
+				e.preventDefault();
+				
+
+                var myHref = $(this);
+                BX.ajax.loadJSON(
+                    '<?=$APPLICATION->GetCurPage()?>',
+					{'TYPE': 'REPORT_AJAX', 'NAME': myHref.html()},
+					
+                    function (data){
+                        $('.news-item small').each(function () {
+							console.log (data['NAME']);
+                            if($(this).html().indexOf(data['NAME'])>-1){
+                                //оставляем
+								$(this).parent().parent().removeAttr('style');
+								
+							}else{
+                                //скрыываем
+								$(this).parent().parent().attr('style','display:none;');
+								
+							
+				
+							}
+							
+													});
+						
+						// $('body,html').animate({scrollTop: 0}, 400);
+						//getCount();
+					},
+					$('body,html').animate({scrollTop: 0}, 400)			
+				);
+			
+				
+				
+				
+
+			});
+			
+        });
+    })(BX);
+
 //#netwiz start ленивая загрузка сторис
     function scrollTracking(){
         var windowTop = $(window).scrollTop();
         var windowHeight = $(window).height();
-        var footerPosition = $('footer').offset().top - 110;
+        var footerPosition = $('footer').offset().top - 850;
         var footerHeight = $('footer').outerHeight();
         var documentHeight = $(document).height();
         //проверяем, дошла ли прокрутка до конца блока сторис (показался футер в видимой части экрана)
@@ -230,12 +300,13 @@ IncludeTemplateLangFile(__FILE__);
             // показываем кнопку того, что мы загружаем следующую порцию статей
             $('.lazy-hidden .ajax_load_btn').css('visibility', 'visible');
             //крутим ее а-ля прелоадер
-            setTimeout(300);
+            setTimeout(50);
             //инициируем событие клика на кнопку загрузки доп статей
             $('.lazy-hidden .ajax_load_btn').trigger('click');
 			// zenColours();
 			
-        }
+		}
+		
     }
     //если у нас все еще есть скрытая кнопка "показать еще посты" (то есть они не закончились)
     if($('.lazy-hidden')) {
@@ -243,9 +314,10 @@ IncludeTemplateLangFile(__FILE__);
             //раскрашиваем под дзен если загрузили новое
             // zenColours();
             //по скроллу проверяем, закончился ли у нас контент
-            scrollTracking();
+			scrollTracking();
+			
         });
-
+		$('.module-pagination').css('display', 'none');
     }
     //#netwiz end ленивая загрузка сторис
 	//#netwiz start автозагрузка баннера на страницах сторис
