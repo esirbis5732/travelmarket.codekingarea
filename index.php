@@ -137,32 +137,32 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 		<div class="carousel_wrap">
 			<div id="owl-carousel_3" class="pretext_countries owl-carousel owl-theme owl-loaded js_tab_content_dop active" data-tab="11">
 				<div class="pretext_countries_item">
- <a href="/autumn/ples/"> <img src="/local/templates/general_2/img/cyprus_small.png" alt="">
+ <a href="/autumn/ples/"> <img src="/local/templates/general_2/img/Ples.png" alt="">
 					<h3>Город Плёс — муза Левитана</h3>
  </a>
 				</div>
 				<div class="pretext_countries_item">
- <a href="/autumn/mountains/"> <img src="/local/templates/general_2/img/turkey_small.png" alt="">
+ <a href="/autumn/mountains/"> <img src="/local/templates/general_2/img/Pushkinskie_gorki.png" alt="">
 					<h3>Пушкинские горы и Михайловская усадьба</h3>
  </a>
 				</div>
 				<div class="pretext_countries_item">
- <a href="/autumn/valdai/"> <img src="/local/templates/general_2/img/tunisia_small.png" alt="">
+ <a href="/autumn/valdai/"> <img src="/local/templates/general_2/img/Valdai.png" alt="">
 					<h3>Валдай — маленькая Швейцария</h3>
  </a>
 				</div>
 				<div class="pretext_countries_item">
- <a href="/autumn/plato/"> <img src="/local/templates/general_2/img/dominicana_small.png" alt="">
+ <a href="/autumn/plato/"> <img src="/local/templates/general_2/img/lako_naki.png" alt="">
 					<h3>Плато Лаго-Наки</h3>
  </a>
 				</div>
 				<div class="pretext_countries_item">
- <a href="/autumn/altai/"> <img src="/local/templates/general_2/img/jordan_small.png" alt="">
+ <a href="/autumn/altai/"> <img src="/local/templates/general_2/img/altai.png" alt="">
 					<h3>Осенний Горный Алтай</h3>
  </a>
 				</div>
 				<div class="pretext_countries_item">
- <a href="/autumn/baikal/"> <img src="/local/templates/general_2/img/israel_small.png" alt="">
+ <a href="/autumn/baikal/"> <img src="/local/templates/general_2/img/baikal.png" alt="">
 					<h3>Озеро Байкал</h3>
  </a>
 				</div>

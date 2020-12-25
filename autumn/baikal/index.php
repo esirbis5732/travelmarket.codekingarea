@@ -8,7 +8,7 @@ $APPLICATION->SetTitle("Озеро Байкал");
     <main id="description" class="directions cyprus">
         <div id="SEOtext" class="container">
             <h1>Озеро Байкал</h1>
-            <img  class="main_img" src="<?=SITE_TEMPLATE_PATH?>/img/israel_small.png" alt="">
+            <img  class="main_img" src="<?=SITE_TEMPLATE_PATH?>/img/baikal.png" alt="">
             <p>Озеро Байкал прекрасно в любое время года. Осенью туристы могут любоваться окружающими озеро лесами, наслаждаться тишиной и относительным уединением — в это время наплыв отдыхающих значительно снижается.</p>
             <p>Посмотреть тут есть что:</p>
             <ul>
