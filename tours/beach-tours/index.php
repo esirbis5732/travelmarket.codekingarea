@@ -10,10 +10,16 @@ $APPLICATION->SetPageProperty("og:image", "https://u-travell.ru/local/templates/
 $APPLICATION->SetPageProperty("title", "Пляжный отдых - лучшие туры - недорогой пляжный отдых за границей");
 $APPLICATION->SetPageProperty("description", "Лучшие туры для пляжного отдыха по низким ценам. Недорогой пляжный отдых за границей. Онлайн бронирование туров без наценки.");
 $APPLICATION->SetTitle("Пляжные туры");
-?><main id="main_search" class="beach_tours"> <section class="main_search anchor_scroll">
+?><main id="main_search" class="beach_tours"> 
+	<section class="main_search anchor_scroll">
 <div class="anchor_block">
- <a class="active" href="#main_search"><span class="background_dark" data-info="Поиск туров"><img src="/local/templates/general_2/img/avia_1_d.png" alt=""></span></a> <a href="#inclusion"><span class="background_dark" data-info="Майские 2020"><img src="/local/templates/general_2/img/mayskie_prazdniki_blue.svg" alt=""></span></a>
-	<!--<a href="#tour_selection"><dfn class="background_dark" data-info="Подбор тура"><img src="<?=SITE_TEMPLATE_PATH?>/img/icon_3_blue.png" alt=""></dfn></a>--> <a href="#statistics"><span class="background_dark" data-info="График цен"><img src="/local/templates/general_2/img/icon_1_blue.png" alt=""></span></a> <a href="#last_minute_tours"><span class="background_dark" data-info="Горящие туры"><img src="/local/templates/general_2/img/avia_3_d.png" alt=""></span></a> <a href="#tour_best_price"><span class="background_dark" data-info="Календарь лучших цен"><img src="/local/templates/general_2/img/avia_4_d.png" alt=""></span></a>
+ <a class="active" href="#main_search"><dfn class="background_dark" data-info="Поиск туров"><img src="/local/templates/general_2/img/avia_1_d.png" alt=""></dfn></a>
+  <a href="#inclusion"><dfn class="background_dark" data-info="Майские 2020"><img src="/local/templates/general_2/img/mayskie_prazdniki_blue.svg" alt=""></dfn></a>
+	<!--<a href="#tour_selection"><dfn class="background_dark" data-info="Подбор тура"><img src="<?//=SITE_TEMPLATE_PATH?>/img/icon_3_blue.png" alt=""></dfn></a>-->
+	 <a href="#statistics"><dfn class="background_dark" data-info="График цен"><img src="/local/templates/general_2/img/icon_1_blue.png" alt=""></dfn></a>
+	  <a href="#last_minute_tours"><dfn class="background_dark" data-info="Горящие туры"><img src="/local/templates/general_2/img/avia_3_d.png" alt=""></dfn></a>
+	   <a href="#tour_best_price"><dfn class="background_dark" data-info="Календарь лучших цен"><img src="/local/templates/general_2/img/avia_4_d.png" alt=""></dfn></a>
+
 </div>
 <div class="container">
  <img src="/local/templates/general_2/img/beach_tours_background_big.png" class="main_img" alt="">
@@ -106,6 +112,7 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<h3>Куда поехать на море в мае?</h3>
  <img alt="Куда поехать на море в мае?" src="/local/templates/general_2/img/mai.png" class="main_img"> </a>
 	</div>
+	
 	 <!--<div class="inclusion" id="inclusion" data-aos="fade-up">
 		<a href="/napravleniya/kuda_poekhat_zimoy/">
 			<h3>Куда поехать отдыхать зимой за границу?</h3>

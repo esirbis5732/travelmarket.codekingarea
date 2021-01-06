@@ -23,6 +23,7 @@ $curPage = $APPLICATION->GetCurPage(); // Получаем текущий адр
 		
 		<?$APPLICATION->ShowHead();?>
 		<link href="<?=SITE_TEMPLATE_PATH?>/add_style.css" rel="stylesheet">
+		<link href="<?=SITE_TEMPLATE_PATH?>/lazy-load.css" rel="stylesheet">
 		<title><?$APPLICATION->ShowTitle()?></title>
 		<!--<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet"> -->
 		
