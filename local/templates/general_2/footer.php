@@ -322,7 +322,7 @@ IncludeTemplateLangFile(__FILE__);
     //#netwiz end ленивая загрузка сторис
 	//#netwiz start автозагрузка баннера на страницах сторис
 	</script>
-	
+	<!-- <script type="text/javascript" src="<?//=SITE_TEMPLATE_PATH?>/js/jquery-1.9.1.min.js"></script> -->
 	<!--<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>-->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -334,7 +334,7 @@ IncludeTemplateLangFile(__FILE__);
 	<!--<script src="<?=SITE_TEMPLATE_PATH?>/js/fm.revealator.jquery.js"></script>-->
 	<? $APPLICATION->AddHeadScript("/local/templates/general_2/js/owl.carousel.min.js"); ?>
 <!--<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/owl.carousel.min.js"></script>-->
-<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/jquery-1.9.1.min.js"></script>
+
 <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/cherry.lazy-load.js"></script>	
 	<? $APPLICATION->AddHeadScript("/local/templates/general_2/js/jquery.mousewheel.min.js"); ?>
 	<? $APPLICATION->AddHeadScript("https://unpkg.com/swiper/swiper-bundle.min.js"); ?>
