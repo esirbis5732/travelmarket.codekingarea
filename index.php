@@ -113,6 +113,42 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 <div class="container">
 	 <!--<h2>Куда поехать отдыхать?</h2>-->
 	<h2>Лишь бы повод найти :)</h2>
+
+	<?if(CModule::IncludeModule("iblock"))
+    {
+        $id_block=1;
+        $section_id = 0;
+     
+        $items = GetIBlockElementList($id_block, $section_id, Array("SORT"=>"ASC", "DATE_ACTIVE_FROM" => "11.01.2021"), 3);
+
+
+        while($arItem = $items->GetNext())
+        {
+			$img_path = CFile::GetPath($arItem["PREVIEW_PICTURE"]);
+		?>
+         
+	<div class="pretext" style="display:none;">
+		<ul class="pretext_tags">
+			<li class="pretext_tags_item js_tab_trigger active" data-tab="1">
+			<h3><?=$arItem["NAME"];?></h3>
+			
+ </li>
+		</ul>
+		<ul class="pretext_content">
+			<li class="pretext_content_item js_tab_content active" data-tab="1">
+			<div class="pretext_content_img">
+ <img alt="<?=$arItem["NAME"];?>" src="<?=$img_path;?>">
+			</div>
+ </li>
+		
+		</ul>
+	</div>
+<?
+        }
+    }?>
+
+
+
 	<div class="pretext">
 		<ul class="pretext_tags">
 			<li class="pretext_tags_item js_tab_trigger active" data-tab="1">

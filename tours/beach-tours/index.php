@@ -14,6 +14,22 @@ $APPLICATION->SetTitle("Пляжные туры");
 	<section class="main_search anchor_scroll">
 <div class="anchor_block">
  <a class="active" href="#main_search"><dfn class="background_dark" data-info="Поиск туров"><img src="/local/templates/general_2/img/avia_1_d.png" alt=""></dfn></a>
+ <?if(CModule::IncludeModule("iblock"))
+    	{
+       	 $id_block=9;
+       	 $section_id = 0;
+       	 $items = GetIBlockElementList($id_block, $section_id, Array("SORT"=>"ASC",));
+       		 while($arItem = $items->GetNext())
+        		{
+	?>
+	
+		<?if($arItem["ACTIVE_FROM"] <= date('d.m.Y') && date('d.m.Y')<=$arItem["ACTIVE_TO"]){?>
+		  <a href="<?=$arItem["CODE"]?>"><dfn class="background_dark" data-info="<?=$arItem["NAME"]?>"><img src="/local/templates/general_2/img/mayskie_prazdniki_blue.svg" alt=""></dfn></a>
+		<?}?>
+	<?
+        }
+		}
+	?>
   <a href="#inclusion"><dfn class="background_dark" data-info="Майские 2020"><img src="/local/templates/general_2/img/mayskie_prazdniki_blue.svg" alt=""></dfn></a>
 	<!--<a href="#tour_selection"><dfn class="background_dark" data-info="Подбор тура"><img src="<?//=SITE_TEMPLATE_PATH?>/img/icon_3_blue.png" alt=""></dfn></a>-->
 	 <a href="#statistics"><dfn class="background_dark" data-info="График цен"><img src="/local/templates/general_2/img/icon_1_blue.png" alt=""></dfn></a>
@@ -107,7 +123,31 @@ $APPLICATION->SetTitle("Пляжные туры");
 		 Viator — ведущий мировой ресурс для поиска и бронирования лучших путешествий по всему миру. Viator.com, вы будете предоставляет своим клиентам онлайн доступ к тысячам мероприятий, включая туры, аттракционы, групповые и частные экскурсии в более чем 2700 направлениях по всему миру. <span class="close"> </span>
 	</div>
  <img alt="Viator" src="/local/templates/general_2/img/viator.png"> </a> </section>
-	<div class="inclusion" id="inclusion" data-aos="fade-up">
+	
+ 
+ <?if(CModule::IncludeModule("iblock"))
+    	{
+       	 $id_block=9;
+       	 $section_id = 0;
+       	 $items = GetIBlockElementList($id_block, $section_id, Array("SORT"=>"ASC",));
+       		 while($arItem = $items->GetNext())
+        		{
+	?>
+	
+		<?if($arItem["ACTIVE_FROM"] <= date('d.m.Y') && date('d.m.Y')<=$arItem["ACTIVE_TO"]){?>
+		  <div class="inclusion" id="inclusion" data-aos="fade-up">
+ <a href="<?=$arItem["CODE"]?>">
+		<h3><?=$arItem["NAME"]?></h3>
+ <!-- <img alt="<?//=$arItem["NAME"]?>" src="/local/templates/general_2/img/mai.png" class="main_img"> </a> -->
+	</div>
+		
+		
+		  <?}?>
+	<?
+        }
+		}
+	?>
+ <div class="inclusion" id="inclusion" data-aos="fade-up">
  <a href="/napravleniya/otdykh-na-more-v-mae/">
 		<h3>Куда поехать на море в мае?</h3>
  <img alt="Куда поехать на море в мае?" src="/local/templates/general_2/img/mai.png" class="main_img"> </a>
