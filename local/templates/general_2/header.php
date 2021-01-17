@@ -20,7 +20,7 @@ $curPage = $APPLICATION->GetCurPage(); // Получаем текущий адр
 		<meta name="verify-admitad" content="d76d4286da" />
 		<html xmlns:fb="https://ogp.me/ns/fb#">
 		<link href="<?=SITE_TEMPLATE_PATH?>/normalize.css" rel="stylesheet">
-		
+		<link href="/local/templates/general_2/swiper.min.css" rel="stylesheet">
 		<?$APPLICATION->ShowHead();?>
 		<link href="<?=SITE_TEMPLATE_PATH?>/add_style.css" rel="stylesheet">
 		<link href="<?=SITE_TEMPLATE_PATH?>/lazy-load.css" rel="stylesheet">

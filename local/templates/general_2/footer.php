@@ -334,11 +334,38 @@ IncludeTemplateLangFile(__FILE__);
 	<!--<script src="<?=SITE_TEMPLATE_PATH?>/js/fm.revealator.jquery.js"></script>-->
 	<? $APPLICATION->AddHeadScript("/local/templates/general_2/js/owl.carousel.min.js"); ?>
 <!--<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/owl.carousel.min.js"></script>-->
-
+<script src="/local/templates/general_2/js/swiper.min.js"></script>
 <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/cherry.lazy-load.js"></script>	
 	<? $APPLICATION->AddHeadScript("/local/templates/general_2/js/jquery.mousewheel.min.js"); ?>
 	<? $APPLICATION->AddHeadScript("https://unpkg.com/swiper/swiper-bundle.min.js"); ?>
 	<script src="/local/templates/general_2/js/jquery.touchSwipe.min.js"></script>
+
+	<script>let sectionsSwiper = new Swiper(".swiper-container", {
+            direction: 'horizontal',
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+            slidesPerGroup: 4,
+            mousewheel: true,
+            breakpoints: {
+                360: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    slidesPerGroup: 1,
+                },
+                860: {
+                    slidesPerGroup: 2,
+                },
+                1199: {
+                    slidesPerGroup: 3,
+                }
+            },
+            freeMode: true,
+            navigation: {
+                nextEl: ('.swiper-button-next'),
+                prevEl: ('.swiper-button-prev'),
+            },
+            watchOverflow: true,
+        });</script>
 	<?php if($curPage != '/ekskursii/'):?>
 	<script>
 		var lastScrollTop = 0;
