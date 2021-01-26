@@ -27,7 +27,89 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 <div class="container">
 	<h1 class="visually_hidden">СРАВНИВАЕМ ЦЕНЫ ПОПУЛЯРНЫХ СЕРВИСОВ БРОНИРОВАНИЯ</h1>
 </div>
-<div class="container servises_container">
+
+
+
+
+<div class="swiper-container container servises_container" >
+        <div class="swiper-wrapper" >
+		<div class="section_link_item  swiper-slide">
+ <a href="/hotels/"> <img src="/local/templates/general_2/img/hotels_background_big.png" alt="">
+				<h3>Отели</h3>
+ </a>
+			</div>
+			<div class="section_link_item  swiper-slide">
+ <a href="/avia/"> <img src="/local/templates/general_2/img/avia_background_big.png" alt="">
+				<h3>Авиабилеты</h3>
+ </a>
+			</div>
+			<div class="section_link_item  swiper-slide">
+ <a href="/ekskursii/"> <img src="/local/templates/general_2/img/excursions_background_big.png" alt="">
+				<h3>Экскурсии</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/tours/cruises/"> <img src="/local/templates/general_2/img/cruises_background_big.png" alt="">
+				<h3>Круизы</h3>
+ </a>
+			</div>
+			<div class="section_link_item  swiper-slide">
+ <a href="/train/"> <img src="/local/templates/general_2/img/train_background_big.png" alt="">
+				<h3>ЖД Билеты</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/bus/"> <img src="/local/templates/general_2/img/bus_background_big.png" alt="">
+				<h3>Автобусы</h3>
+ </a>
+			</div>
+			 <!--<div class="section_link_item">
+					<a href="/napravleniya/">
+						
+						<img src="<?=SITE_TEMPLATE_PATH?>/img/dominicana.png" alt=""> 
+						<h3>Направления</h3>
+					</a>
+				</div>-->
+			<div class="section_link_item swiper-slide">
+ <a href="/more-services/car-rental/"> <img src="/local/templates/general_2/img/car_background_big.png" alt="">
+				<h3>Прокат авто</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/prokat-baykov/"> <img src="/local/templates/general_2/img/bike.png" alt="">
+				<h3>Прокат байков</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/more-services/transfers/"> <img src="/local/templates/general_2/img/transfers_background_big.png" alt="">
+				<h3>Трансферы</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/insurance/"> <img src="/local/templates/general_2/img/insurance_background_big.png" alt="">
+				<h3>Страхование</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/more-services/compensations/"> <img src="/local/templates/general_2/img/compensations_background_big.png" alt="">
+				<h3>Компенсации</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/more-services/sim-karty/"> <img src="/local/templates/general_2/img/sim_karty_background_big.png" alt="">
+				<h3>Симкарты</h3>
+ </a>
+			</div>
+			<div class="section_link_item swiper-slide">
+ <a href="/tours/beach-tours/"> <img src="/local/templates/general_2/img/beach_tours_background_big.png" alt="">
+				<h3>Пляжные туры</h3>
+ </a>
+			</div>
+
+		</div><div class="fc-sections swiper-button-prev"></div>
+        <div class="fc-sections swiper-button-next"></div></div>
+
+<!-- <div class="container servises_container">
 	<div class="servises_wrap">
 		<div id="owl-carousel_2" class="section_link owl-carousel owl-theme owl-loaded">
 			<div class="section_link_item">
@@ -60,14 +142,14 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 				<h3>Автобусы</h3>
  </a>
 			</div>
-			 <!--<div class="section_link_item">
+		<div class="section_link_item">
 					<a href="/napravleniya/">
 						
-						<img src="<?=SITE_TEMPLATE_PATH?>/img/dominicana.png" alt=""> 
+						<img src="<?//=SITE_TEMPLATE_PATH?>/img/dominicana.png" alt=""> 
 						<h3>Направления</h3>
 					</a>
 				</div>-->
-			<div class="section_link_item">
+			<!--<div class="section_link_item">
  <a href="/more-services/car-rental/"> <img src="/local/templates/general_2/img/car_background_big.png" alt="">
 				<h3>Прокат авто</h3>
  </a>
@@ -104,11 +186,11 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
  <!--<div class="container inclusion">
 		 <a href="/napravleniya/otdykh-na-more-v-mae/">
 			<h2>Куда поехать отдыхать в мае?</h2>
-			<img alt="Куда поехать отдыхать на майские праздники?" src="<?=SITE_TEMPLATE_PATH?>/img/mai.png"> </a>
+			<img alt="Куда поехать отдыхать на майские праздники?" src="<?//=SITE_TEMPLATE_PATH?>/img/mai.png"> </a>
 	</div>-->
 <div class="container">
 	 <!--<h2>Куда поехать отдыхать?</h2>-->
@@ -145,6 +227,7 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 	</div>
 <?
         }
+
     }?>
 
 
@@ -170,7 +253,83 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 			</div>
  </li>
 		</ul>
-		<div class="carousel_wrap">
+
+
+		<div class="swiper-container fc-sections-slider js_tab_content_dop active" data-tab="11" >
+        <div class="swiper-wrapper" >
+		<div class="pretext_countries_item swiper-slide">
+ <a href="/autumn/ples/"> <img src="/local/templates/general_2/img/Ples.png" alt="">
+					<h3>Город Плёс — муза Левитана</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/autumn/mountains/"> <img src="/local/templates/general_2/img/Pushkinskie_gorki.png" alt="">
+					<h3>Пушкинские горы и Михайловская усадьба</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/autumn/valdai/"> <img src="/local/templates/general_2/img/Valdai.png" alt="">
+					<h3>Валдай — маленькая Швейцария</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/autumn/plato/"> <img src="/local/templates/general_2/img/lako_naki.png" alt="">
+					<h3>Плато Лаго-Наки</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/autumn/altai/"> <img src="/local/templates/general_2/img/altai.png" alt="">
+					<h3>Осенний Горный Алтай</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/autumn/baikal/"> <img src="/local/templates/general_2/img/baikal.png" alt="">
+					<h3>Озеро Байкал</h3>
+ </a>
+				</div>
+			
+			
+        </div>
+        <div class="fc-sections swiper-button-prev"></div>
+        <div class="fc-sections swiper-button-next"></div>
+    </div>
+	<div class="swiper-container fc-sections-slider js_tab_content_dop" data-tab="12">
+        <div class="swiper-wrapper" >
+		<div class="pretext_countries_item swiper-slide">
+ <a href="/napravleniya/thailand/"> <img src="/local/templates/general_2/img/rest_thai_small.png" alt="">
+					<h3>Таиланд</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/napravleniya/vietnam/"> <img src="/local/templates/general_2/img/vietnam_small.png" alt="">
+					<h3>Вьетнам</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/napravleniya/sri-lanka/"> <img src="/local/templates/general_2/img/sri_lanka_small.png" alt="">
+					<h3>Шри-Ланка</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/napravleniya/cuba/"> <img src="/local/templates/general_2/img/cuba_small.png" alt="">
+					<h3>Куба</h3>
+ </a>
+				</div>
+				<div class="pretext_countries_item swiper-slide">
+ <a href="/napravleniya/oae/"> <img src="/local/templates/general_2/img/uae_small.png" alt="">
+					<h3>Эмираты</h3>
+ </a>
+				</div>
+			
+			
+        </div>
+        <div class="fc-sections swiper-button-prev"></div>
+        <div class="fc-sections swiper-button-next"></div>
+    </div>
+
+
+
+		<!-- <div class="carousel_wrap">
 			<div id="owl-carousel_3" class="pretext_countries owl-carousel owl-theme owl-loaded js_tab_content_dop active" data-tab="11">
 				<div class="pretext_countries_item">
  <a href="/autumn/ples/"> <img src="/local/templates/general_2/img/Ples.png" alt="">
@@ -230,7 +389,7 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
  </a>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 

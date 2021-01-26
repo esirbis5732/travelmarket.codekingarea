@@ -176,7 +176,7 @@ img {
 	width: 100%;
 	max-width: 1200px;
 	/* padding: 1px 95px; */
-	padding: 1px 95px;
+	/* padding: 1px 95px; */
 	margin: 0 auto;
 	box-sizing: border-box;
 }
@@ -6790,3 +6790,4 @@ footer .mail_link {
 			margin: 0px 1%;
 		}
 	}
+	
