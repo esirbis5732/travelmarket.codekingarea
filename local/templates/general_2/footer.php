@@ -340,11 +340,64 @@ IncludeTemplateLangFile(__FILE__);
 	<? $APPLICATION->AddHeadScript("https://unpkg.com/swiper/swiper-bundle.min.js"); ?>
 	<script src="/local/templates/general_2/js/jquery.touchSwipe.min.js"></script>
 
-	<script>let sectionsSwiper = new Swiper(".swiper-container", {
+	<script>
+	var storiesSwiper = new Swiper('.swiper-container', {
+        spaceBetween: 15,
+        slidesPerGroup: 8,
+        slidesPerView: 'auto',
+        watchOverflow: true,
+        observer: true,
+        freeMode: true,
+        mousewheel: true,
+        navigation: {
+            nextEl: ('.stories-slider .swiper-button-next'),
+            prevEl: ('.stories-slider .swiper-button-prev'),
+        },
+        breakpoints: {
+            480: {
+                slidesPerGroup: 1,
+                freeMode: false,
+                centeredSlides: true,
+                slidesPerView: 1.85
+            },
+            890: {
+                slidesPerGroup: 1,
+                freeMode: false,
+            },
+            1023: {
+                slidesPerGroup: 6,
+            },
+            1160: {
+                slidesPerGroup: 7,
+            }
+        },
+    });
+    if ($(window).width() < 481) {
+        if (storiesSwiper.isBeginning || storiesSwiper.isEnd) {
+            storiesSwiper.params.centeredSlides = false;
+        }
+        else {
+            storiesSwiper.params.centeredSlides = true;
+        }
+        storiesSwiper.update();
+        storiesSwiper.on('slideChangeTransitionStart', function () {
+            if (storiesSwiper.isBeginning || storiesSwiper.isEnd) {
+                storiesSwiper.params.centeredSlides = false;
+            }
+            else {
+                storiesSwiper.params.centeredSlides = true;
+            }
+            storiesSwiper.update();
+        });
+    }
+	
+	
+	
+	let sectionsSwiper = new Swiper(".swiper-container", {
             direction: 'horizontal',
             slidesPerView: 'auto',
             spaceBetween: 10,
-            slidesPerGroup: 4,
+            slidesPerGroup: 8,
             mousewheel: true,
             breakpoints: {
                 360: {

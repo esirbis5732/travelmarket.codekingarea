@@ -143,4 +143,11 @@ body {
     .search-tags-cloud a::before {
         left: 10px;
     }
+    .swiper-container.fc-sections-slider.js_tab_content_dop.active.swiper-container-initialized.swiper-container-horizontal.swiper-container-ios {
+        display: block;
+    }
+    
+    .swiper-container.fc-sections-slider.js_tab_content_dop.swiper-container-initialized.swiper-container-horizontal.swiper-container-ios {
+        display: none;
+    }
 }

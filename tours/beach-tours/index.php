@@ -307,12 +307,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div data-aos="fade-up">
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=TR&adults=0&scroll=false&powered_by=true&limit=2&table=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div data-aos="fade-up">
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=92&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_197" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_197" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_197&width='+$('#country_197').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=197&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -324,12 +324,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=TH&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--<p>Travelata.ru</p>-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=300&countries=87&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_188" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_188" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_188&width='+$('#country_188').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=188&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -341,12 +341,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=AE&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=68&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_145" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_145" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_145&width='+$('#country_145').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=145&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -358,12 +358,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=RU&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=76&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_7" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_7" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_7&width='+$('#country_7').width()+'&colorTheme=aquamarine&countries%5B%5D=64&countryDef=7&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -375,12 +375,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=IN&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=33&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_77" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_77" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_77&width='+$('#country_77').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=77&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -392,12 +392,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=IT&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=39&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_85" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_85" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_85&width='+$('#country_85').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=85&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -409,12 +409,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=GR&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
-				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=92&powered_by=true" charset="utf-8" async>\x3C/script>'); <script src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows=2&columns=5&cellWidth=auto&countries=26&powered_by=true" charset="utf-8" async></script>
-		</div>
+				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=92&powered_by=true" charset="utf-8" async>\x3C/script>'); <script src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows=2&columns=5&cellWidth=auto&countries=26&powered_by=true" charset="utf-8" async></script>');
+		</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_64" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_64&width='+$('#country_64').width()+'&colorTheme=aquamarine&countries%5B%5D=64&countryDef=64&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -426,12 +426,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=GE&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=129&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_65" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_65" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_65&width='+$('#country_65').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=65&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -443,12 +443,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=ES&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=38&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_84" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_84" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_84&width='+$('#country_84').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=84&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -460,12 +460,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=CY&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=43&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_95" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_95" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_95&width='+$('#country_95').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=95&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -477,12 +477,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=MV&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=56&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru--> <!--<div id="country_125" class="mt-40">
 			<script>
 				document.write('\x3Cscript id="widHotToursSliderParams_125" type="text/javascript" async charset="utf-8" src="https://cdn1.tu-tu.ru/static/partner/js/tutuHotToursSliderWidget.js?id=country_125&width='+$('#country_125').width()+'&colorTheme=aquamarine&countries%5B%5D=197&countryDef=125&nights%5Bfrom%5D=2&nights%5Bto%5D=21&sort=popularity_desc&limit=50&openNewTab=false&showLogo=false&showLogoWhite=false&showAllOffers=false&utmLabels=200556">\x3C/script>');
@@ -494,7 +494,7 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=EG&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru-->
 		<div>
 			 <script>
@@ -506,12 +506,12 @@ $APPLICATION->SetTitle("Пляжные туры");
 		<div>
 			 <script>
 				document.write('\x3Cscript src="//c26.travelpayouts.com/content?promo_id=1494&shmarker=200556&country=CU&adults=0&scroll=false&powered_by=true&rows='+rows+'columns='+columns+'" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Travelata.ru-->
 		<div>
 			 <script>
 				document.write('\x3Cscript src="https://c18.travelpayouts.com/content?promo_id=1490&shmarker=200556&table=true&rows='+rows+'&columns='+columns+'&cellWidth=auto&countries=48&powered_by=true" charset="utf-8" async>\x3C/script>');
-		</div>
+				</script></div>
 		 <!--Tutu.ru-->
 		<div>
 			 <script>
