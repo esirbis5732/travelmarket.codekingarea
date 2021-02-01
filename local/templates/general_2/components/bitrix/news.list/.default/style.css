@@ -147,7 +147,11 @@
 }
 /* .swiper-slide {
     width: 36%!important;
-} */
+} */.swiper-slide {
+    
+    width: 36%!important;
+   
+}
 @media (max-width: 767px) {
 .swiper-button-next, .swiper-button-prev {
     display: none!important;
@@ -155,6 +159,9 @@
 /* .swiper-slide {
     width: 48%!important;
 } */
+.swiper-slide {
+    width: 50%!important;
+}
 }
 
 
