@@ -2494,11 +2494,11 @@ a[href="#main_search"] dfn:hover::before {top: -11px; left: 61px;} */
 		align-items: stretch;
 		overflow-x: scroll;
 		width: auto;
-		height: 200px;
+		height: 310px;
 	}
 	.index .news-item {
 		min-width: 113px;
-		height: 180px;
+		height: 310px;
 		margin-right: 10px;
 	}
 }

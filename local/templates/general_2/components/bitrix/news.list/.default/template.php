@@ -35,7 +35,7 @@ $this->setFrameMode(true);
                     $this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
                     ?>
 
-                    <li class="news-item item_bottom swiper-slide" id="<?=$this->GetEditAreaId($arItem['ID']);?>">
+                    <div class="news-item item_bottom swiper-slide" id="<?=$this->GetEditAreaId($arItem['ID']);?>">
                         
                         <?php
                         $arFileTmp = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"]['ID'], array("width" => 178, "height" => 310), BX_RESIZE_IMAGE_EXACT,true);
@@ -120,7 +120,7 @@ $this->setFrameMode(true);
                             <?endforeach;?>
                         </div>
 
-                    </li>
+									</div>
 
                 <?endforeach;?>
                 <!--<?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>

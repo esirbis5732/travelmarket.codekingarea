@@ -31,7 +31,7 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 
 
 
-<div class="swiper-container container servises_container" >
+<div class="pod_bannerom swiper-container container servises_container" >
         <div class="swiper-wrapper" >
 		<div class="section_link_item  swiper-slide">
  <a href="/hotels/"> <img src="/local/templates/general_2/img/hotels_background_big.png" alt="">
@@ -255,7 +255,7 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
 		</ul>
 
 
-		<div class="swiper-container fc-sections-slider js_tab_content_dop active" data-tab="11" >
+		<div class="osen swiper-container fc-sections-slider js_tab_content_dop active" data-tab="11" >
         <div class="swiper-wrapper" >
 		<div class="pretext_countries_item swiper-slide">
  <a href="/autumn/ples/"> <img src="/local/templates/general_2/img/Ples.png" alt="">
@@ -293,7 +293,7 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
         <div class="fc-sections swiper-button-prev"></div>
         <div class="fc-sections swiper-button-next"></div>
     </div>
-	<div class="swiper-container fc-sections-slider js_tab_content_dop" data-tab="12">
+	<div class="zima swiper-container fc-sections-slider js_tab_content_dop" data-tab="12">
         <div class="swiper-wrapper" >
 		<div class="pretext_countries_item swiper-slide">
  <a href="/napravleniya/thailand/"> <img src="/local/templates/general_2/img/rest_thai_small.png" alt="">

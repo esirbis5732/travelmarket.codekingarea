@@ -344,21 +344,23 @@ IncludeTemplateLangFile(__FILE__);
 	var storiesSwiper = new Swiper('.swiper-container', {
         spaceBetween: 15,
         slidesPerGroup: 8,
-        slidesPerView: 'auto',
+		slidesPerView: 'auto',
+		slidesPerView: 2.7,
         watchOverflow: true,
         observer: true,
         freeMode: true,
         mousewheel: true,
         navigation: {
-            nextEl: ('.stories-slider .swiper-button-next'),
-            prevEl: ('.stories-slider .swiper-button-prev'),
+            nextEl: (' .swiper-button-next'),
+            prevEl: ('.swiper-button-prev'),
         },
         breakpoints: {
             480: {
                 slidesPerGroup: 1,
                 freeMode: false,
                 centeredSlides: true,
-                slidesPerView: 1.85
+				slidesPerView: 1.85
+				
             },
             890: {
                 slidesPerGroup: 1,
@@ -397,7 +399,89 @@ IncludeTemplateLangFile(__FILE__);
             direction: 'horizontal',
             slidesPerView: 'auto',
             spaceBetween: 10,
-            slidesPerGroup: 8,
+			slidesPerGroup: 8,
+			watchOverflow: true,
+            mousewheel: true,
+            breakpoints: {
+                360: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    slidesPerGroup: 1,
+                },
+                860: {
+                    slidesPerGroup: 2,
+                },
+                1199: {
+                    slidesPerGroup: 3,
+                }
+            },
+            freeMode: true,
+            navigation: {
+                nextEl: ('.swiper-button-next'),
+                prevEl: ('.swiper-button-prev'),
+            },
+            watchOverflow: true,
+		});
+		let sectionsSwiper2 = new Swiper(".osen.swiper-container", {
+            direction: 'horizontal',
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+			slidesPerGroup: 1,
+			watchOverflow: true,
+            mousewheel: true,
+            breakpoints: {
+                360: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    slidesPerGroup: 1,
+                },
+                860: {
+                    slidesPerGroup: 2,
+                },
+                1199: {
+                    slidesPerGroup: 3,
+                }
+            },
+            freeMode: true,
+            navigation: {
+                nextEl: ('.swiper-button-next'),
+                prevEl: ('.swiper-button-prev'),
+            },
+            watchOverflow: true,
+		});
+		let sectionsSwiper3 = new Swiper(".zima.swiper-container", {
+            direction: 'horizontal',
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+			slidesPerGroup: 1,
+			watchOverflow: true,
+            mousewheel: true,
+            breakpoints: {
+                360: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    slidesPerGroup: 1,
+                },
+                860: {
+                    slidesPerGroup: 2,
+                },
+                1199: {
+                    slidesPerGroup: 3,
+                }
+            },
+            freeMode: true,
+            navigation: {
+                nextEl: ('.swiper-button-next'),
+                prevEl: ('.swiper-button-prev'),
+            },
+            watchOverflow: true,
+		});
+		let sectionsSwiper1 = new Swiper(".pod_bannerom.swiper-container", {
+            direction: 'horizontal',
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+			slidesPerGroup: 1,
+			watchOverflow: true,
             mousewheel: true,
             breakpoints: {
                 360: {
