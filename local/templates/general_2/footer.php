@@ -344,12 +344,17 @@ IncludeTemplateLangFile(__FILE__);
 	var storiesSwiper = new Swiper('.swiper-container', {
         spaceBetween: 15,
         slidesPerGroup: 8,
-		slidesPerView: 'auto',
+		// slidesPerView: 'auto',
+		initialSlide: -1,
 		slidesPerView: 2.7,
         watchOverflow: true,
         observer: true,
         freeMode: true,
-        mousewheel: true,
+		mousewheel: true,
+		
+		// initialSlide:-2,
+		// slidesOffsetBefore:-50,
+		// slidesOffsetAfter:50,
         navigation: {
             nextEl: (' .swiper-button-next'),
             prevEl: ('.swiper-button-prev'),
@@ -379,14 +384,17 @@ IncludeTemplateLangFile(__FILE__);
             storiesSwiper.params.centeredSlides = false;
         }
         else {
+			
             storiesSwiper.params.centeredSlides = true;
         }
         storiesSwiper.update();
         storiesSwiper.on('slideChangeTransitionStart', function () {
             if (storiesSwiper.isBeginning || storiesSwiper.isEnd) {
+				
                 storiesSwiper.params.centeredSlides = false;
             }
             else {
+		
                 storiesSwiper.params.centeredSlides = true;
             }
             storiesSwiper.update();

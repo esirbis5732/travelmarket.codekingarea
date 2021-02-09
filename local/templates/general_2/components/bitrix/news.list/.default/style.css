@@ -107,7 +107,9 @@
 .news_preview_text {
     display: none;
 }
-
+.pretext_countries_item h3 {
+    width: 137px;
+}
 .news_list_block {
     display: -webkit-box;
     display: -ms-flexbox;
