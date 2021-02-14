@@ -343,7 +343,7 @@ IncludeTemplateLangFile(__FILE__);
 	<script>
 	var storiesSwiper = new Swiper('.swiper-container', {
         spaceBetween: 15,
-        slidesPerGroup: 8,
+        slidesPerGroup: 1,
 		// slidesPerView: 'auto',
 		initialSlide: -1,
 		slidesPerView: 2.7,
@@ -407,7 +407,7 @@ IncludeTemplateLangFile(__FILE__);
             direction: 'horizontal',
             slidesPerView: 'auto',
             spaceBetween: 10,
-			slidesPerGroup: 8,
+			slidesPerGroup: 'auto',
 			watchOverflow: true,
             mousewheel: true,
             breakpoints: {
@@ -417,10 +417,10 @@ IncludeTemplateLangFile(__FILE__);
                     slidesPerGroup: 1,
                 },
                 860: {
-                    slidesPerGroup: 2,
+                    slidesPerGroup: 1,
                 },
                 1199: {
-                    slidesPerGroup: 3,
+                    slidesPerGroup: auto,
                 }
             },
             freeMode: true,
@@ -432,7 +432,7 @@ IncludeTemplateLangFile(__FILE__);
 		});
 		let sectionsSwiper2 = new Swiper(".osen.swiper-container", {
             direction: 'horizontal',
-            slidesPerView: 'auto',
+            slidesPerView: 1,
             spaceBetween: 10,
 			slidesPerGroup: 1,
 			watchOverflow: true,
@@ -444,10 +444,10 @@ IncludeTemplateLangFile(__FILE__);
                     slidesPerGroup: 1,
                 },
                 860: {
-                    slidesPerGroup: 2,
+                    slidesPerGroup: 1,
                 },
                 1199: {
-                    slidesPerGroup: 3,
+                    slidesPerGroup: 1,
                 }
             },
             freeMode: true,
@@ -459,7 +459,7 @@ IncludeTemplateLangFile(__FILE__);
 		});
 		let sectionsSwiper3 = new Swiper(".zima.swiper-container", {
             direction: 'horizontal',
-            slidesPerView: 'auto',
+            slidesPerView: 1,
             spaceBetween: 10,
 			slidesPerGroup: 1,
 			watchOverflow: true,
@@ -471,10 +471,10 @@ IncludeTemplateLangFile(__FILE__);
                     slidesPerGroup: 1,
                 },
                 860: {
-                    slidesPerGroup: 2,
+                    slidesPerGroup: 1,
                 },
                 1199: {
-                    slidesPerGroup: 3,
+                    slidesPerGroup: 1,
                 }
             },
             freeMode: true,
@@ -486,7 +486,7 @@ IncludeTemplateLangFile(__FILE__);
 		});
 		let sectionsSwiper1 = new Swiper(".pod_bannerom.swiper-container", {
             direction: 'horizontal',
-            slidesPerView: 'auto',
+            slidesPerView: 2 ,
             spaceBetween: 10,
 			slidesPerGroup: 1,
 			watchOverflow: true,
@@ -498,10 +498,10 @@ IncludeTemplateLangFile(__FILE__);
                     slidesPerGroup: 1,
                 },
                 860: {
-                    slidesPerGroup: 2,
+                    slidesPerGroup: 1,
                 },
                 1199: {
-                    slidesPerGroup: 3,
+                    slidesPerGroup: 2,
                 }
             },
             freeMode: true,

@@ -9,7 +9,43 @@ $APPLICATION->SetPageProperty("ROBOTS", "index, follow");
 $APPLICATION->SetTitle("TRAVEL🏝MARKET");
 $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css");
 ?><main class="index" id="index">
-<div class="main_img_wrap">
+
+
+<div class="main-banner-new" >
+                                <div class="main-banner-new_img">
+                                    <!-- <img src="" alt="" draggable="false"> -->
+                                </div>
+                                <div class="main-banner-new_info text">
+                                    <div class="main-banner-new_info-logo">
+                                        <img src="/local/templates/general_2/images/logo5.svg" alt="" draggable="false">
+                                    </div>
+
+                                                                            <div class="banner_title">
+																	<span>Сравнение цен популярных <br/>
+сервисов бронирования                                                                         																	</span>
+                                        </div>
+                                                                                    <div class="banner_text">
+<a class="thumb shine" href="/tours/"><img src="/local/templates/general_2/images/r1.svg" alt="Туры" draggable="false"><span>Туры</span></a>
+<a class="thumb shine" href="/avia/"><img src="/local/templates/general_2/images/r2.svg" alt="Авиатранспорт" draggable="false"><span>Авиатранспорт</span></a>
+<a class="thumb shine" href="/ekskursii/"><img src="/local/templates/general_2/images/r3.svg" alt="Экскурсии" draggable="false"><span>Экскурсии</span></a>
+<a class="thumb shine" href="/train/#/"><img src="/local/templates/general_2/images/r4.svg" alt="Ж.Д. транспорт" draggable="false"><span>Ж.Д. транспорт</span></a>
+<a class="thumb shine" href="/hotels/"><img src="/local/templates/general_2/images/r5.svg" alt="Отели" draggable="false"><span>Отели</span></a>
+<a class="thumb shine" href="/napravleniya/"><img src="/local/templates/general_2/images/r6.svg" alt="Направления" draggable="false"><span>Направления</span></a>
+<!-- <a class="thumb shine" href="/catalog/kredity/ipoteka/"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/sections/kredity_ipoteka_2.svg" alt="Ипотека" draggable="false"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/banners/p-ipoteka-w.svg" alt="Ипотека" draggable="false"><span>Ипотека</span></a>
+
+<a class="thumb shine" href="/catalog/kredity/refinansirovanie/"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/sections/kredity_refinans_2.svg" alt="Рефинансирование" draggable="false"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/banners/p-refinans-w.svg" alt="Рефинансирование" draggable="false"><span>Рефинансирование</span></a>
+<a class="thumb shine" href="/catalog/kredity/avtokredity/"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/sections/kredity_avto_2.svg" alt="Автокредиты" draggable="false"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/banners/p-autocred-w.svg" alt="Автокредиты" draggable="false"><span>Автокредиты</span></a> -->
+
+
+</div>
+                                                                                                            </div>
+                            </div>
+
+
+
+
+
+<div class="main_img_wrap" style="display: none;">
  <img src="/local/templates/general_2/img/primer12-01.svg" class="main_img" alt="">
 	<div class="main_img_text">
 		<p>
