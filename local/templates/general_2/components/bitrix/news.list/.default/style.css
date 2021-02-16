@@ -251,9 +251,9 @@ display: block;
     display: flex;
     align-items: stretch;
     width: 100%;
-    background: #f3f6fd;
+    /* background: #f3f6fd; */
     background: url(/local/templates/general_2/images/fon30.svg) repeat 100%;
-    background-color: #f3f6fd;
+    /* background-color: #f3f6fd; */
 }
 .main-banner-new_img {
     width: 46%;
