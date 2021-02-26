@@ -341,17 +341,47 @@ IncludeTemplateLangFile(__FILE__);
 	<script src="/local/templates/general_2/js/jquery.touchSwipe.min.js"></script>
 
 	<script>
+        let sectionsSwiper2 = new Swiper(".osen.swiper-container", {
+            direction: 'horizontal',
+            slidesPerView: 2,
+            spaceBetween: 15,
+			slidesPerGroup: 1,
+			watchOverflow: true,
+            mousewheel: true,
+            breakpoints: {
+                360: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    slidesPerGroup: 1,
+                },
+                860: {
+                    slidesPerGroup: 1,
+                },
+                1199: {
+                    slidesPerGroup: 1,
+                }
+            },
+            freeMode: true,
+            navigation: {
+                nextEl: ('.swiper-button-next'),
+                prevEl: ('.swiper-button-prev'),
+            },
+            watchOverflow: true,
+		});
 	var storiesSwiper = new Swiper('.swiper-container', {
         spaceBetween: 15,
         slidesPerGroup: 1,
-		// slidesPerView: 'auto',
+		// slidesPerView: 3,
 		initialSlide: -1,
-		slidesPerView: 2.7,
+		// slidesPerView: 2.7,
+        slidesPerView: 6,
         watchOverflow: true,
         observer: true,
         freeMode: true,
 		mousewheel: true,
-		
+		centerSlides:true,
+        //width:580,
+        
 		// initialSlide:-2,
 		// slidesOffsetBefore:-50,
 		// slidesOffsetAfter:50,
@@ -381,7 +411,7 @@ IncludeTemplateLangFile(__FILE__);
     });
     if ($(window).width() < 481) {
         if (storiesSwiper.isBeginning || storiesSwiper.isEnd) {
-            storiesSwiper.params.centeredSlides = false;
+            storiesSwiper.params.centeredSlides = true;
         }
         else {
 			
@@ -391,7 +421,7 @@ IncludeTemplateLangFile(__FILE__);
         storiesSwiper.on('slideChangeTransitionStart', function () {
             if (storiesSwiper.isBeginning || storiesSwiper.isEnd) {
 				
-                storiesSwiper.params.centeredSlides = false;
+                storiesSwiper.params.centeredSlides = true;
             }
             else {
 		
@@ -430,33 +460,7 @@ IncludeTemplateLangFile(__FILE__);
             },
             watchOverflow: true,
 		});
-		let sectionsSwiper2 = new Swiper(".osen.swiper-container", {
-            direction: 'horizontal',
-            slidesPerView: 1,
-            spaceBetween: 10,
-			slidesPerGroup: 1,
-			watchOverflow: true,
-            mousewheel: true,
-            breakpoints: {
-                360: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                    slidesPerGroup: 1,
-                },
-                860: {
-                    slidesPerGroup: 1,
-                },
-                1199: {
-                    slidesPerGroup: 1,
-                }
-            },
-            freeMode: true,
-            navigation: {
-                nextEl: ('.swiper-button-next'),
-                prevEl: ('.swiper-button-prev'),
-            },
-            watchOverflow: true,
-		});
+		
 		let sectionsSwiper3 = new Swiper(".zima.swiper-container", {
             direction: 'horizontal',
             slidesPerView: 1,

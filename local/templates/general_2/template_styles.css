@@ -6720,6 +6720,9 @@ footer .mail_link {
 			height: 30px;
 		}
 	}
+	.news-item {
+		max-width: unset;
+	}
 	@media screen and (max-width: 400px) {
 		/* .section_name{font-size: 14px; line-height: 14px;margin: -12px 0 0 48px;}
 	.logo {flex-wrap: wrap;min-width: 0; max-width: 180px;margin: 7px 0 10px;} */
@@ -6784,10 +6787,13 @@ footer .mail_link {
 			font-size: 26px;
 		}
 	}
+
 	@media screen and (max-width: 340px) {
 		.directions_item .useful_list_item, .directions_item .useful_list.on .useful_list_item {
 			width: 47%;
 			margin: 0px 1%;
 		}
 	}
+
+
 	
