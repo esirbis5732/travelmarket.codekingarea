@@ -20,51 +20,233 @@ $APPLICATION->SetAdditionalCSS("/local/templates/general_2/js/owl.carousel.css")
                                         <img src="/local/templates/general_2/images/logo5.svg" alt="" draggable="false">
                                     </div>
 									<div class="main_img_wrap_mob">
- <img src="/local/templates/general_2/images/mobbanner.svg" class="main_img" alt="">
+ <img src="/local/templates/general_2/images/mobbanner.png" class="main_img" alt="">
+ 
 </div>
                                                                             <div class="banner_title">
 																	<span>Сравнение цен популярных <br/>
 сервисов бронирования                                                                         																	</span>
                                         </div>
                                                                                     <div class="banner_text">
-<a class="thumb shine" href="/tours/"><img src="/local/templates/general_2/images/r1.svg" alt="Туры" draggable="false"><span>Туры</span></a>
-<a class="thumb shine" href="/hotels/"><img src="/local/templates/general_2/images/r5.svg" alt="Отели" draggable="false"><span>Отели</span></a>
-<a class="thumb shine" href="/ekskursii/"><img src="/local/templates/general_2/images/r3.svg" alt="Экскурсии" draggable="false"><span>Экскурсии</span></a>
+																					<a class="thumb shine" href="/tours/"><img src="/local/templates/general_2/img/tours_big_icon.svg" alt="Туры" draggable="false"><span>Туры</span></a>
+<a class="thumb shine" href="/hotels/"><img src="/local/templates/general_2/img/hotels_big_icon.svg" alt="Отели" draggable="false"><span>Отели</span></a>
+<a class="thumb shine" href="/more-services/car-rental/"><img src="/local/templates/general_2/img/car_rental_icon.png" alt="Прокат авто" draggable="false"><span>Прокат авто</span></a>
 
-<a class="thumb shine" href="/avia/"><img src="/local/templates/general_2/images/r2.svg" alt="Авиабилеты" draggable="false"><span>Авиабилеты</span></a>
 
-<a class="thumb shine" href="/train/#/"><img src="/local/templates/general_2/images/r4.svg" alt="ЖД билеты" draggable="false"><span>ЖД билеты</span></a>
 
-<a class="thumb shine" href="/more-services/car-rental/"><img src="/local/templates/general_2/images/r6.svg" alt="Прокат авто" draggable="false"><span>Прокат авто</span></a>
-<!-- <a class="thumb shine" href="/catalog/kredity/ipoteka/"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/sections/kredity_ipoteka_2.svg" alt="Ипотека" draggable="false"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/banners/p-ipoteka-w.svg" alt="Ипотека" draggable="false"><span>Ипотека</span></a>
+<a class="thumb shine" href="/tours/cruises/"><img src="/local/templates/general_2/img/cruises_icon.png" alt="Круизы" draggable="false"><span>Круизы</span></a>
+<a class="thumb shine" href="/avia/"><img src="/local/templates/general_2/img/avia_icon.png" alt="Авиабилеты" draggable="false"><span>Авиабилеты</span></a>
+<a class="thumb shine" href="#transfer"><img src="/local/templates/general_2/img/avia_6_d.png" alt="Трансферы" draggable="false"><span>Трансферы</span></a>
 
-<a class="thumb shine" href="/catalog/kredity/refinansirovanie/"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/sections/kredity_refinans_2.svg" alt="Рефинансирование" draggable="false"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/banners/p-refinans-w.svg" alt="Рефинансирование" draggable="false"><span>Рефинансирование</span></a>
-<a class="thumb shine" href="/catalog/kredity/avtokredity/"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/sections/kredity_avto_2.svg" alt="Автокредиты" draggable="false"><img src="http://finmarket2.codekingarea.ru/local/templates/aspro_next/images/banners/p-autocred-w.svg" alt="Автокредиты" draggable="false"><span>Автокредиты</span></a> -->
+
+
+<a class="thumb shine" href="/ekskursii/"><img src="/local/templates/general_2/img/ekskursii_big_icon.svg" alt="Экскурсии" draggable="false"><span>Экскурсии</span></a>
+<a class="thumb shine" href="/train/#/"><img src="/local/templates/general_2/img/train_icon.png" alt="ЖД билеты" draggable="false"><span>ЖД билеты</span></a>
+<a class="thumb shine" href="/insurance/"><img src="/local/templates/general_2/img/insurance_icon.png" alt="Страхование" draggable="false"><span>Страхование</span></a>
 
 
 </div>
                                                                                                             </div>
                             </div>
 
+							<ul class="sections_wrap main_img_wrap_mob">
+			<li class="sections_item">
+			<p><img src="/local/templates/general_2/img/tours_big_icon.svg" alt="Туры" draggable="false"><span>Туры</span></p>
+				
+				<div class="section_item_wrap" style="display: none;">
+					<ul class="sections_list">
+						<li data-href="/tours/cruises/">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/cruises_icon.png" alt="">
+							</div>
+							<a href="/tours/cruises/">Круизы</a>					
+						</li>
+						
+						<li data-href="/tours/beach-tours/">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/beach_tours_icon.png" alt="">
+							</div>
+							<a href="/tours/beach-tours/">Пляжные туры</a>
+						</li>
+						
+						<li data-href="/napravleniya/">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/napravleniya_blue.svg" alt="">
+							</div>
+							<a href="/napravleniya/">Направления</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li class="sections_item">
+				<p><img src="/local/templates/general_2/img/ekskursii_big_icon.svg" alt="Экскурсии" draggable="false"><span>Экскурсии</span></p>
+				<div class="section_item_wrap" style="display: none;">
+					<ul class="sections_list">
+						<li data-href="#main_search">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/avia_1_d.png" alt="">
+							</div>
+							<a href="#main_search">Поиск экскурсий</a>
+						</li>
+						
+						<li data-href="#beautiful_сity">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/hotels_big_icon_blue.svg" alt="">
+							</div>
+							<a href="#beautiful_сity">Красивейшие города</a>
+						</li>
+						
+						<li data-href="/onlayn-ekskursii">
+							<div class="sections_img">
+								<!-- <img src="/local/templates/aspro_next/images/sections/kredity_ipoteka_2.svg" alt=""> -->
+							</div>
+							<a href="/onlayn-ekskursii">Онлайн-экскурсии</a>
+						</li>
+						
+						
+					</ul>
+				</div>
+			</li>
+			<li class="sections_item">
+				<p>
+					<a href="/catalog/dlya_biznesa/raschetnye_scheta/"><img src="/local/templates/general_2/img/hotels_big_icon.svg" alt="Отели" draggable="false"><span>Отели</span></a>
+				</p>
+				<div class="section_item_wrap" style="display: none;">
+					<ul class="sections_list">
+						<li data-href="#main_search">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/avia_1_d.png" alt="">
+							</div>
+							<a href="#main_search">Поиск отелей</a>
+						</li>
+						
+						<li data-href="#map">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/avia_2_d.png" alt="">
+							</div>
+							<a href="#map">Карта отелей</a>
+						</li>
+						
+						<li data-href="#daily">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/hotels_icon.png" alt=""> 
+							</div>
+							<a href="#daily">Квартиры посуточно</a>
+						</li>
+						<li data-href="#popular">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/avia_2_d.png" alt=""> 
+							</div>
+							<a href="#popular">Популярные направления</a>
+						</li>
+						<li data-href="#special">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/avia_3_d.png" alt=""> 
+							</div>
+							<a href="#special">Специальные тарифы</a>
+						</li>
+						<li data-href="#transfer">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/avia_6_d.png" alt=""> 
+							</div>
+							<a href="#transfer">Трансферы</a>
+						</li>
+					</ul>
+				</div>
+				<!--<ul class="sections_list">
+					<li><a href="/catalog/dlya_biznesa/raschetnye_scheta/">Расчетные счета</a></li>
+					<li><a href="/catalog/dlya_biznesa/servisy/">Сервисы</a></li>
+				</ul>-->
+			</li>
+			<li class="sections_item">
+				<p>
+					<a href="/catalog/zaymy/vse-zaymy/"><img src="/local/templates/general_2/img/avia_big_icon.svg" alt="Транспорт" draggable="false"><span>Транспорт</span></a>
+				</p>
+				<div class="section_item_wrap" style="display: none;">
+					<ul class="sections_list">
+						<li data-href="/avia/">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/avia_icon.png" alt="">
+							</div>
+							<a href="/avia/">Авиабилеты</a>
+						</li>
+						
+						<li data-href="/train/">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/train_icon.png" alt="">
+							</div>
+							<a href="/train/">жд билеты</a>
+						</li>
+						
+						<li data-href="/bus/">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/bus_icon.png" alt=""> 
+							</div>
+							<a href="/bus/">Автобусы</a>
+						</li>
+						<li data-href="/more-services/car-rental/">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/car_rental_icon.png" alt=""> 
+							</div>
+							<a href="/more-services/car-rental/">Прокат авто</a>
+						</li>
+						<li data-href="/prokat-baykov/">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/bike.svg" alt=""> 
+							</div>
+							<a href="/prokat-baykov/">Прокат байков</a>
+						</li>
+						<li data-href="/more-services/transfers/">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/transfers_icon.png" alt=""> 
+							</div>
+							<a href="/more-services/transfers/">Трансферы</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+            <li class="sections_item">
+                <p>
+                    <a href="/news/"><img src="/local/templates/general_2/img/beach_tours_big_icon.svg" alt="Сторис" draggable="false"><span>Сторис</span></a>
+                </p>
+            </li>
+            
+			<li class="sections_item">
+                <p>
+                    <a href="/catalog/kredity/refinansirovanie/">Ещё</a>
+                </p>
+				<div class="section_item_wrap" style="display: none;">
+					<ul class="sections_list">
+						<li data-href="/insurance/">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/insurance_icon.png" alt="">
+							</div>
+							<a href="/insurance/">Страхование</a>
+						</li>
+						
+						<li data-href="/more-services/compensations/">
+							<div class="sections_img">
+								<img src="/local/templates/general_2/img/compensations_icon.png" alt="">
+							</div>
+							<a href="/more-services/compensations/">Компенсации</a>
+						</li>
+						
+						<li data-href="/more-services/sim-karty/">
+							<div class="sections_img">
+								 <img src="/local/templates/general_2/img/sim_karty_icon.png" alt=""> 
+							</div>
+							<a href="/more-services/sim-karty/">Симкарты</a>
+						</li>
+					</ul>
+				</div>
+            </li>
+		</ul>
 
 
 
-
-<!-- <div class="main_img_wrap" style="display: none;">
- <img src="/local/templates/general_2/img/primer12-01.svg" class="main_img" alt="">
-	<div class="main_img_text">
-		<p>
-			 Сервис путешествий
-		</p>
-		<img src="<?//=SITE_TEMPLATE_PATH?>/img/logo_header1.svg" alt="">-->
-		<!--<p class="slogan">
-			 Сравниваем цены популярных сервисов бронирования
-		</p>
-	</div>
-</div> -->
-<div class="main_img_wrap_mob">
+<!--<div class="main_img_wrap_mob">
  <img src="/local/templates/general_2/img/main_img_tm_mob.jpg" class="main_img" alt="">
-</div>
+</div>-->
 <div class="container">
 	<h1 class="visually_hidden">СРАВНИВАЕМ ЦЕНЫ ПОПУЛЯРНЫХ СЕРВИСОВ БРОНИРОВАНИЯ</h1>
 </div>

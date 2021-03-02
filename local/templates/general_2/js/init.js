@@ -111,7 +111,10 @@ $(document).ready(function () {
 
 		}
 	});
-
+	$('.sections_item p').click(function(){
+		$(this).toggleClass('active').next('.section_item_wrap').slideToggle();
+		
+	});
 	$('.burger').click(function () {
 		$(this).next('ul').slideToggle();
 		$('.main_menu_submenu.show').removeClass('show');
@@ -822,13 +825,13 @@ $(window).load(function () {
 		}
 	});
 	/* ===================== */
-
-
+	
 	/* $(".big_block>div>div").removeAttr("style");
 	$(".small_block>div>div").removeAttr("style");
 	$(".small_block_2>div>div").removeAttr("style");
 	 */
 });
+
 
 
 
