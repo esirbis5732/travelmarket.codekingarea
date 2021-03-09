@@ -1,5 +1,5 @@
-<?php
-$arUrlRewrite=array (
+<?
+$arUrlRewrite = array(
   1 => 
   array (
     'CONDITION' => '#^/blog/#',

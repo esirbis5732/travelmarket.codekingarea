@@ -42,6 +42,6 @@ $APPLICATION->SetTitle("404 Not Found");
 </div>
 </main>
 <script>
-	onload = function () {setTimeout ("document.location = '/';", 2 * 1000)}
+	//onload = function () {setTimeout ("document.location = '/';", 2 * 1000)}
 </script>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

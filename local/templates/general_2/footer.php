@@ -555,76 +555,76 @@ IncludeTemplateLangFile(__FILE__);
 	<?
 	//$frame = new \Bitrix\Main\Page\FrameBuffered("cookie_fixed_area");
 	// $frame->begin();
-		function getRealIP()
-		{
-		   $realip;
-		   if (!is_null($realip))
-		   {
-			  return $realip;
-		   }
+		// function getRealIP()
+		// {
+		//    $realip;
+		//    if (!is_null($realip))
+		//    {
+		// 	  return $realip;
+		//    }
 		
-		   if (isset($_SERVER))
-		   {
-			  if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
-			  {
-				 $realip = current(preg_grep(
-					"/^(10|172\\.16|192\\.168)\\./",
-					array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])),
-					PREG_GREP_INVERT
-				 ));
-			  }
-			  $realip = $realip?:@$_SERVER['HTTP_CLIENT_IP']?:@$_SERVER['REMOTE_ADDR']?:NULL;
-			  return $realip?:$realip = '0.0.0.0';
-			}
-		}
-		if(ERROR_404=='Y')
-		{
+		//    if (isset($_SERVER))
+		//    {
+		// 	  if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
+		// 	  {
+		// 		 $realip = current(preg_grep(
+		// 			"/^(10|172\\.16|192\\.168)\\./",
+		// 			array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])),
+		// 			PREG_GREP_INVERT
+		// 		 ));
+		// 	  }
+		// 	  $realip = $realip?:@$_SERVER['HTTP_CLIENT_IP']?:@$_SERVER['REMOTE_ADDR']?:NULL;
+		// 	  return $realip?:$realip = '0.0.0.0';
+		// 	}
+		// }
+		// if(ERROR_404=='Y')
+		// {
 
-			CModule::IncludeModule('iblock'); 
-			$ip = getRealIP();
-			$geoResult = \Bitrix\Main\Service\GeoIp\Manager::getDataResult($ip, "ru");
-			$geolocation = "IP - ".$ip."  ".$geoResult->getGeoData()->countryName." ".$geoResult->getGeoData()->regionName." ".$geoResult->getGeoData()->cityName;
-			$refererHref = $APPLICATION->GetCurPageParam();
+		// 	CModule::IncludeModule('iblock'); 
+		// 	$ip = getRealIP();
+		// 	$geoResult = \Bitrix\Main\Service\GeoIp\Manager::getDataResult($ip, "ru");
+		// 	$geolocation = "IP - ".$ip."  ".$geoResult->getGeoData()->countryName." ".$geoResult->getGeoData()->regionName." ".$geoResult->getGeoData()->cityName;
+		// 	$refererHref = $APPLICATION->GetCurPageParam();
 
 
-            $startRedirect = true;
+        //     $startRedirect = true;
 
-            $arFilter = ['IBLOCK_ID' => 7, 'ACTIVE' => 'Y'];
-            $arSelect = [ 'ID', 'NAME'];
-            $resException = CIBlockElement::GetList(array(),$arFilter,false,false,$arSelect);
-            while($arException=$resException->Fetch())
-            {
-                $posException = strpos($refererHref, $arException['NAME']);
-                if($posException!==false)
-                {
-                    $startRedirect = false;
-                    break;
-                }//if($posException!==false)
-            }// while($arException=$resException->Fetch())
+        //     $arFilter = ['IBLOCK_ID' => 7, 'ACTIVE' => 'Y'];
+        //     $arSelect = [ 'ID', 'NAME'];
+        //     $resException = CIBlockElement::GetList(array(),$arFilter,false,false,$arSelect);
+        //     while($arException=$resException->Fetch())
+        //     {
+        //         $posException = strpos($refererHref, $arException['NAME']);
+        //         if($posException!==false)
+        //         {
+        //             $startRedirect = false;
+        //             break;
+        //         }//if($posException!==false)
+        //     }// while($arException=$resException->Fetch())
 
-            if($startRedirect==true)
-            {
- 				$el = new CIBlockElement;
-				$arLoadProductArray = Array(
-                	"IBLOCK_SECTION_ID" => false,          // элемент лежит в корне раздела
-                	"IBLOCK_ID" => 5,
-                	"NAME" => $refererHref,
-                	"ACTIVE" => "Y",            // активен
-            	);
-            	$PRODUCT_ID = $el->Add($arLoadProductArray);
-			 	$arEventFields = array(
-						"RS_DATE_CREATE" => date("Y-m-d H:i:s"),
-						"RS_STAT_GUEST_ID" => $geolocation,
-						"RS_STAT_SESSION_ID" => $refererHref
-			  	);
-			  	CEvent::Send('FORM_FILLING_ERROR_404', 's1', $arEventFields, 'N', 48);
-                LocalRedirect("/");
-			}
-			else
-            {
-                LocalRedirect("/");
-            }
-		}
+        //     if($startRedirect==true)
+        //     {
+ 		// 		$el = new CIBlockElement;
+		// 		$arLoadProductArray = Array(
+        //         	"IBLOCK_SECTION_ID" => false,          // элемент лежит в корне раздела
+        //         	"IBLOCK_ID" => 5,
+        //         	"NAME" => $refererHref,
+        //         	"ACTIVE" => "Y",            // активен
+        //     	);
+        //     	$PRODUCT_ID = $el->Add($arLoadProductArray);
+		// 	 	$arEventFields = array(
+		// 				"RS_DATE_CREATE" => date("Y-m-d H:i:s"),
+		// 				"RS_STAT_GUEST_ID" => $geolocation,
+		// 				"RS_STAT_SESSION_ID" => $refererHref
+		// 	  	);
+		// 	  	CEvent::Send('FORM_FILLING_ERROR_404', 's1', $arEventFields, 'N', 48);
+        //         LocalRedirect("/");
+		// 	}
+		// 	else
+        //     {
+        //         LocalRedirect("/");
+        //     }
+		// }
 	?>
     <script async src="https://fin.market/local/lib/capture-form.js"></script>
 		

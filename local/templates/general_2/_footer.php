@@ -256,28 +256,28 @@ IncludeTemplateLangFile(__FILE__);
 	<?
 	//$frame = new \Bitrix\Main\Page\FrameBuffered("cookie_fixed_area");
 	// $frame->begin();
-		function getRealIP()
-		{
-		   $realip;
-		   if (!is_null($realip))
-		   {
-			  return $realip;
-		   }
+		// function getRealIP()
+		// {
+		//    $realip;
+		//    if (!is_null($realip))
+		//    {
+		// 	  return $realip;
+		//    }
 		
-		   if (isset($_SERVER))
-		   {
-			  if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
-			  {
-				 $realip = current(preg_grep(
-					"/^(10|172\\.16|192\\.168)\\./",
-					array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])),
-					PREG_GREP_INVERT
-				 ));
-			  }
-			  $realip = $realip?:@$_SERVER['HTTP_CLIENT_IP']?:@$_SERVER['REMOTE_ADDR']?:NULL;
-			  return $realip?:$realip = '0.0.0.0';
-			}
-		}
+		//    if (isset($_SERVER))
+		//    {
+		// 	  if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
+		// 	  {
+		// 		 $realip = current(preg_grep(
+		// 			"/^(10|172\\.16|192\\.168)\\./",
+		// 			array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])),
+		// 			PREG_GREP_INVERT
+		// 		 ));
+		// 	  }
+		// 	  $realip = $realip?:@$_SERVER['HTTP_CLIENT_IP']?:@$_SERVER['REMOTE_ADDR']?:NULL;
+		// 	  return $realip?:$realip = '0.0.0.0';
+		// 	}
+		// }
 
 	?>
 	</body>

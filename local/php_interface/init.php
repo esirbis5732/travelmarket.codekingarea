@@ -105,4 +105,15 @@ function see($obj, $v = false)
 }
 if(file_exists($_SERVER["DOCUMENT_ROOT"].'/local/php_interface/include/tables_for_advertiser.php')) 
 	require_once($_SERVER["DOCUMENT_ROOT"].'/local/php_interface/include/tables_for_advertiser.php');
+    
+    AddEventHandler('main', 'OnEpilog', '_Check404Error', 1);
+function _Check404Error(){
+ if (defined('ERROR_404') && ERROR_404 == 'Y') {
+ global $APPLICATION;
+ $APPLICATION->RestartBuffer();
+ include $_SERVER['DOCUMENT_ROOT'] . SITE_TEMPLATE_PATH . '/header.php';
+ include $_SERVER['DOCUMENT_ROOT'] . '/404.php';
+ include $_SERVER['DOCUMENT_ROOT'] . SITE_TEMPLATE_PATH . '/footer.php';
+ }
+}
 ?>
