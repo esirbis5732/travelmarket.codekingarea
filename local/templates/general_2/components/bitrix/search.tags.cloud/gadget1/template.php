@@ -28,11 +28,11 @@ endif;
 if(is_array($arResult["SEARCH"]) && !empty($arResult["SEARCH"])):
 ?>
 <noindex>
-<div class="tags-slider swiper-container">
-	<div class="search-tags-cloud swiper-wrapper" <?=$arParams["WIDTH"]?>><?
+<div class="tags-slider ">
+	<div class="search-tags-cloud " <?=$arParams["WIDTH"]?>><?
 		foreach ($arResult["SEARCH"] as $key => $res)
 		{
-		?><a href="<?=$res["URL"]?>" style="font-size: <?=$res["FONT_SIZE"]?>px; color: #<?=$res["COLOR"]?>;" rel="nofollow" class="swiper-slide"><?=$res["NAME"]?></a> <?
+		?><a href="<?=$res["URL"]?>" style="font-size: <?=$res["FONT_SIZE"]?>px; color: #<?=$res["COLOR"]?>;" rel="nofollow" ><?=$res["NAME"]?></a> <?
 		}
 	?></div>
 	</div>
@@ -42,3 +42,6 @@ else:
 	echo GetMessage('SEARCH_NOTHING_TO_FOUND');
 endif;
 ?>
+
+
+<?/*?><a href="<?=$res["URL"]?>" style="font-size: <?=$res["FONT_SIZE"]?>px; color: #<?=$res["COLOR"]?>;" rel="nofollow" class="swiper-slide"><?=$res["NAME"]?></a><?*/?>

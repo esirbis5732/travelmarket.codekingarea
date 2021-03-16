@@ -201,7 +201,7 @@ $(".news_preview_text").dotdotdot({
 							
 				
 							}
-							
+				 			
 													});
 						
 						$('body,html').animate({scrollTop: 0}, 400);

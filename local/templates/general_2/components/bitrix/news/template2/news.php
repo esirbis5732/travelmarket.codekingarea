@@ -150,6 +150,6 @@ $this->setFrameMode(true);
 		"CHECK_DATES" => $arParams["CHECK_DATES"],
 	),
 	$component
-);?>
+);?> 
 
 
